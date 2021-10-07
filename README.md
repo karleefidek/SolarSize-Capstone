@@ -1,4 +1,4 @@
-# char-ENSE-Capstone
+# SolarSize-Capstone
 
 ## Members
 - Tristan Brown-Hannibal
