@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import BottomNavigation from "./components/BottomNavigation";
-import Generation from "./components/Generation";
+import BottomNavigation from "./BottomNavigation";
+import Generation from "./Generation";
 
 export default {
   name: "App",
