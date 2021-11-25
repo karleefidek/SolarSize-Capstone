@@ -5,7 +5,10 @@
       v-model="selected"
     />
     <div class="extra">
-      <Generation/>
+      <Generation
+        :solarData="solarData"
+        :dates="dates"
+      />
     </div>
 
   </div>
@@ -17,16 +20,24 @@ import Generation from "./Generation";
 
 export default {
   name: "App",
+  props: {
+    solar: Array,
+    dates: Array
+  },
   components: { BottomNavigation, Generation },
-  data: () => ({
-    selected: 1,
-    options: [
+  data: function() {
+   return { 
+      selected: 1,
+      options: [
       { id: 1, title: "Generation",},
       { id: 2, title: "Summary", },
-    ],
-    foregroundColor: "#39dd73",
-    badgeColor: "#FBC02D",
-  })
+      ],
+      foregroundColor: "#39dd73",
+      badgeColor: "#FBC02D",
+      solarData: this.solar,
+      dates: this.dates
+    }
+  }
 };
 </script>
 

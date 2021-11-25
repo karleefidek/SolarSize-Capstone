@@ -2105,10 +2105,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
+  props: {
+    solar: Array,
+    dates: Array
+  },
   components: {
     BottomNavigation: _BottomNavigation__WEBPACK_IMPORTED_MODULE_0__["default"],
     Generation: _Generation__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2124,7 +2131,9 @@ __webpack_require__.r(__webpack_exports__);
         title: "Summary"
       }],
       foregroundColor: "#39dd73",
-      badgeColor: "#FBC02D"
+      badgeColor: "#FBC02D",
+      solarData: this.solar,
+      dates: this.dates
     };
   }
 });
@@ -2539,6 +2548,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Generation',
+  props: {
+    solarData: Object,
+    dates: Object
+  },
   components: {
     VueInputUi: (vue_input_ui__WEBPACK_IMPORTED_MODULE_0___default()),
     apexchart: (vue_apexcharts__WEBPACK_IMPORTED_MODULE_2___default())
@@ -2558,8 +2571,8 @@ __webpack_require__.r(__webpack_exports__);
       darkMode: false,
       loading: false,
       series: [{
-        name: 'series1',
-        data: [31, 40, 28, 51, 42, 109, 100]
+        name: 'Estimate',
+        data: Object.values(this.solarData)
       }, {
         name: 'series2',
         data: [11, 32, 45, 32, 34, 52, 41]
@@ -2570,7 +2583,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         xaxis: {
           type: 'datetime',
-          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+          categories: Object.values(this.dates)
         },
         dataLabels: {
           enabled: false
@@ -43310,7 +43323,16 @@ var render = function () {
         },
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "extra" }, [_c("Generation")], 1),
+      _c(
+        "div",
+        { staticClass: "extra" },
+        [
+          _c("Generation", {
+            attrs: { solarData: _vm.solarData, dates: _vm.dates },
+          }),
+        ],
+        1
+      ),
     ],
     1
   )

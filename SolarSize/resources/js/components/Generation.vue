@@ -102,11 +102,15 @@ import axios from 'axios';
  
 export default {
   name: 'Generation',
+  props: {
+      solarData: Object,
+      dates: Object
+  },
   components: {
       VueInputUi, 
       apexchart: VueApexCharts
     },
-  data: () => {
+  data: function() {
       return {
         value1: '',
         value2: '',
@@ -121,8 +125,8 @@ export default {
         darkMode: false,
         loading: false,
         series: [{
-            name: 'series1',
-            data: [31, 40, 28, 51, 42, 109, 100]
+            name: 'Estimate',
+            data: Object.values((this.solarData))
           }, {
             name: 'series2',
             data: [11, 32, 45, 32, 34, 52, 41]
@@ -133,7 +137,7 @@ export default {
             },
             xaxis: {
                 type: 'datetime',
-                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                categories: Object.values((this.dates))
             },
             dataLabels: {
                 enabled: false

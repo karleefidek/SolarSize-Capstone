@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Solar Calculator</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,10 @@
     </head>
     <body class=>
     <div id="app">
-     <solarsize></solarsize>
+     <solarsize 
+     :solar = {{ json_encode($solarData) }}
+     :dates = {{ json_encode($dates) }} 
+     ></solarsize>
  </div>
     </body>
    
