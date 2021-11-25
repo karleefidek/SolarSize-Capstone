@@ -2106,16 +2106,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
-  props: {
-    solar: Array,
-    dates: Array
-  },
   components: {
     BottomNavigation: _BottomNavigation__WEBPACK_IMPORTED_MODULE_0__["default"],
     Generation: _Generation__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2548,10 +2542,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Generation',
-  props: {
-    solarData: Object,
-    dates: Object
-  },
   components: {
     VueInputUi: (vue_input_ui__WEBPACK_IMPORTED_MODULE_0___default()),
     apexchart: (vue_apexcharts__WEBPACK_IMPORTED_MODULE_2___default())
@@ -2572,10 +2562,10 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       series: [{
         name: 'Estimate',
-        data: Object.values(this.solarData)
+        data: []
       }, {
         name: 'series2',
-        data: [11, 32, 45, 32, 34, 52, 41]
+        data: []
       }],
       chartOptions: {
         chart: {
@@ -2583,7 +2573,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         xaxis: {
           type: 'datetime',
-          categories: Object.values(this.dates)
+          categories: []
         },
         dataLabels: {
           enabled: false
@@ -2600,16 +2590,46 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    submit: function submit() {
-      var _this = this;
+    submit: function submit(e) {
+      e.preventDefault(); //console.log(e);
+      //console.log(this.value1);
 
-      axios__WEBPACK_IMPORTED_MODULE_3___default().post('http://127.0.0.1:5000/predict', {
-        sepal_length: this.sepalLength,
-        sepal_width: this.sepalWidth,
-        petal_length: this.petalLength,
-        petal_width: this.petalWidth
+      this.loading = true;
+      this.series = [{
+        name: 'Estimate',
+        data: []
+      }, {
+        name: 'Estimate',
+        data: []
+      }];
+      this.chartOptions = {
+        noData: {
+          text: "Loading...",
+          align: 'center',
+          verticalAlign: 'middle',
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: "Black",
+            fontSize: '48px'
+          }
+        }
+      };
+      var params = {
+        lat: this.value1,
+        "long": this.value2,
+        timezone: this.value3,
+        moduleTilt: this.value4,
+        startDate: this.value5,
+        endDate: this.value6
+      };
+      console.log(params);
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get('/api/estimate', params, {
+        headers: {
+          "Content-Type": "application/json"
+        }
       }).then(function (response) {
-        _this.predictedClass = response.data["class"];
+        console.log(response);
       });
     }
   }
@@ -43323,16 +43343,7 @@ var render = function () {
         },
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "extra" },
-        [
-          _c("Generation", {
-            attrs: { solarData: _vm.solarData, dates: _vm.dates },
-          }),
-        ],
-        1
-      ),
+      _c("div", { staticClass: "extra" }, [_c("Generation")], 1),
     ],
     1
   )
@@ -43605,7 +43616,7 @@ var render = function () {
     [
       _c("div", { staticClass: "container" }, [
         _c("div", { staticClass: "component-container" }, [
-          _c("form", [
+          _c("form", { on: { submit: _vm.submit } }, [
             _c("table", [
               _c("tr", [
                 _vm._m(0),

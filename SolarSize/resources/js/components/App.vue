@@ -6,8 +6,6 @@
     />
     <div class="extra">
       <Generation
-        :solarData="solarData"
-        :dates="dates"
       />
     </div>
 
@@ -20,10 +18,6 @@ import Generation from "./Generation";
 
 export default {
   name: "App",
-  props: {
-    solar: Array,
-    dates: Array
-  },
   components: { BottomNavigation, Generation },
   data: function() {
    return { 

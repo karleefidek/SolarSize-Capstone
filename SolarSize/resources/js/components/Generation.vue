@@ -6,7 +6,7 @@
   >
     <div class="container">
       <div class="component-container">  
-      <form> 
+      <form @submit="submit" > 
         <table >
             <tr>
                 <td style="width:10vw"><br><br></td>
@@ -102,10 +102,6 @@ import axios from 'axios';
  
 export default {
   name: 'Generation',
-  props: {
-      solarData: Object,
-      dates: Object
-  },
   components: {
       VueInputUi, 
       apexchart: VueApexCharts
@@ -126,10 +122,10 @@ export default {
         loading: false,
         series: [{
             name: 'Estimate',
-            data: Object.values((this.solarData))
+            data: []
           }, {
             name: 'series2',
-            data: [11, 32, 45, 32, 34, 52, 41]
+            data: []
         }],
         chartOptions:{
             chart: {
@@ -137,7 +133,7 @@ export default {
             },
             xaxis: {
                 type: 'datetime',
-                categories: Object.values((this.dates))
+                categories: []
             },
             dataLabels: {
                 enabled: false
@@ -154,16 +150,52 @@ export default {
       }
   },
   methods: {
-    submit () {
-      axios.post('http://127.0.0.1:5000/predict', {
-        sepal_length: this.sepalLength,
-        sepal_width: this.sepalWidth,
-        petal_length: this.petalLength,
-        petal_width: this.petalWidth
-      })
-      .then((response) => {
-        this.predictedClass = response.data.class
-      })
+    submit (e) {
+        e.preventDefault();
+        //console.log(e);
+        //console.log(this.value1);
+        this.loading = true;
+        this.series = [{
+            name: 'Estimate',
+            data: []
+            },
+            {
+            name: 'Estimate',
+            data: []
+            }
+        ]
+        this.chartOptions = {
+            noData: {
+                text: "Loading...",
+                align: 'center',
+                verticalAlign: 'middle',
+                offsetX: 0,
+                offsetY: 0,
+                style: {
+                    color: "Black",
+                    fontSize: '48px'
+                }
+            }               
+        };
+
+        let params = {
+            lat: this.value1,
+            long: this.value2,
+            timezone: this.value3,
+            moduleTilt: this.value4,
+            startDate: this.value5,
+            endDate: this.value6
+        };
+
+        console.log(params);
+        axios.get('/api/estimate', params,{
+            headers: {
+                "Content-Type": "application/json"
+            }
+        } )
+        .then((response) => {
+            console.log(response);
+        });
     }
   }
 }

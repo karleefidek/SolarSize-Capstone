@@ -18,10 +18,7 @@
     </head>
     <body class=>
     <div id="app">
-     <solarsize 
-     :solar = {{ json_encode($solarData) }}
-     :dates = {{ json_encode($dates) }} 
-     ></solarsize>
+     <solarsize></solarsize>
  </div>
     </body>
    
