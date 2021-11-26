@@ -16,3 +16,6 @@ Design
 - Generation Overlay Lofi
 - Graphing Decision Matrix
 - Summary Details Lofi
+- Adobe XD Hifi
+- Hifi Pages
+- Front-End Decision Matrix
