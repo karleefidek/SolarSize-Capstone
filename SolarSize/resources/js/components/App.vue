@@ -45,6 +45,7 @@ export default {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
   white-space: nowrap;
+  background: #FFFFFF;
 }
 .extra {
   display: inline-flex;
