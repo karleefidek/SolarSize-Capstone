@@ -2591,6 +2591,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit(e) {
+      var _this = this;
+
       e.preventDefault(); //console.log(e);
       //console.log(this.value1);
 
@@ -2624,11 +2626,49 @@ __webpack_require__.r(__webpack_exports__);
         endDate: this.value6
       };
       console.log(params);
-      axios__WEBPACK_IMPORTED_MODULE_3___default().get('/api/estimate', params, {
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get('/api/estimate', {
+        params: params
+      }, {
         headers: {
           "Content-Type": "application/json"
         }
       }).then(function (response) {
+        _this.series = [{
+          name: 'Estimate',
+          data: response.data[0]
+        }, {
+          name: 'Estimate',
+          data: []
+        }];
+        _this.chartOptions = {
+          chart: {
+            id: 'generation-overlay'
+          },
+          xaxis: {
+            type: 'datetime',
+            categories: response.data[1],
+            title: {
+              text: "Dates"
+            }
+          },
+          yaxis: {
+            title: {
+              text: "units!"
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth'
+          },
+          tooltip: {
+            x: {
+              format: 'dd/MM/yy HH:mm'
+            }
+          }
+        };
+        _this.loading = false;
         console.log(response);
       });
     }
@@ -43344,6 +43384,12 @@ var render = function () {
       }),
       _vm._v(" "),
       _c("div", { staticClass: "extra" }, [_c("Generation")], 1),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency "
+        ),
+      ]),
     ],
     1
   )

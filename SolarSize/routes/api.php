@@ -24,19 +24,27 @@ Route::get('/estimate',function(Request $request){
     $endDate = (string)$request->endDate;
 
     
-    return $lat;
 
     // $lat = 49.6797747;
     // $long = -102.2334681;
     // $timezone = -6;
     // $moduleTilt = 30;
-    $startDate = "2021-06-25";
-    $endDate = "2021-06-26";
+    //$startDate = "2021-06-25";
+    //$endDate = "2021-06-26";
     $text = PythonCaller::callSolar($lat,$long,$timezone,$moduleTilt,$startDate,$endDate); 
-
     $re = '/(?<=\[).+?(?=\])/m';
     preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0);
-    $values = json_encode(explode(", ",$matches[0][0]));
+
+
+    $values[0] = explode(", ",$matches[0][0]);
+    
+    $values[1] = explode(", ",$matches[1][0]);
+
+    for ($i = 0; $i < count($values[1]);$i++){
+        $values[1][$i] = str_replace("'","",$values[1][$i]);
+    }
+
+    return $values;
 
     // $values = [
     // 0 => "0.0",

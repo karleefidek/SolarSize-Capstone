@@ -8,7 +8,7 @@
       <Generation
       />
     </div>
-
+  <p>This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency </p>
   </div>
 </template>
 

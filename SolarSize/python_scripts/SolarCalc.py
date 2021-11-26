@@ -8,6 +8,7 @@ from datetime import datetime
 import statistics
 import sys
 import socket
+import requests
 
 #class SolarInsolation:
 class ImportData():
@@ -39,7 +40,7 @@ class ImportData():
         while(success == False or count <= 5):
             try:
             #https://power.larc.nasa.gov/api/temporal/daily/point?parameters=ALLSKY_SFC_SW_DWN,CLRSKY_SFC_SW_DWN,ALLSKY_KT,ALLSKY_NKT,ALLSKY_SFC_LW_DWN,ALLSKY_SFC_PAR_TOT,CLRSKY_SFC_PAR_TOT,ALLSKY_SFC_UVA,ALLSKY_SFC_UVB,ALLSKY_SFC_UV_INDEX,WS2M&community=RE&longitude=-104.9423&latitude=50.3724&start=20160115&end=20170315&format=CSV
-                with urllib.request.urlopen(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,CLRSKY_SFC_SW_DWN,ALLSKY_KT,ALLSKY_SRF_ALB,SZA,ALLSKY_SFC_PAR_TOT,T2M,T2MDEW,PS,WS10M,WD10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=3) as url:
+                with urllib.request.urlopen(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M,WD10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=3) as url:
                     data = json.load(url)
                     #print(data)
                     self.APIResponse = data
@@ -62,7 +63,7 @@ class ImportData():
         #Coordinates, Lat/Long, Elevation
         #print(self.APIResponse["geometry"]["coordinates"]) 
         #Solar Zenith Angle
-        print(self.APIResponse["properties"]["parameter"]["SZA"])
+        #print(self.APIResponse["properties"]["parameter"]["SZA"])
         self.szaValues = pandas.Series(list(self.APIResponse["properties"]["parameter"]["SZA"].values()),index=self.times)
         #Temperature at 2 Meters C
         #print(self.APIResponse["properties"]["parameter"]["T2M"])
@@ -193,7 +194,7 @@ class ImportData():
         self.estimatedModulePower = estimatedPower        
 
     def printEstimatedPower(self):
-        print(self.estimatedModulePower)
+        print(self.estimatedModulePower,(self.times).strftime("%Y-%m-%dT%H:%M:%S.000Z").tolist())
 
 
 #Modelling using POWER API data and DIRINT model then converting to module irradiance 
@@ -212,7 +213,7 @@ def main():
     dataImport.getResponseFromAPI()
     dataImport.parseAndCalculateJSON()
     dataImport.calcDNIandDHI()
-    print(dataImport.calculateModuleRadiation())
+    dataImport.calculateModuleRadiation()
     dataImport.getEstimatedPowerProduction()
     dataImport.printEstimatedPower()
 

@@ -188,12 +188,51 @@ export default {
         };
 
         console.log(params);
-        axios.get('/api/estimate', params,{
+        axios.get('/api/estimate', {params: params},{
             headers: {
                 "Content-Type": "application/json"
             }
         } )
         .then((response) => {
+            this.series = [{
+                name: 'Estimate',
+                data: response.data[0]
+                },
+                {
+                name: 'Estimate',
+                data: []
+            }];
+            
+            this.chartOptions = {
+                chart: {
+                    id: 'generation-overlay'
+                },
+                xaxis: {
+                    type: 'datetime',
+                    categories: response.data[1],
+                    title: {
+                        text: "Dates"
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: "units!"
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yy HH:mm'
+                    }
+                }
+            };
+            this.loading = false;
+            
             console.log(response);
         });
     }
