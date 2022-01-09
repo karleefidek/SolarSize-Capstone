@@ -2670,6 +2670,24 @@ __webpack_require__.r(__webpack_exports__);
         };
         _this.loading = false;
         console.log(response);
+      })["catch"](function (error) {
+        if (error.response) {
+          console.log(error.response);
+          _this.chartOptions = {
+            noData: {
+              text: "An Error calling the API has occured",
+              align: 'center',
+              verticalAlign: 'middle',
+              offsetX: 0,
+              offsetY: 0,
+              style: {
+                color: "Red",
+                fontSize: '48px'
+              }
+            }
+          };
+          _this.loading = false;
+        }
       });
     }
   }
@@ -7169,7 +7187,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#btn-app[data-v-332fccf4] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  padding: 5px;\n  box-sizing: border-box;\n  font-family: \"Roboto\", sans-serif;\n  white-space: nowrap;\n}\n.extra[data-v-332fccf4] {\n  display: inline-flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  margin-top: 100px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#btn-app[data-v-332fccf4] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  padding: 5px;\n  box-sizing: border-box;\n  font-family: \"Roboto\", sans-serif;\n  white-space: nowrap;\n  background: #FFFFFF;\n}\n.extra[data-v-332fccf4] {\n  display: inline-flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  margin-top: 100px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

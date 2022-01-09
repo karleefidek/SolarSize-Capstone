@@ -234,7 +234,27 @@ export default {
             this.loading = false;
             
             console.log(response);
-        });
+        })
+        .catch(error => {
+            if(error.response){
+                console.log(error.response);
+                this.chartOptions = {
+                    noData: {
+                        text: "An Error calling the API has occured",
+                        align: 'center',
+                        verticalAlign: 'middle',
+                        offsetX: 0,
+                        offsetY: 0,
+                        style: {
+                            color: "Red",
+                            fontSize: '48px'
+                        }
+                    }
+                }   
+                this.loading = false;           
+             }
+
+            });
     }
   }
 }
