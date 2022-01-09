@@ -1,26 +1,35 @@
 <template>
-  <div id="btn-app">
-    <BottomNavigation
-      :options="options"
-      v-model="selected"
-    />
-    <div class="extra">
-      <Generation
+<div class = "background">
+    <div id="btn-app">
+      <Modal v-if="modalVisible" @close="closeModal" @show="showModal" @select="updateLatLong" ref="modal" />  
+      <BottomNavigation
+        :options="options"
+        v-model="selected"
+      
       />
-    </div>
-  <p>This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency </p>
+      <div class="extra">
+        <Generation
+          @show="showModal"
+        />
+      </div>
+        <p>This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency </p>
+</div>
+
   </div>
 </template>
 
 <script>
 import BottomNavigation from "./BottomNavigation";
 import Generation from "./Generation";
+import Modal from "./Modal"
+
 
 export default {
   name: "App",
-  components: { BottomNavigation, Generation },
+  components: { BottomNavigation, Generation,Modal },
   data: function() {
    return { 
+      modalVisible: false,
       selected: 1,
       options: [
       { id: 1, title: "Generation",},
@@ -30,6 +39,15 @@ export default {
       badgeColor: "#FBC02D",
       solarData: this.solar,
       dates: this.dates
+    }
+  },
+  methods:{
+     showModal(){
+        console.log(this.$refs)
+        this.modalVisible = true;
+    },
+    closeModal(){
+        this.modalVisible = false;
     }
   }
 };

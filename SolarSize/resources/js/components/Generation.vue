@@ -6,21 +6,21 @@
   >
     <div class="container">
       <div class="component-container">  
-      <form @submit="submit" > 
+      <form @submit="submit" >
         <table >
             <tr>
                 <td style="width:10vw"><br><br></td>
                 <td style="width:35vw">
-                    <VueInputUi
-                        id="VueInputUi1"
-                        v-model="value1"
-                        label="Latitude"
-                        :dark="darkMode"
-                        :loader="loading"
-                        clearable
-                    />
+                        <VueInputUi
+                            id="VueInputUi1"
+                            v-model="value1"
+                            label="Latitude"
+                            :dark="darkMode"
+                            :loader="loading"
+                            clearable
+                        />
                 </td>
-                <td style="width:10vw"><br><br></td>
+                <td style="width:10vw"><button style="width:5vw" class ="map-button" type="button" @click="showMap">🌐</button></td>
                 <td style="width:35vw">
                     <VueInputUi
                         id="VueInputUi2"
@@ -99,13 +99,23 @@ import VueInputUi from 'vue-input-ui';
 import 'vue-input-ui/dist/vue-input-ui.css';
 import VueApexCharts from 'vue-apexcharts';
 import axios from 'axios';
- 
+import Modal from './Modal';
+import { bus } from '../app';
 export default {
   name: 'Generation',
   components: {
       VueInputUi, 
-      apexchart: VueApexCharts
+      apexchart: VueApexCharts,
+      Modal,
     },
+    created(){
+        bus.$on('latlongAdded',(latLong) =>{
+        this.value1 = latLong[0]
+        this.value2 = latLong[1]
+        this.displayLatLong = true;
+
+        })
+        },
   data: function() {
       return {
         value1: '',
@@ -255,6 +265,9 @@ export default {
              }
 
             });
+    },
+    showMap(){
+        this.$emit("show");
     }
   }
 }
@@ -283,6 +296,21 @@ td {
     overflow: hidden;
     color: #838080;
     padding: 10px 10px;
+
+}
+.map-button {
+    margin: auto;
+    display: inline;
+    border: 2px solid #3986dd;
+    border-radius: .5rem;
+    background: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+    color: #838080;
+   
 
 }
 .submit-button:hover {
