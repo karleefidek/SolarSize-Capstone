@@ -10,6 +10,11 @@
       <div class="extra">
         <Generation
           @show="showModal"
+          v-show="this.selected=='generation'"
+          
+        />
+        <Summary
+          v-show="this.selected=='summary'" 
         />
       </div>
         <p>This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency </p>
@@ -21,19 +26,20 @@
 <script>
 import BottomNavigation from "./BottomNavigation";
 import Generation from "./Generation";
+import Summary from "./Summary";
 import Modal from "./Modal"
-
+import { bus } from '../app';
 
 export default {
   name: "App",
-  components: { BottomNavigation, Generation,Modal },
+  components: { BottomNavigation, Generation, Modal, Summary },
   data: function() {
    return { 
       modalVisible: false,
-      selected: 1,
+      selected: "generation",
       options: [
-      { id: 1, title: "Generation",},
-      { id: 2, title: "Summary", },
+      { id: "generation", title: "Generation",},
+      { id: "summary", title: "Summary", },
       ],
       foregroundColor: "#39dd73",
       badgeColor: "#FBC02D",
@@ -49,6 +55,11 @@ export default {
     closeModal(){
         this.modalVisible = false;
     }
+  },
+  created(){
+    bus.$on("generationSuccess" ,() => {
+      this.selected = "summary"
+    })
   }
 };
 </script>

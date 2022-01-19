@@ -242,8 +242,9 @@ export default {
                 }
             };
             this.loading = false;
-            
-            console.log(response);
+
+            bus.$emit("generationSuccess",this.chartOptions,this.series);
+
         })
         .catch(error => {
             if(error.response){
