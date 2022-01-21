@@ -54,6 +54,13 @@ export default {
         this.modalVisible = false;
     }
   },
+  watch:{
+    selected: function(value){
+      if(value === "summary"){
+        bus.$emit("summaryTabFocus");
+      }
+    }
+  },
   created(){
     bus.$on("generationSuccess" ,() => {
       this.selected = "summary"
@@ -77,6 +84,7 @@ export default {
 }
 .extra {
   display: inline-flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;

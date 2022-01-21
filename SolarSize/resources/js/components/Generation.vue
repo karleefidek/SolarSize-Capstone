@@ -200,45 +200,7 @@ export default {
           }
         )
         .then((response) => {
-          this.series = [
-            {
-              name: "Estimate",
-              data: response.data[0],
-            },
-            {
-              name: "Estimate",
-              data: [],
-            },
-          ];
-
-          this.chartOptions = {
-            chart: {
-              id: "generation-overlay",
-            },
-            xaxis: {
-              type: "datetime",
-              categories: response.data[1],
-              title: {
-                text: "Dates",
-              },
-            },
-            yaxis: {
-              title: {
-                text: "units!",
-              },
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            stroke: {
-              curve: "smooth",
-            },
-            tooltip: {
-              x: {
-                format: "dd/MM/yy HH:mm",
-              },
-            },
-          };
+          console.log(response)
           this.loading = false;
           var dateData = response.data[1];
           var powerData = response.data[0];

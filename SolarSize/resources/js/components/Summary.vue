@@ -1,10 +1,14 @@
 <template>
-  <div id="chart" margin-top="50px">
-    <highcharts
-      height="350"
-      :options="chartOptions"
-      :series="series"
-    ></highcharts>
+  <div class="summary-wrapper">
+    <div>
+      <div class="estimation-info component-container" ><ROIText :propNumber="32" :propText="'Average Annual Generation: '" /></div>
+      <highcharts
+        :options="chartOptions"
+        :series="series"
+        ref="chartComponent"
+        class="component-container"
+      ></highcharts>
+    </div>
   </div>
 </template>
 
@@ -12,30 +16,19 @@
 import "vue-input-ui/dist/vue-input-ui.css";
 import { bus } from "../app";
 import { Chart } from "highcharts-vue";
-
+import ROIText from "./ROIText";
 export default {
   name: "Summary",
-  components: { highcharts: Chart },
+  components: { highcharts: Chart, ROIText },
   data: function () {
     return {
-      value1: "",
-      value2: "",
-      value3: "",
-      value4: "",
-      value5: "",
-      value6: "",
-      value7: null,
-      value8: null,
-      value9: null,
-      value10: null,
-      darkMode: false,
-      loading: false,
       chartOptions: {
         chart: {
           type: "line",
         },
         title: {
-          text: "Expected Solar Generation Vs. Actual Generation"
+          text: "Expected Solar Generation Vs. Actual Generation",
+          align: "center",
         },
         credits: {
           enabled: false,
@@ -75,9 +68,42 @@ export default {
   methods: {},
   created() {
     bus.$on("generationSuccess", (data) => {
-      console.log(data[0]);
       this.chartOptions.series[0].data = data; //Converts ['1','2','3','4'] into [1,2,3,4]
+    });
+
+    bus.$on("summaryTabFocus", () => {
+      console.log(this.$refs.chartComponent.chart);
+      //this.$refs.chartComponent.chart.redraw();
     });
   },
 };
 </script>
+
+
+
+<style scoped>
+.summary-wrapper {
+  width: 80%;
+}
+
+.estimation-info {
+  text-align: center;
+  font-size: 2em;
+}
+
+
+.component-container {
+  margin: 0 10px 20px 10px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #ebebeb;
+  min-width: 300px;
+  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+  flex: 1 0 48%;
+}
+.component-container:hover {
+  box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
+    0 2px 4px 0 rgba(232, 237, 250, 0.5);
+}
+</style>
