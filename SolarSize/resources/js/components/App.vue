@@ -9,9 +9,9 @@
       
       />
       <div class="extra">
-        <Generation
+        <Inputs
           @show="showModal"
-          v-show="selected=='generation'"
+          v-show="selected=='inputs'"
           
         />
         <Summary
@@ -26,20 +26,20 @@
 
 <script>
 import BottomNavigation from "./BottomNavigation";
-import Generation from "./Generation";
+import Inputs from "./Inputs";
 import Summary from "./Summary";
 import Modal from "./Modal"
 import { bus } from '../app';
 
 export default {
   name: "App",
-  components: { BottomNavigation, Generation, Modal, Summary },
+  components: { BottomNavigation, Inputs, Modal, Summary },
   data: function() {
    return { 
       modalVisible: false,
-      selected: "generation",
+      selected: "inputs",
       options: [
-      { id: "generation", title: "Generation",},
+      { id: "inputs", title: "Inputs",},
       { id: "summary", title: "Summary", },
       ],
       foregroundColor: "#39dd73",

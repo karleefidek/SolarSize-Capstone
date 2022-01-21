@@ -20,7 +20,7 @@ export const bus = new Vue();
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('BottomNavigation', require('./components/BottomNavigation.vue').default);
-Vue.component('Generation', require('./components/Generation.vue').default);
+Vue.component('Inputs', require('./components/Inputs.vue').default);
 Vue.component('Summary', require('./components/Summary.vue').default);
 Vue.component('Modal', require('./components/Modal.vue').default);
 Vue.component('Map', require('./components/Map.vue').default);
