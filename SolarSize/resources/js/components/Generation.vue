@@ -70,13 +70,12 @@
             <tr>
               <td style="width=10vw"><br /><br /></td>
               <td style="width=35vw">
-                <VueInputUi
-                  id="VueInputUi3"
-                  v-model="value5"
+                <VueCtkDateTimePicker 
+                  id="VueInputUi4"
+                  v-model="value7"
+                  only-date
+                  format="YYYY-MM-DD"
                   label="Start Date"
-                  :dark="darkMode"
-                  :loader="loading"
-                  clearable
                 />
               </td>
               <td style="width: 10vw"><br /><br /></td>
@@ -106,6 +105,8 @@
 <script>
 import VueInputUi from "vue-input-ui";
 import "vue-input-ui/dist/vue-input-ui.css";
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import axios from "axios";
 import Modal from "./Modal";
 import { bus } from "../app";
@@ -114,7 +115,7 @@ export default {
   components: {
     VueInputUi,
     Modal,
-    
+    VueCtkDateTimePicker
   },
   created() {
     bus.$on("latlongAdded", (latLong) => {
