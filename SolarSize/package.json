@@ -41,7 +41,10 @@
     "install": "^0.13.0",
     "leaflet": "^1.7.1",
     "vue-apexcharts": "^1.6.2",
+    "vue-ctk-date-time-picker": "^2.5.0",
+    "vue-file-agent": "^1.7.3",
     "vue-input-ui": "^1.0.3",
+    "vue-select": "^3.16.0",
     "vue2-leaflet": "^2.7.1"
   }
 }
