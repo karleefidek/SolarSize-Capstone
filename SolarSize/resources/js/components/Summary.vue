@@ -34,6 +34,9 @@ export default {
         chart: {
           type: "line",
         },
+        title: {
+          text: "Expected Solar Generation Vs. Actual Generation"
+        },
         credits: {
           enabled: false,
         },
@@ -74,7 +77,6 @@ export default {
     bus.$on("generationSuccess", (data) => {
       console.log(data[0]);
       this.chartOptions.series[0].data = data; //Converts ['1','2','3','4'] into [1,2,3,4]
-      //this.chartOptions.xtimeAxis = data[1];
     });
   },
 };

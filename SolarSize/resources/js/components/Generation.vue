@@ -243,25 +243,11 @@ export default {
           var dateData = response.data[1];
           var powerData = response.data[0];
           var formattedData = dateData.map((e, i) => [new Date(e).getTime(), Number(powerData[i])]);
-          console.log(formattedData);
           bus.$emit("generationSuccess", formattedData);
         })
         .catch((error) => {
           if (error.response) {
             console.log(error.response);
-            this.chartOptions = {
-              noData: {
-                text: "An Error calling the API has occured",
-                align: "center",
-                verticalAlign: "middle",
-                offsetX: 0,
-                offsetY: 0,
-                style: {
-                  color: "Red",
-                  fontSize: "48px",
-                },
-              },
-            };
             this.loading = false;
           }
         });

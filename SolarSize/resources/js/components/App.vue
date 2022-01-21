@@ -5,16 +5,17 @@
       <BottomNavigation
         :options="options"
         v-model="selected"
+        ref="nav"
       
       />
       <div class="extra">
         <Generation
           @show="showModal"
-          v-show="this.selected=='generation'"
+          v-show="selected=='generation'"
           
         />
         <Summary
-          v-show="this.selected=='summary'" 
+          v-show="selected=='summary'" 
         />
       </div>
         <p>This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency </p>
@@ -43,13 +44,10 @@ export default {
       ],
       foregroundColor: "#39dd73",
       badgeColor: "#FBC02D",
-      solarData: this.solar,
-      dates: this.dates
     }
   },
   methods:{
      showModal(){
-        console.log(this.$refs)
         this.modalVisible = true;
     },
     closeModal(){
@@ -59,6 +57,7 @@ export default {
   created(){
     bus.$on("generationSuccess" ,() => {
       this.selected = "summary"
+      this.$refs.nav.$data.localOptions[1].isActive = true; //sets the navbar to Summary
     })
   }
 };
