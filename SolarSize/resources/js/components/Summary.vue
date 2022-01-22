@@ -38,6 +38,7 @@ export default {
           title: {
             text: "Power Generation",
           },
+           min: Date.UTC(2021,0,1,0),
           labels: {
             format: "{value:%d/%Y}",
             rotation: -45,
@@ -58,8 +59,16 @@ export default {
             },
           },
           {
-            name: "Generation",
-            data: [],
+            type: "area",
+            name: "Consumption",
+            data: [3, 2, 1],
+            fillColor: {
+              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+              stops: [
+                [0, "rgba(58, 204, 188, 1)"],
+                [1, "rgba(255,255,255,.25)"],
+              ],
+            },
           },
         ],
       },
@@ -67,8 +76,10 @@ export default {
   },
   methods: {},
   created() {
-    bus.$on("generationSuccess", (data) => {
-      this.chartOptions.series[0].data = data; //Converts ['1','2','3','4'] into [1,2,3,4]
+    bus.$on("generationSuccess", (estimateData,consumptionData) => {
+      this.chartOptions.series[0].data = estimateData; //Converts ['1','2','3','4'] into [1,2,3,4]
+      this.chartOptions.series[1].data = consumptionData;
+
     });
 
     bus.$on("summaryTabFocus", () => {

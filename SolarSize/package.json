@@ -44,6 +44,7 @@
     "vue-ctk-date-time-picker": "^2.5.0",
     "vue-file-agent": "^1.7.3",
     "vue-input-ui": "^1.0.3",
+    "vue-papa-parse": "^3.0.4",
     "vue-select": "^3.16.0",
     "vue2-leaflet": "^2.7.1"
   }

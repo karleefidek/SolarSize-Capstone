@@ -5,9 +5,10 @@
  */
 
 require('./bootstrap');
-
+import VuePapaParse from 'vue-papa-parse';
 window.Vue = require('vue').default;
 export const bus = new Vue();
+window.Vue.use(VuePapaParse);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

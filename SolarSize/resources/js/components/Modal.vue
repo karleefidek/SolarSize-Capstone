@@ -58,6 +58,7 @@ import Map from "./Map"
 </script>
 
 <style>
+  
   .modal-backdrop {
     z-index:4;
     position: fixed;
@@ -83,6 +84,7 @@ import Map from "./Map"
     overflow-x: auto;
     display: flex;
     flex-direction: column;
+    z-index: 3;
   }
 
   .modal-header,
