@@ -2,6 +2,8 @@
   <div>
     <form @submit="submit">
       <div class="main-container flex">
+        <div class="container">
+      <div class="component-container">
         <br />
         <table>
           <tr>
@@ -39,6 +41,7 @@
                 🌐
               </button>
             </td>
+            <td style="width: 10vw"><br /><br /></td>
           </tr>
           <tr>
             <td style="width: 10vw"><br /><br /></td>
@@ -93,8 +96,12 @@
         </table>
         <br />
       </div>
+        </div>
+      </div>
       <br />
       <div class="main-container flex">
+        <div class="container">
+      <div class="component-container">
         <br />
         <table>
           <tr>
@@ -159,8 +166,12 @@
         </table>
         <br />
       </div>
+        </div>
+      </div>
       <br />
       <div class="main-container flex">
+        <div class="container">
+      <div class="component-container">
         <br />
         <table>
           <tr>
@@ -200,6 +211,8 @@
           </tr>
         </table>
         <br />
+      </div>
+        </div>
       </div>
       <div class="submit-container">
         <button type="submit" @click="submit" class="submit-button">
@@ -398,17 +411,11 @@ td {
   padding: 10px;
 }
 .main-container {
-  width: 100vw;
   background-color: white;
-  border: 1px solid #dad9d9;
-  border-radius: 0.5rem;
 }
 .main-container .container {
   text-align: center;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
-}
-.container {
-  width: 100vw;
 }
 .main-container .component {
   padding: 10px;
