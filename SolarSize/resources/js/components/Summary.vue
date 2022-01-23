@@ -90,8 +90,6 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 .summary-wrapper {
   width: 80%;

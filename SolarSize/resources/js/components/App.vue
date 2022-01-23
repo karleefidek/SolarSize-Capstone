@@ -1,6 +1,6 @@
 <template>
-<div class = "background">
-    <div id="btn-app">
+  <div class = "background">
+    <div id="app">
       <Modal v-if="modalVisible" @close="closeModal" @show="showModal" @select="updateLatLong" ref="modal" />  
       <BottomNavigation
         :options="options"
@@ -19,8 +19,7 @@
         />
       </div>
         <p>This test model is using an array of 260 REC 345 panels, oriented due south with 17.2% efficiency </p>
-</div>
-
+      </div>
   </div>
 </template>
 
@@ -70,24 +69,5 @@ export default {
 };
 </script>
 
-<style scoped>
-#btn-app {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-  white-space: nowrap;
-  background: #FFFFFF;
-}
-.extra {
-  display: inline-flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 100px;
-}
+<style scoped src="../../css/app.css">
 </style>

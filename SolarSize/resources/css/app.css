@@ -1,0 +1,132 @@
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    white-space: nowrap;
+    background: #FFFFFF;
+}
+
+.extra {
+    display: inline-flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+td {
+    align-self: center;
+}
+
+#chart {
+    margin-top: 75px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    border: 2px solid #39dd73;
+    border-radius: 0.5rem;
+    background: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+    color: #838080;
+    padding: 10px 10px;
+}
+
+.map-button {
+    margin: auto;
+    display: inline;
+    border: 2px solid #3986dd;
+    border-radius: 0.5rem;
+    background: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+    color: #838080;
+}
+
+.submit-button:hover {
+    color: #39dd73;
+}
+
+.submit-container {
+    width: 100vw;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.main-container {
+    background-color: white;
+}
+
+.main-container .container {
+    text-align: center;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+
+.main-container .component {
+    padding: 10px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #ebebeb;
+}
+
+.main-container .component:hover {
+    box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6), 0 2px 4px 0 rgba(232, 237, 250, 0.5);
+}
+
+.main-container .component-container {
+    margin: 0 10px 20px 10px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #ebebeb;
+    min-width: 300px;
+    transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+    flex: 1 0 48%;
+}
+
+.main-container .component-container:hover {
+    box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6), 0 2px 4px 0 rgba(232, 237, 250, 0.5);
+}
+
+.main-container .component-container.dark {
+    background-color: #292929;
+    color: #fff;
+}
+
+.main-container.dark {
+    background-color: #0f0f0f;
+}
+
+.main-container.dark .component-container,
+.main-container.dark .component {
+    border: 1px solid #424242;
+    background-color: #292929;
+}
+
+.main-container.dark .component-container:hover,
+.main-container.dark .component:hover {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.6), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.main-container.dark .container {
+    color: white;
+}
