@@ -3,215 +3,215 @@
     <form @submit="submit">
       <div class="main-container flex">
         <div class="container">
-      <div class="component-container">
-        <br />
-        <table>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <v-select
-                v-model="location"
-                :options="['New']"
-                placeholder="Select a Location"
-                label="Location"
-              >
-              </v-select>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="latInput"
-                label="Latitude"
-                type="number"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width=35vw">
-              <button
-                style="width: 5vw"
-                class="map-button"
-                type="button"
-                @click="showMap"
-              >
-                🌐
-              </button>
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-          </tr>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="longInput"
-                label="Longitude"
-                type="number"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-          </tr>
-          <tr>
-            <td style="width=10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="zoneInput"
-                label="Time Zone"
-                type="number"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-          </tr>
-          <tr>
-            <td style="width=10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueFileAgent
-                ref="vueFileAgent"
-                :theme="'list'"
-                :multiple="false"
-                :deletable="true"
-                :meta="true"
-                :accept="'.csv'"
-                :maxSize="'10MB'"
-                :maxFiles="1"
-                :helpText="'Choose .csv files'"
-                :errorText="{
-                  type: 'Invalid file type. Only .csv files allowed',
-                  size: 'Files should not exceed 10MB in size',
-                }"
-                v-model="fileRecords"
-                uploadUrl="/api/uploadCSV"
-                :uploadHeaders="{}"
-                @select="getData($event)"
-              ></VueFileAgent>
-            </td>
-          </tr>
-        </table>
-        <br />
-      </div>
+          <div class="component-container">
+            <br />
+            <table>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <v-select
+                    v-model="location"
+                    :options="['New']"
+                    placeholder="Select a Location"
+                    label="Location"
+                  >
+                  </v-select>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="latInput"
+                    label="Latitude"
+                    type="number"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width=35vw">
+                  <button
+                    style="width: 25vw"
+                    class="map-button"
+                    type="button"
+                    @click="showMap"
+                  >
+                    🌐
+                  </button>
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+              </tr>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="longInput"
+                    label="Longitude"
+                    type="number"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td style="width=10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="zoneInput"
+                    label="Time Zone"
+                    type="number"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td style="width=10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueFileAgent
+                    ref="vueFileAgent"
+                    :theme="'list'"
+                    :multiple="false"
+                    :deletable="true"
+                    :meta="true"
+                    :accept="'.csv'"
+                    :maxSize="'10MB'"
+                    :maxFiles="1"
+                    :helpText="'Choose .csv files'"
+                    :errorText="{
+                      type: 'Invalid file type. Only .csv files allowed',
+                      size: 'Files should not exceed 10MB in size',
+                    }"
+                    v-model="fileRecords"
+                    uploadUrl="/api/uploadCSV"
+                    :uploadHeaders="{}"
+                    @select="getData($event)"
+                  ></VueFileAgent>
+                </td>
+              </tr>
+            </table>
+            <br />
+          </div>
         </div>
       </div>
       <br />
       <div class="main-container flex">
         <div class="container">
-      <div class="component-container">
-        <br />
-        <table>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="directionInput"
-                label="Panel Direction"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="tiltInput"
-                label="Module Tilt"
-                type="number"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-          </tr>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="areaInput"
-                label="Module Area"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="efficiencyInput"
-                label="Module Efficiency"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-          </tr>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueInputUi
-                v-model="lossInput"
-                label="Loss Coefficient"
-                :dark="darkMode"
-                :loader="loading"
-                clearable
-              />
-            </td>
-          </tr>
-        </table>
-        <br />
-      </div>
+          <div class="component-container">
+            <br />
+            <table>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="directionInput"
+                    label="Panel Direction"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="tiltInput"
+                    label="Module Tilt"
+                    type="number"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+              </tr>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="areaInput"
+                    label="Module Area"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="efficiencyInput"
+                    label="Module Efficiency"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+              </tr>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueInputUi
+                    v-model="lossInput"
+                    label="Loss Coefficient"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </td>
+              </tr>
+            </table>
+            <br />
+          </div>
         </div>
       </div>
       <br />
       <div class="main-container flex">
         <div class="container">
-      <div class="component-container">
-        <br />
-        <table>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <v-select
-                v-model="billing"
-                :options="['Residential', 'Industrial']"
-                placeholder="Select Billing Type"
-                label="Billing Type"
-              >
-              </v-select>
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueCtkDateTimePicker
-                v-model="startInput"
-                only-date
-                format="YYYY-MM-DD"
-                label="Start Date"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw"><br /><br /></td>
-            <td style="width: 10vw"><br /><br /></td>
-            <td style="width: 35vw">
-              <VueCtkDateTimePicker
-                v-model="endInput"
-                only-date
-                format="YYYY-MM-DD"
-                label="End Date"
-              />
-            </td>
-            <td style="width: 10vw"><br /><br /></td>
-          </tr>
-        </table>
-        <br />
-      </div>
+          <div class="component-container">
+            <br />
+            <table>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <v-select
+                    v-model="billing"
+                    :options="['Residential', 'Industrial']"
+                    placeholder="Select Billing Type"
+                    label="Billing Type"
+                  >
+                  </v-select>
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueCtkDateTimePicker
+                    v-model="startInput"
+                    only-date
+                    format="YYYY-MM-DD"
+                    label="Start Date"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw"><br /><br /></td>
+                <td style="width: 10vw"><br /><br /></td>
+                <td style="width: 35vw">
+                  <VueCtkDateTimePicker
+                    v-model="endInput"
+                    only-date
+                    format="YYYY-MM-DD"
+                    label="End Date"
+                  />
+                </td>
+                <td style="width: 10vw"><br /><br /></td>
+              </tr>
+            </table>
+            <br />
+          </div>
         </div>
       </div>
       <div class="submit-container">
@@ -362,102 +362,5 @@ export default {
 };
 </script>
 
-<style scoped>
-html,
-body {
-  margin: 0;
-  min-height: 100%;
-}
-td {
-  align-self: center;
-}
-#chart {
-  margin-top: 75px;
-}
-.submit-button {
-  margin-top: 20px;
-  border: 2px solid #39dd73;
-  border-radius: 0.5rem;
-  background: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.8s;
-  position: relative;
-  overflow: hidden;
-  color: #838080;
-  padding: 10px 10px;
-}
-.map-button {
-  margin: auto;
-  display: inline;
-  border: 2px solid #3986dd;
-  border-radius: 0.5rem;
-  background: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.8s;
-  position: relative;
-  overflow: hidden;
-  color: #838080;
-}
-.submit-button:hover {
-  color: #39dd73;
-}
-
-.submit-container {
-  width: 100vw;
-  background-color: white;
-  text-align: center;
-  padding: 10px;
-}
-.main-container {
-  background-color: white;
-}
-.main-container .container {
-  text-align: center;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-}
-.main-container .component {
-  padding: 10px;
-  background: #fff;
-  border-radius: 4px;
-  border: 1px solid #ebebeb;
-}
-.main-container .component:hover {
-  box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
-    0 2px 4px 0 rgba(232, 237, 250, 0.5);
-}
-.main-container .component-container {
-  margin: 0 10px 20px 10px;
-  padding: 20px;
-  background: #fff;
-  border-radius: 4px;
-  border: 1px solid #ebebeb;
-  min-width: 300px;
-  transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-  flex: 1 0 48%;
-}
-.main-container .component-container:hover {
-  box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
-    0 2px 4px 0 rgba(232, 237, 250, 0.5);
-}
-.main-container .component-container.dark {
-  background-color: #292929;
-  color: #fff;
-}
-.main-container.dark {
-  background-color: #0f0f0f;
-}
-.main-container.dark .component-container,
-.main-container.dark .component {
-  border: 1px solid #424242;
-  background-color: #292929;
-}
-.main-container.dark .component-container:hover,
-.main-container.dark .component:hover {
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.6), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-}
-.main-container.dark .container {
-  color: white;
-}
+<style scoped src="../../css/app.css">
 </style>
