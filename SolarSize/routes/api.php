@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EstimateController;
+use App\Http\Controllers\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/estimate', [EstimateController::class,'execute']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+
+Route::post('/uploadCSV', [FileController::class,'uploadFile']);
+Route::delete('/uploadCSV', [FileController::class,'deleteFile']);
+
+
