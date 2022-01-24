@@ -328,7 +328,9 @@ export default {
           bus.$emit(
             "generationSuccess",
             formattedDataGeneration,
-            this.consumption
+            this.consumption,
+            new Date(this.startInput).getTime(),
+           new Date(this.endInput).getTime(),
           );
         })
         .catch((error) => {

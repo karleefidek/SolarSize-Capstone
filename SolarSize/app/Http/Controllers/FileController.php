@@ -16,7 +16,7 @@ class FileController extends ApiController
 
         $newFileName = time() . '.' . $request->file->getClientOriginalExtension();
         $path = storage_path("app/public/uploads");
-        $request->file->move($path,$newFileName);
+        //$request->file->move($path,$newFileName);
         return $this->respondWithData(['my_key' => $newFileName]);
 
 

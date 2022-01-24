@@ -40,8 +40,9 @@ export default {
             text: "Power Generation",
           },
            min: Date.UTC(2021,0,1,0),
+           max: Date.UTC(2021,11,1,0),
           labels: {
-            format: "{value:%d/%Y}",
+            format: "{value:%b %d %Y}",
             rotation: -45,
             align: "right",
           },
@@ -77,9 +78,12 @@ export default {
   },
   methods: {},
   created() {
-    bus.$on("generationSuccess", (estimateData,consumptionData) => {
+    bus.$on("generationSuccess", (estimateData,consumptionData,startTime,endTime) => {
       this.chartOptions.series[0].data = estimateData; //Converts ['1','2','3','4'] into [1,2,3,4]
       this.chartOptions.series[1].data = consumptionData;
+      this.chartOptions.xAxis.min = startTime;
+      this.chartOptions.xAxis.max = endTime;
+
 
     });
 
