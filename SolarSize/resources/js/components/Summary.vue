@@ -25,6 +25,7 @@ export default {
       chartOptions: {
         chart: {
           type: "line",
+          zoomType: "x",
         },
         title: {
           text: "Expected Solar Generation Vs. Actual Generation",

@@ -130,3 +130,18 @@ td {
 .main-container.dark .container {
     color: white;
 }
+
+.mapInputContainer {
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    grid-auto-flow: column;
+    gap: 0px 3em; 
+    grid-template-areas: 
+      ". ."
+      ". ."
+      ". ."
+      ". ."
+      ". ."; 
+  }
+
