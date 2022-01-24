@@ -26,8 +26,12 @@ class EstimateController extends ApiController
         $moduleTilt = (int)$request->moduleTilt;
         $startDate = (string)$request->startDate;
         $endDate = (string)$request->endDate;
+		$panelDirection = (float)$request->panelDirection;
+		$moduleArea = (float)$request->moduleArea;
+		$moduleEfficiency = (float)$request->moduleEfficiency;
+		$lossCoefficient = (float)$request->lossCoefficient;
     
-        $text = PythonCaller::callSolar($lat,$long,$timezone,$moduleTilt,$startDate,$endDate); 
+        $text = PythonCaller::callSolar($lat,$long,$timezone,$moduleTilt,$startDate,$endDate,$moduleArea,$moduleEfficiency,$lossCoefficient); 
         $re = '/(?<=\[).+?(?=\])/m';
         preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0);
         $values[0] = explode(", ",$matches[0][0]);

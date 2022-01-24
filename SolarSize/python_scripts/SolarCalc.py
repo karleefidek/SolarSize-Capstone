@@ -1,7 +1,7 @@
 import math
 from pandas.core.base import DataError
 import pvlib
-from pvlib.forecast import GFS
+#from pvlib.forecast import GFS
 import pandas
 import urllib.request, json
 from datetime import datetime
@@ -12,11 +12,15 @@ import requests
 
 #class SolarInsolation:
 class ImportData():
-    def  __init__(self, latitude, longitude, timeZone, moduleTilt, startDate, endDate):
+    def  __init__(self, latitude, longitude, timeZone, moduleTilt, startDate, endDate,moduleArea,moduleEfficiency,lossCoefficient, numPanels):
         self.latitude = float(latitude)
         self.longitude = float(longitude)
         self.timeZone = float(timeZone) #-5 is regina
         self.moduleTilt = float(moduleTilt)
+        self.moduleArea = float(moduleArea)
+        self.moduleEfficiency = float(moduleEfficiency)
+        self.lossCoefficient = float(lossCoefficient)
+        self.numPanels = numPanels 
         #Stored as Pandas Time Series of hourly results
         self.pressureMean = 0.0
         self.ghiValues = []
@@ -36,19 +40,12 @@ class ImportData():
     #Call Power API using specified latitude and longitude values, start and end dates
     def getResponseFromAPI(self):
         success = False
-        count = 0
-        while(success == False or count <= 5):
-            try:
-            #https://power.larc.nasa.gov/api/temporal/daily/point?parameters=ALLSKY_SFC_SW_DWN,CLRSKY_SFC_SW_DWN,ALLSKY_KT,ALLSKY_NKT,ALLSKY_SFC_LW_DWN,ALLSKY_SFC_PAR_TOT,CLRSKY_SFC_PAR_TOT,ALLSKY_SFC_UVA,ALLSKY_SFC_UVB,ALLSKY_SFC_UV_INDEX,WS2M&community=RE&longitude=-104.9423&latitude=50.3724&start=20160115&end=20170315&format=CSV
-                with urllib.request.urlopen(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M,WD10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=3) as url:
-                    data = json.load(url)
-                    #print(data)
-                    self.APIResponse = data
-                    success = True
-            except (socket.timeout) as error:
-                success = False
-            count +=1
-            
+        #https://power.larc.nasa.gov/api/temporal/daily/point?parameters=ALLSKY_SFC_SW_DWN,CLRSKY_SFC_SW_DWN,ALLSKY_KT,ALLSKY_NKT,ALLSKY_SFC_LW_DWN,ALLSKY_SFC_PAR_TOT,CLRSKY_SFC_PAR_TOT,ALLSKY_SFC_UVA,ALLSKY_SFC_UVB,ALLSKY_SFC_UV_INDEX,WS2M&community=RE&longitude=-104.9423&latitude=50.3724&start=20160115&end=20170315&format=CSV
+
+        r = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=6)
+        data = r.json()
+        self.APIResponse = data
+
             
 
     #Used to parse date from getResponseFromAPI and format it into arrays for use with DNIfromGHI.
@@ -88,7 +85,6 @@ class ImportData():
         #Calculate DNI from DIRINT model using values gotten fromthe API. Use GHI and DNI to get DHI.
     def calcDNIandDHI(self):
         self.dniValues = pvlib.irradiance.dirint(self.ghiValues,self.szaValues,self.times,self.pressureValues,True,self.dewPointValues)   
-        #self.dniValues.to_csv(r"C:\Users\kaden\Documents\Fall 2021\ENSE 400\Solar Size Docs\dniData.txt",header=True,index_label="time")
         #GHI = DNI cos(SZA) + DHI\
         #Thus we must multiply the DNI values by cos(SZA). and then find DHI by GHI - DNI Cos(SZA)
         szaDNI = []
@@ -99,30 +95,23 @@ class ImportData():
 
         #Output the szaDNI calculated values.
         self.szaDNIValues = pandas.Series(szaDNI,index=self.times)
-        #self.szaDNIValues.to_csv(r"C:\Users\kaden\Documents\Fall 2021\ENSE 400\Solar Size Docs\szaDniData.txt",header=True,index_label="time")
         #Subtract GHI - DNI cos(sza)
         self.dhiValues = self.ghiValues.subtract(self.szaDNIValues, fill_value=0.0)
-        #self.ghiValues.to_csv(r"C:\Users\kaden\Documents\Fall 2021\ENSE 400\Solar Size Docs\ghiData.txt",header=True,index_label="time")
-        #self.dhiValues.to_csv(r"C:\Users\kaden\Documents\Fall 2021\ENSE 400\Solar Size Docs\dhiData.txt",header=True,index_label="time")
+
     """
     solarRadiation is the solar radition measured perpendicular to the sun. (Value from the API)
     https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface
     """
     #using models here  https://www.pveducation.org/pvcdrom/properties-of-sunlight/making-use-of-tmy-data#footnote1_j7gwlmm
     def calculateModuleRadiation(self):
-        #Angle of the sun.?
         moduleGHIValues = []
         for times in self.times:
             self.dayOfYear = times.dayofyear
             self.currentHour = times.hour
-            #print(self.dayOfYear)
-            #print(self.currentHour)
             self.hourAngle = self.getHourAngle()
             self.declinationAngle = 23.45 * math.sin(math.radians(abs((360/365)*(284 + self.dayOfYear))))
             self.dhiValue = self.dhiValues.at[times]
             self.dniValue = self.dniValues.at[times]
-            #print(self.dhiValue)
-            #print(self.dniValue)
             #Angle of the sun compared to latitude.
             self.elevationAngle = 90 - self.latitude + self.declinationAngle
             moduleDNIValue = self.calculateModuleDNI()
@@ -130,6 +119,7 @@ class ImportData():
             moduleGHIValue = moduleDHIValue + moduleDNIValue
             moduleGHIValues.append(moduleGHIValue)
         self.moduleGHIValues = moduleGHIValues
+
     # Declination Angle of Sun = 23.45 sin (360/365(284 + d))
     # Latitude
     # Elevation Angle = 90 - Latitude + declination
@@ -151,25 +141,19 @@ class ImportData():
         if(LST < 0):
             LST = 24 - abs(LST)
         HRA = 15 * (LST - 12)
-        #print("LSTM:",LSTM)
-        #print("Eot",EoT)
-        #print("TC",TC)
-        #print("LST",LST)
         return HRA
+
     #Direct Normal Irradiance (DNI)
     def calculateModuleDNI(self):
         #Aim south for now.
+        #Solar Panel Direction Azimuth. 180 = North, 90 = West, -90 = East, 0 = South
         moduleAzimuth = 0
         #Complex equation from https://www.pveducation.org/pvcdrom/properties-of-sunlight/making-use-of-tmy-data#footnote1_j7gwlmm
         moduleDNI = self.dniValue * ((math.sin(math.radians(self.declinationAngle))*math.sin(math.radians(self.latitude))*math.cos(math.radians(self.moduleTilt))) - (math.sin(math.radians(self.declinationAngle))*math.cos(math.radians(self.latitude))*math.sin(math.radians(self.moduleTilt))*math.cos(math.radians(moduleAzimuth))) + (math.cos(math.radians(self.declinationAngle))*math.cos(math.radians(self.latitude))*math.cos(math.radians(self.moduleTilt))*math.cos(math.radians(self.hourAngle))) + (math.cos(math.radians(self.declinationAngle))*math.sin(math.radians(self.latitude))*math.sin(math.radians(self.moduleTilt))*math.cos(math.radians(moduleAzimuth))*math.cos(math.radians(self.hourAngle))) + (math.cos(math.radians(self.declinationAngle))*math.sin(math.radians(moduleAzimuth))*math.sin(math.radians(self.hourAngle)*math.sin(math.radians(self.moduleTilt)))))
-        #print(self.dniValue)
-        #print(self.declinationAngle)
-        #print(self.latitude)
-        #print(self.moduleTilt)
-        #print(self.hourAngle)
         if (moduleDNI < 0):
             return 0.0
         return moduleDNI
+
     #Diffuse Module - Using a simple equation for now will have to adapt as we go.
     def calculateModuleDHI(self):
         moduleDHI = self.dhiValue * ((180-self.moduleTilt)/180)
@@ -185,16 +169,18 @@ class ImportData():
         # E = A * r * H * PR
         #r is solar panel efficiency REC 345 is at 17.20%.
         #H = irradiance from before.
-        #PR lets say 15% loss for now. 0.85
-        # A total area is 260 * 2.01 = 522.6m^2 
+        #PR lets say 10% loss for now. 0.90
+        # A total area is 260(260 panels..) * 2.01 = 522.6m^2 
         estimatedPower = []
         for ghiValue in self.moduleGHIValues:
-            E = 522.6 * 0.1720 * 0.90 * ghiValue
+            #E = Area * Efficiency * lossCoefficient * ghiValue
+            E = (self.numPanels*self.moduleArea) * self.moduleEfficiency * self.lossCoefficient * ghiValue
+            #E = 522.6 * 0.1720 * 0.90 * ghiValue
             estimatedPower.append(E)
         self.estimatedModulePower = estimatedPower        
 
     def printEstimatedPower(self):
-        print(self.estimatedModulePower,(self.times).strftime("%Y-%m-%dT%H:%M:%S.000Z").tolist())
+        print(self.estimatedModulePower, (self.times).strftime("%Y-%m-%d %H:%M:%S").tolist())
 
 
 #Modelling using POWER API data and DIRINT model then converting to module irradiance 
@@ -202,23 +188,35 @@ class ImportData():
 #solarCalc = SolarInsolation()
 
 def main():
-    #
+    #Arguements passed from command line.
     latitude = sys.argv[1]
     longitude = sys.argv[2]
     timeZone = sys.argv[3]
     moduleTilt = sys.argv[4]
     startDate = sys.argv[5]
     endDate = sys.argv[6]
-    dataImport = ImportData(latitude,longitude,timeZone,moduleTilt,startDate,endDate)
+    moduleArea = sys.argv[7]
+    moduleEfficiency = sys.argv[8]
+    lossCoefficient = sys.argv[9]
+    numPanels = 260
+    #
+    dataImport = ImportData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels)
     dataImport.getResponseFromAPI()
     dataImport.parseAndCalculateJSON()
     dataImport.calcDNIandDHI()
-    dataImport.calculateModuleRadiation()
+    print(dataImport.calculateModuleRadiation())
     dataImport.getEstimatedPowerProduction()
     dataImport.printEstimatedPower()
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
 #Modelling using PVLib forecasting.
 #Good for close to real-time.
 #model = GFS()
