@@ -6,16 +6,25 @@
 
 require('./bootstrap');
 import VuePapaParse from 'vue-papa-parse';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 window.Vue = require('vue').default;
 export const bus = new Vue();
 window.Vue.use(VuePapaParse);
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+    // Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+    /**
+     * The following block of code may be used to automatically register your
+     * Vue components. It will recursively scan this directory for the Vue
+     * components and automatically register them with their "basename".
+     *
+     * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+     */
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))

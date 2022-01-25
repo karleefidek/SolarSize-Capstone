@@ -6,38 +6,55 @@
           <div class="component-container">
             <div class="inputContainer">
               <v-select
+                id="location"
                 v-model="location"
                 :options="['New']"
                 placeholder="Select a Location"
                 label="Location"
               >
               </v-select>
+              <b-tooltip target="location" placement='right' triggers="hover">
+                Either a previously saved location or new location (existing locations will auto-populate fields).
+              </b-tooltip>
 
               <VueInputUi
+                id="latitude"
                 v-model="latInput"
                 label="Latitude"
                 type="number"
                 :dark="darkMode"
                 :loader="loading"
               />
+              <b-tooltip target="latitude" placement='right' triggers="hover">
+                The latitude of the building location (auto-populated by selecting a location on the map).
+              </b-tooltip>
 
               <VueInputUi
+                id="longitude"
                 v-model="longInput"
                 label="Longitude"
                 type="number"
                 :dark="darkMode"
                 :loader="loading"
               />
+              <b-tooltip target="longitude" placement='right' triggers="hover">
+                The longitude of the building location (auto-populated by selecting a location on the map).
+              </b-tooltip>
 
               <VueInputUi
+                id="timeZone"
                 v-model="zoneInput"
                 label="Time Zone"
                 type="number"
                 :dark="darkMode"
                 :loader="loading"
               />
+              <b-tooltip target="timeZone" placement='right' triggers="hover">
+                The time zone the building is located in.
+              </b-tooltip>
 
               <VueFileAgent
+                id="fileUpload"
                 ref="vueFileAgent"
                 :theme="'list'"
                 :multiple="false"
@@ -46,7 +63,7 @@
                 :accept="'.csv'"
                 :maxSize="'10MB'"
                 :maxFiles="1"
-                :helpText="'Choose .csv files'"
+                :helpText="'Choose consumption .csv files'"
                 :errorText="{
                   type: 'Invalid file type. Only .csv files allowed',
                   size: 'Files should not exceed 10MB in size',
@@ -56,6 +73,9 @@
                 :uploadHeaders="{}"
                 @select="getData($event)"
               ></VueFileAgent>
+              <b-tooltip target="fileUpload" placement='right' triggers="hover">
+                Upload a .csv file containing building consumption data for consumption/generation overlay
+              </b-tooltip>
 
               <div style="grid-row: 1/-1">
                 <Map ref="map" />
@@ -70,51 +90,71 @@
           <div class="component-container">
             <div class="inputContainer">
               <VueInputUi
+                id="direction"
                 v-model="directionInput"
                 label="Panel Direction"
                 :dark="darkMode"
                 :loader="loading"
                 clearable
               />
+              <b-tooltip target="direction" placement='right' triggers="hover">
+                The direction the panel is facing. Ex. S30W
+              </b-tooltip>
 
               <br />
 
               <VueInputUi
+                id="tilt"
                 v-model="tiltInput"
                 label="Module Tilt"
                 type="number"
                 :dark="darkMode"
                 :loader="loading"
               />
+              <b-tooltip target="tilt" placement='right' triggers="hover">
+                The angle at which the solar panel is installed.
+              </b-tooltip>
 
               <br />
 
               <VueInputUi
+                id="area"
                 v-model="areaInput"
                 label="Module Area"
                 :dark="darkMode"
                 :loader="loading"
                 clearable
               />
+              <b-tooltip target="area" placement='right' triggers="hover">
+                The area of a single panel. (Size of the panel LxH)
+              </b-tooltip>
 
               <div style="grid-row: 1/-1">
                 <VueInputUi
+                  id="efficiency"
                   v-model="efficiencyInput"
                   label="Module Efficiency"
                   :dark="darkMode"
                   :loader="loading"
                   clearable
                 />
+                <b-tooltip target="efficiency" placement='right' triggers="hover">
+                  KADEN DESCRIPTION
+                </b-tooltip>
 
                 <br />
 
                 <VueInputUi
+                  id="loss"
                   v-model="lossInput"
                   label="Loss Coefficient"
                   :dark="darkMode"
                   :loader="loading"
                   clearable
                 />
+                <b-tooltip target="loss" placement='right' triggers="hover">
+                  KADEN DESCRIPTION
+                </b-tooltip>
               </div>
             </div>
           </div>
@@ -126,29 +166,41 @@
           <div class="component-container">
             <div class="inputContainer">
               <v-select
+                id="billing"
                 v-model="billing"
                 :options="['Residential', 'Industrial']"
                 placeholder="Select Billing Type"
                 label="Billing Type"
               >
               </v-select>
+              <b-tooltip target="billing" placement='right' triggers="hover">
+                The type of SaskPower billing.
+              </b-tooltip>
 
               <div style="grid-row: 1/-1">
                 <VueCtkDateTimePicker
+                  id="start"
                   v-model="startInput"
                   only-date
                   format="YYYY-MM-DD"
                   label="Start Date"
                 />
+                <b-tooltip target="start" placement='right' triggers="hover">
+                  The start date of analysis period.
+                </b-tooltip>
 
                 <br />
 
                 <VueCtkDateTimePicker
+                  id="end"
                   v-model="endInput"
                   only-date
                   format="YYYY-MM-DD"
                   label="End Date"
                 />
+                <b-tooltip target="end" placement='right' triggers="hover">
+                  The end date of analysis period.
+                </b-tooltip>
               </div>
             </div>
           </div>
