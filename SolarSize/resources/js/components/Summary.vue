@@ -1,7 +1,7 @@
 <template>
   <div class="summary-wrapper">
     <div>
-      <div class="estimation-info component-container" ><ROIText :propNumber="32" :propText="'Average Annual Generation: '" /></div>
+      <!-- <div class="estimation-info component-container" ><ROIText :propNumber="32" :propText="'Average Annual Generation: '" /></div> -->
       <highcharts
         :options="chartOptions"
         :series="series"
