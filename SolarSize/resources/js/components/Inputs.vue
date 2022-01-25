@@ -4,7 +4,7 @@
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
-            <div class="mapInputContainer">
+            <div class="inputContainer">
               <v-select
                 v-model="location"
                 :options="['New']"
@@ -59,7 +59,7 @@
 
               <div style="grid-row: 1/-1">
                 <Map ref="map" />
-                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -68,69 +68,55 @@
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
-            <br />
-            <table>
-              <tr>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueInputUi
-                    v-model="directionInput"
-                    label="Panel Direction"
-                    :dark="darkMode"
-                    :loader="loading"
-                    clearable
-                  />
-                </td>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueInputUi
-                    v-model="tiltInput"
-                    label="Module Tilt"
-                    type="number"
-                    :dark="darkMode"
-                    :loader="loading"
-                    clearable
-                  />
-                </td>
-                <td style="width: 10vw"><br /><br /></td>
-              </tr>
-              <tr>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueInputUi
-                    v-model="areaInput"
-                    label="Module Area"
-                    :dark="darkMode"
-                    :loader="loading"
-                    clearable
-                  />
-                </td>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueInputUi
-                    v-model="efficiencyInput"
-                    label="Module Efficiency"
-                    :dark="darkMode"
-                    :loader="loading"
-                    clearable
-                  />
-                </td>
-                <td style="width: 10vw"><br /><br /></td>
-              </tr>
-              <tr>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueInputUi
-                    v-model="lossInput"
-                    label="Loss Coefficient"
-                    :dark="darkMode"
-                    :loader="loading"
-                    clearable
-                  />
-                </td>
-              </tr>
-            </table>
-            <br />
+            <div class="inputContainer">
+              <VueInputUi
+                v-model="directionInput"
+                label="Panel Direction"
+                :dark="darkMode"
+                :loader="loading"
+                clearable
+              />
+
+              <br />
+
+              <VueInputUi
+                v-model="tiltInput"
+                label="Module Tilt"
+                type="number"
+                :dark="darkMode"
+                :loader="loading"
+              />
+
+              <br />
+
+              <VueInputUi
+                v-model="areaInput"
+                label="Module Area"
+                :dark="darkMode"
+                :loader="loading"
+                clearable
+              />
+
+              <div style="grid-row: 1/-1">
+                <VueInputUi
+                  v-model="efficiencyInput"
+                  label="Module Efficiency"
+                  :dark="darkMode"
+                  :loader="loading"
+                  clearable
+                />
+
+                <br />
+
+                <VueInputUi
+                  v-model="lossInput"
+                  label="Loss Coefficient"
+                  :dark="darkMode"
+                  :loader="loading"
+                  clearable
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -138,45 +124,33 @@
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
-            <br />
-            <table>
-              <tr>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <v-select
-                    v-model="billing"
-                    :options="['Residential', 'Industrial']"
-                    placeholder="Select Billing Type"
-                    label="Billing Type"
-                  >
-                  </v-select>
-                </td>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueCtkDateTimePicker
-                    v-model="startInput"
-                    only-date
-                    format="YYYY-MM-DD"
-                    label="Start Date"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw"><br /><br /></td>
-                <td style="width: 10vw"><br /><br /></td>
-                <td style="width: 35vw">
-                  <VueCtkDateTimePicker
-                    v-model="endInput"
-                    only-date
-                    format="YYYY-MM-DD"
-                    label="End Date"
-                  />
-                </td>
-                <td style="width: 10vw"><br /><br /></td>
-              </tr>
-            </table>
-            <br />
+            <div class="inputContainer">
+              <v-select
+                v-model="billing"
+                :options="['Residential', 'Industrial']"
+                placeholder="Select Billing Type"
+                label="Billing Type"
+              >
+              </v-select>
+
+              <div style="grid-row: 1/-1">
+                <VueCtkDateTimePicker
+                  v-model="startInput"
+                  only-date
+                  format="YYYY-MM-DD"
+                  label="Start Date"
+                />
+
+                <br />
+
+                <VueCtkDateTimePicker
+                  v-model="endInput"
+                  only-date
+                  format="YYYY-MM-DD"
+                  label="End Date"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
