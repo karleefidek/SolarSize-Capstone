@@ -139,7 +139,7 @@
                   clearable
                 />
                 <b-tooltip target="efficiency" placement='right' triggers="hover">
-                  KADEN DESCRIPTION
+                  The percentage of sunlight that hits the panel and is converted into electricity. (Entered as a decimal)
                 </b-tooltip>
 
                 <br />
@@ -153,7 +153,7 @@
                   clearable
                 />
                 <b-tooltip target="loss" placement='right' triggers="hover">
-                  KADEN DESCRIPTION
+                  The coefficient of losses from environmental factors and efficiency losses in inverters, cables, and panels. (Entered as a decimal)
                 </b-tooltip>
               </div>
             </div>
