@@ -130,20 +130,22 @@
               </b-tooltip>
 
               <div style="grid-row: 1/-1">
-                <VueInputUi
-                  id="efficiency"
-                  v-model="efficiencyInput"
-                  label="Module Efficiency"
-                  :dark="darkMode"
-                  :loader="loading"
-                  clearable
-                />
+                <p>
+                  <VueInputUi
+                    id="efficiency"
+                    v-model="efficiencyInput"
+                    label="Module Efficiency"
+                    :dark="darkMode"
+                    :loader="loading"
+                    clearable
+                  />
+                </p>  
                 <b-tooltip target="efficiency" placement='right' triggers="hover">
                   The percentage of sunlight that hits the panel and is converted into electricity. (Entered as a decimal)
                 </b-tooltip>
 
                 <br />
-
+        
                 <VueInputUi
                   id="loss"
                   v-model="lossInput"
@@ -178,27 +180,29 @@
               </b-tooltip>
 
               <div style="grid-row: 1/-1">
-                <VueCtkDateTimePicker
-                  id="start"
-                  v-model="startInput"
-                  only-date
-                  format="YYYY-MM-DD"
-                  label="Start Date"
-                />
-                <b-tooltip target="start" placement='right' triggers="hover">
+                <p id="startDate">
+                  <VueCtkDateTimePicker
+                    v-model="startInput"
+                    only-date
+                    format="YYYY-MM-DD"
+                    label="Start Date"
+                  />
+                </p>
+                <b-tooltip target="startDate" placement='right' triggers="hover">
                   The start date of analysis period.
                 </b-tooltip>
 
                 <br />
 
-                <VueCtkDateTimePicker
-                  id="end"
-                  v-model="endInput"
-                  only-date
-                  format="YYYY-MM-DD"
-                  label="End Date"
-                />
-                <b-tooltip target="end" placement='right' triggers="hover">
+                <p id="endDate">
+                  <VueCtkDateTimePicker
+                    v-model="endInput"
+                    only-date
+                    format="YYYY-MM-DD"
+                    label="End Date"
+                  />
+                </p>  
+                <b-tooltip target="endDate" placement='right' triggers="hover">
                   The end date of analysis period.
                 </b-tooltip>
               </div>
