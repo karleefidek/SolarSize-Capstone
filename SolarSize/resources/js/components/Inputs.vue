@@ -213,9 +213,16 @@
         </div>
       </div>
       <div class="submit-container">
-        <button type="submit" @click="submit" class="submit-button">
-          Calculate
-        </button>
+        <transition  name="component-fade" mode="out-in">
+
+          <button v-if="!loading" type="submit" @click="submit" class="submit-button" key="button">
+            Calculate
+          </button>
+
+          <LoadingIcon v-else key="loading-icon" />
+        </transition>
+
+
       </div>
     </form>
   </div>
@@ -233,6 +240,7 @@ import VueFileAgentStyles from "vue-file-agent/dist/vue-file-agent.css";
 import axios from "axios";
 import Modal from "./Modal";
 import Map from "./Map";
+import LoadingIcon from "./LoadingIcon"
 
 import { bus } from "../app";
 export default {
@@ -243,6 +251,7 @@ export default {
     VueCtkDateTimePicker,
     vSelect,
     Map,
+    LoadingIcon,
   },
   created() {
     bus.$on("latlongAdded", (latLong) => {
@@ -380,4 +389,5 @@ export default {
 </script>
 
 <style scoped src="../../css/app.css">
+
 </style>

@@ -67,7 +67,7 @@ export default {
             fillColor: {
               linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
               stops: [
-                [0, "rgba(58, 204, 188, 1)"],
+                [0, "#39dd73"],
                 [1, "rgba(255,255,255,.25)"],
               ],
             },
