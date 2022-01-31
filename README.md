@@ -10,6 +10,7 @@
     - [Project Introduction Wiki page](https://github.com/karleefidek/char-ENSE-Capstone/wiki/Project-Introduction)
 - [Vlog #2](https://www.youtube.com/watch?v=l39kQBDbjYQ)
 - [Vlog #3](https://www.youtube.com/watch?v=OXaExlkIzw8)
+- [Vlog #4](https://www.youtube.com/watch?v=oXmdjmmznls)
 
 ## Demo
 - Our live server can be found at http://34.217.14.16/
