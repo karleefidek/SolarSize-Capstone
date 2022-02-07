@@ -1,7 +1,7 @@
 <template>
   <l-map style="height: 100%" :zoom="zoom" :center="center" @click="addMarker">
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-    <l-marker :lat-lng="markerLatLng"></l-marker>
+    <l-marker :lat-lng="center"></l-marker>
   </l-map>
 </template>
 
@@ -33,7 +33,7 @@ export default {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 10,
+      zoom: 11,
       markerLatLng: L.latLng(50.4452, -104.6189),
     };
   },
