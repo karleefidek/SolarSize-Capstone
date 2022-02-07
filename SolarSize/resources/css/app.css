@@ -33,6 +33,12 @@ td {
     margin-top: 75px;
 }
 
+.input-address-grid{
+    display: grid;
+    grid-template-columns: 8fr 2fr;
+    margin-top: 20px;
+}
+
 .submit-button {
     margin-top: 20px;
     border: 2px solid #39dd73;
@@ -45,11 +51,11 @@ td {
     overflow: hidden;
     color: #838080;
     padding: 10px 10px;
+    font-size: small;
 }
 
 .map-button {
     margin: auto;
-    display: inline;
     border: 2px solid #3986dd;
     border-radius: 0.5rem;
     background: none;
@@ -59,6 +65,9 @@ td {
     position: relative;
     overflow: hidden;
     color: #838080;
+    font-size: small;
+    height: 60%;
+    width: 60%;
 }
 
 .submit-button:hover {

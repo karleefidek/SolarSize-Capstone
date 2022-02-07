@@ -13,8 +13,9 @@
                 label="Location"
               >
               </v-select>
-              <b-tooltip target="location" placement='right' triggers="hover">
-                Either a previously saved location or new location (existing locations will auto-populate fields).
+              <b-tooltip target="location" placement="right" triggers="hover">
+                Either a previously saved location or new location (existing
+                locations will auto-populate fields).
               </b-tooltip>
 
               <VueInputUi
@@ -25,8 +26,9 @@
                 :dark="darkMode"
                 :loader="loading"
               />
-              <b-tooltip target="latitude" placement='right' triggers="hover">
-                The latitude of the building location (auto-populated by selecting a location on the map).
+              <b-tooltip target="latitude" placement="right" triggers="hover">
+                The latitude of the building location (auto-populated by
+                selecting a location on the map).
               </b-tooltip>
 
               <VueInputUi
@@ -37,8 +39,9 @@
                 :dark="darkMode"
                 :loader="loading"
               />
-              <b-tooltip target="longitude" placement='right' triggers="hover">
-                The longitude of the building location (auto-populated by selecting a location on the map).
+              <b-tooltip target="longitude" placement="right" triggers="hover">
+                The longitude of the building location (auto-populated by
+                selecting a location on the map).
               </b-tooltip>
 
               <VueInputUi
@@ -49,7 +52,7 @@
                 :dark="darkMode"
                 :loader="loading"
               />
-              <b-tooltip target="timeZone" placement='right' triggers="hover">
+              <b-tooltip target="timeZone" placement="right" triggers="hover">
                 The time zone the building is located in.
               </b-tooltip>
 
@@ -73,12 +76,40 @@
                 :uploadHeaders="{}"
                 @select="getData($event)"
               ></VueFileAgent>
-              <b-tooltip target="fileUpload" placement='right' triggers="hover">
-                Upload a .csv file containing building consumption data for consumption/generation overlay
+              <b-tooltip target="fileUpload" placement="right" triggers="hover">
+                Upload a .csv file containing building consumption data for
+                consumption/generation overlay
               </b-tooltip>
 
-              <div style="grid-row: 1/-1">
-                <Map ref="map" />
+              <div style="grid-row: 1/-2">
+                <Map ref="map" :center="mapCenter" />
+                <div class="input-address-grid">
+                  <VueInputUi
+                    id="address"
+                    v-model="address"
+                    :options="addressAutoFill"
+                    placeholder="Select a Location"
+                    label="Enter your Address"
+                    :dark="darkMode"
+                    :loader="loading"
+                  />
+                  <button
+                    v-if="!loading"
+                    type="button"
+                    @click="getCoordsFromAddress"
+                    class="map-button"
+                    key="addressButton"
+                  >
+                    Get
+                  </button>
+                  <b-tooltip
+                    target="address"
+                    placement="right"
+                    triggers="hover"
+                  >
+                    Enter an address to find on the map.
+                  </b-tooltip>
+                </div>
               </div>
             </div>
           </div>
@@ -97,7 +128,7 @@
                 :loader="loading"
                 clearable
               />
-              <b-tooltip target="direction" placement='right' triggers="hover">
+              <b-tooltip target="direction" placement="right" triggers="hover">
                 The direction the panel is facing. Ex. S30W
               </b-tooltip>
 
@@ -111,7 +142,7 @@
                 :dark="darkMode"
                 :loader="loading"
               />
-              <b-tooltip target="tilt" placement='right' triggers="hover">
+              <b-tooltip target="tilt" placement="right" triggers="hover">
                 The angle at which the solar panel is installed.
               </b-tooltip>
 
@@ -125,7 +156,7 @@
                 :loader="loading"
                 clearable
               />
-              <b-tooltip target="area" placement='right' triggers="hover">
+              <b-tooltip target="area" placement="right" triggers="hover">
                 The area of a single panel. (Size of the panel LxH)
               </b-tooltip>
 
@@ -139,13 +170,18 @@
                     :loader="loading"
                     clearable
                   />
-                </p>  
-                <b-tooltip target="efficiency" placement='right' triggers="hover">
-                  The percentage of sunlight that hits the panel and is converted into electricity. (Entered as a decimal)
+                </p>
+                <b-tooltip
+                  target="efficiency"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The percentage of sunlight that hits the panel and is
+                  converted into electricity. (Entered as a decimal)
                 </b-tooltip>
 
                 <br />
-        
+
                 <VueInputUi
                   id="loss"
                   v-model="lossInput"
@@ -154,8 +190,10 @@
                   :loader="loading"
                   clearable
                 />
-                <b-tooltip target="loss" placement='right' triggers="hover">
-                  The coefficient of losses from environmental factors and efficiency losses in inverters, cables, and panels. (Entered as a decimal)
+                <b-tooltip target="loss" placement="right" triggers="hover">
+                  The coefficient of losses from environmental factors and
+                  efficiency losses in inverters, cables, and panels. (Entered
+                  as a decimal)
                 </b-tooltip>
               </div>
             </div>
@@ -175,7 +213,7 @@
                 label="Billing Type"
               >
               </v-select>
-              <b-tooltip target="billing" placement='right' triggers="hover">
+              <b-tooltip target="billing" placement="right" triggers="hover">
                 The type of SaskPower billing.
               </b-tooltip>
 
@@ -188,7 +226,11 @@
                     label="Start Date"
                   />
                 </p>
-                <b-tooltip target="startDate" placement='right' triggers="hover">
+                <b-tooltip
+                  target="startDate"
+                  placement="right"
+                  triggers="hover"
+                >
                   The start date of analysis period.
                 </b-tooltip>
 
@@ -201,8 +243,8 @@
                     format="YYYY-MM-DD"
                     label="End Date"
                   />
-                </p>  
-                <b-tooltip target="endDate" placement='right' triggers="hover">
+                </p>
+                <b-tooltip target="endDate" placement="right" triggers="hover">
                   The end date of analysis period.
                 </b-tooltip>
               </div>
@@ -211,16 +253,19 @@
         </div>
       </div>
       <div class="submit-container">
-        <transition  name="component-fade" mode="out-in">
-
-          <button v-if="!loading" type="submit" @click="submit" class="submit-button" key="button">
+        <transition name="component-fade" mode="out-in">
+          <button
+            v-if="!loading"
+            type="submit"
+            @click="submit"
+            class="submit-button"
+            key="button"
+          >
             Calculate
           </button>
 
           <LoadingIcon v-else key="loading-icon" />
         </transition>
-
-
       </div>
     </form>
   </div>
@@ -238,8 +283,8 @@ import VueFileAgentStyles from "vue-file-agent/dist/vue-file-agent.css";
 import axios from "axios";
 import Modal from "./Modal";
 import Map from "./Map";
-import LoadingIcon from "./LoadingIcon"
-
+import LoadingIcon from "./LoadingIcon";
+import L from "leaflet";
 import { bus } from "../app";
 export default {
   name: "Generation",
@@ -260,6 +305,7 @@ export default {
   },
   data: function () {
     return {
+      mapCenter: L.latLng(50.4452, -104.6189),
       location: "",
       latInput: "",
       longInput: "",
@@ -277,6 +323,8 @@ export default {
       loading: false,
       fileRecords: [],
       consumption: [],
+      addressAutoFill: [],
+      address: "",
     };
   },
   methods: {
@@ -293,13 +341,12 @@ export default {
           results = parsedResults;
           var arrResults = [];
           for (var entry of results.data) {
-
             let totalConsumption = 0;
             let mainPower = entry["Main Power"];
             let inverter1 = entry["Inverter #1"];
             let inverters = entry["Inverters #2 - #5"];
             let totalInverters = Math.abs(inverter1 + inverters);
-            totalConsumption = (totalInverters + mainPower)*1000; //kw->w
+            totalConsumption = (totalInverters + mainPower) * 1000; //kw->w
 
             arrResults.push([
               new Date(entry["Date/Time"]).getTime(),
@@ -369,7 +416,7 @@ export default {
             formattedDataGeneration,
             this.consumption,
             new Date(this.startInput).getTime(),
-           new Date(this.endInput).getTime(),
+            new Date(this.endInput).getTime()
           );
         })
         .catch((error) => {
@@ -382,10 +429,34 @@ export default {
     showMap() {
       this.$emit("show");
     },
+    getCoordsFromAddress(e) {
+      let params = { address: this.address };
+
+      axios
+        .get(
+          "api/getCoords",
+          { params },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          this.latInput = response.data["lat"];
+          this.longInput = response.data["long"];
+          this.mapCenter = L.latLng(this.latInput, this.longInput);
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+            this.loading = false;
+          }
+        });
+    },
   },
 };
 </script>
 
 <style scoped src="../../css/app.css">
-
 </style>
