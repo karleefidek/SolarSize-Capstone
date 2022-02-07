@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit="submit">
+    <form @submit="submit" v-on:keydown.enter.prevent>
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
@@ -92,6 +92,7 @@
                     label="Enter your Address"
                     :dark="darkMode"
                     :loader="loading"
+                    @keyup.enter.prevent="getCoordsFromAddress"
                   />
                   <button
                     v-if="!loading"
