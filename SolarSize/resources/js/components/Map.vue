@@ -1,7 +1,13 @@
 <template>
-  <l-map style="height: 100%" :zoom="zoom" :center="center" @click="addMarker">
+  <l-map
+    style="height: 100%"
+    :zoom="zoom"
+    :center="center"
+    @click="addMarker"
+    @
+  >
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-    <l-marker :lat-lng="center"></l-marker>
+    <l-marker :lat-lng="markerLatLng"></l-marker>
   </l-map>
 </template>
 
@@ -27,6 +33,11 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
+  },
+  watch: {
+    center: function (val) {
+      this.markerLatLng = val;
+    },
   },
   data() {
     return {
