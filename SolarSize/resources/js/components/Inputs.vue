@@ -8,7 +8,7 @@
               <v-select
                 id="location"
                 v-model="location"
-                :options="['New']"
+                :options="['Test Fill Entry']"
                 placeholder="Select a Location"
                 label="Location"
               >
@@ -328,11 +328,26 @@ export default {
       address: "",
     };
   },
+  watch: {
+    //TEST FILL METHOD TO FILL WITH PRESET VALUES
+    location: function (value) {
+      console.log(value);
+      if (value === "Test Fill Entry") {
+        this.latInput = "50.4583783";
+        this.longInput = "-104.62211";
+        this.directionInput = "0";
+        this.zoneInput = "-6";
+        this.areaInput = "1.5";
+        this.efficiencyInput = "0.8";
+        this.startInput = "2021-01-01";
+        this.endInput = "2021-05-01";
+        this.lossInput = "0.127";
+      }
+    },
+  },
   methods: {
     getData(fileRecords) {
-      let reader = new FileReader();
       let file = fileRecords[0].file;
-      let test = this.$papa.parse(file);
 
       var results;
       this.$papa.parse(file, {
@@ -408,16 +423,18 @@ export default {
           this.loading = false;
           var dateData = response.data[1];
           var powerData = response.data[0];
+          console.log(powerData);
           var formattedDataGeneration = dateData.map((e, i) => [
             new Date(e).getTime(),
-            Number(powerData[i]),
+            isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]), // Converts NaN to 0 for
           ]);
           bus.$emit(
             "generationSuccess",
             formattedDataGeneration,
             this.consumption,
             new Date(this.startInput).getTime(),
-            new Date(this.endInput).getTime()
+            new Date(this.endInput).getTime(),
+            this.zoneInput
           );
         })
         .catch((error) => {
@@ -427,9 +444,7 @@ export default {
           }
         });
     },
-    showMap() {
-      this.$emit("show");
-    },
+
     getCoordsFromAddress(e) {
       let params = { address: this.address };
 
