@@ -1,7 +1,38 @@
 <template>
   <div class="summary-wrapper">
+    <div class="calculation-items">
+      <div class="component-container">
+        <ROIText>
+          <template v-slot:header>
+            <h3>
+              <span>
+                Total Return on Investment:
+                <span
+                  v-bind:class="returnTotal < 0 ? 'numberRed' : 'numberGreen'"
+                >
+                  $<AnimatedNumber :number="returnTotal"></AnimatedNumber>
+                </span>
+              </span>
+            </h3>
+          </template>
+
+          <template v-slot:footer> </template>
+        </ROIText>
+      </div>
+      <div class="component-container">
+        <ROIText>
+          <template v-slot:header>
+            <h3>GENERATION STATS</h3>
+          </template>
+
+          <p>A paragraph for the main content.</p>
+          <p>And another one.</p>
+
+          <template v-slot:footer> </template>
+        </ROIText>
+      </div>
+    </div>
     <div>
-      <!-- <div class="estimation-info component-container" ><ROIText :propNumber="32" :propText="'Average Annual Generation: '" /></div> -->
       <highcharts
         :options="chartOptions"
         :series="series"
@@ -18,12 +49,15 @@ import { bus } from "../app";
 import { Chart } from "highcharts-vue";
 import Highcharts from "highcharts";
 import ROIText from "./ROIText";
+import AnimatedNumber from "./AnimatedNumber";
 export default {
   name: "Summary",
-  components: { highcharts: Chart, ROIText },
+  components: { highcharts: Chart, ROIText, AnimatedNumber },
   data: function () {
     return {
-      overGenerationTotal: 0,
+      overGenerationTotal: -1000,
+      number: 0,
+      costOfKWH: 0.17,
       chartOptions: {
         chart: {
           type: "line",
@@ -110,7 +144,25 @@ export default {
       },
     };
   },
-  methods: {},
+  computed: {
+    returnTotal: function () {
+      return this.costOfKWH * this.overGenerationTotal;
+    },
+  },
+
+  methods: {
+    // @params estimateData    Array
+    //        consumptionData Array
+    sumOverGenerationEstimate: function (estimateData, consumptionData) {
+      var overGenerationArray = estimateData.map((element, index) => {
+        return element[1] - consumptionData[index][1];
+      });
+      return overGenerationArray.reduce(
+        (previousEntry, currentEntry) => previousEntry + currentEntry,
+        0
+      );
+    },
+  },
   created() {
     bus.$on(
       "generationSuccess",
@@ -121,18 +173,10 @@ export default {
         this.chartOptions.xAxis.max = endTime;
         this.chartOptions.time.timezoneOffset = -offSet * 60; //Offset UTC west = negative east = positive, in minutes
 
-        var overGenerationArray = estimateData.map((element, index) => {
-          return element - consumptionData[index];
-        });
-
-        this.overGenerationTotal = estimateData.reduce(
-          array.reduce(
-            (previousEntry, currentEntry) => previousEntry + currentEntry,
-            0
-          )
+        this.overGenerationTotal = this.sumOverGenerationEstimate(
+          estimateData,
+          consumptionData
         );
-
-        console.log(overGenerationArray, this.overGenerationTotal);
       }
     );
 
@@ -167,5 +211,23 @@ export default {
 .component-container:hover {
   box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
     0 2px 4px 0 rgba(232, 237, 250, 0.5);
+}
+
+.calculation-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 3em;
+  grid-template-areas: ". .";
+}
+
+.numberGreen {
+  text-decoration: bold;
+  color: green;
+}
+
+.numberRed {
+  text-decoration: bold;
+  color: red;
 }
 </style>
