@@ -423,7 +423,6 @@ export default {
           this.loading = false;
           var dateData = response.data[1];
           var powerData = response.data[0];
-          console.log(powerData);
           var formattedDataGeneration = dateData.map((e, i) => [
             new Date(e).getTime(),
             isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]), // Converts NaN to 0 for
