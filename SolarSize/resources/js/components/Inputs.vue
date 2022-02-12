@@ -5,14 +5,16 @@
         <div class="container">
           <div class="component-container">
             <div class="inputContainer">
-              <v-select
-                id="location"
-                v-model="location"
-                :options="['Test Fill Entry']"
-                placeholder="Select a Location"
-                label="Location"
-              >
-              </v-select>
+              <p>
+                <v-select
+                  id="location"
+                  v-model="location"
+                  :options="['Test Fill Entry']"
+                  placeholder="Select a Location"
+                  label="Location"
+                >
+                </v-select>
+              </p>
               <b-tooltip target="location" placement="right" triggers="hover">
                 Either a previously saved location or new location (existing
                 locations will auto-populate fields).
