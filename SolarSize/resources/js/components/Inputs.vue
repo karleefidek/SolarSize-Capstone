@@ -362,7 +362,7 @@ export default {
             let inverter1 = entry["Inverter #1"];
             let inverters = entry["Inverters #2 - #5"];
             let totalInverters = Math.abs(inverter1 + inverters);
-            totalConsumption = (totalInverters + mainPower) * 1000; //kw->w
+            totalConsumption = totalInverters + mainPower;
 
             arrResults.push([
               new Date(entry["Date/Time"]).getTime(),
@@ -425,14 +425,17 @@ export default {
           var powerData = response.data[0];
           var formattedDataGeneration = dateData.map((e, i) => [
             new Date(e).getTime(),
-            isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]), // Converts NaN to 0 for
+            isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]) / 1000, // Converts NaN to 0, WH to KWH
           ]);
+          var startDate = new Date(this.startInput);
+          var endDate = new Date(this.endInput);
+          endDate.setDate(endDate.getDate() + 1);
           bus.$emit(
             "generationSuccess",
             formattedDataGeneration,
             this.consumption,
-            new Date(this.startInput).getTime(),
-            new Date(this.endInput).getTime(),
+            startDate.getTime(),
+            endDate.getTime(),
             this.zoneInput
           );
         })
