@@ -33,6 +33,7 @@
                 The latitude of the building location (auto-populated by
                 selecting a location on the map).
               </b-tooltip>
+              <span style="color:red" v-if="msg.latInput">{{msg.latInput}}</span>
 
               <VueInputUi
                 id="longitude"
@@ -47,6 +48,7 @@
                 The longitude of the building location (auto-populated by
                 selecting a location on the map).
               </b-tooltip>
+              <span style="color:red" v-if="msg.longInput">{{msg.longInput}}</span>
 
               <VueInputUi
                 id="timeZone"
@@ -353,6 +355,14 @@ export default {
         this.lossInput = "0.127";
       }
     },
+    latInput(value){
+      this.latInput = value;
+      this.validateLat(value);
+    },
+    longInput(value){
+      this.longInput = value;
+      this.validateLong(value);
+    },
     tiltInput(value){
       this.tiltInput = value;
       this.validateTilt(value);
@@ -500,6 +510,22 @@ export default {
             this.loading = false;
           }
         });
+    },
+    validateLat(value){
+      if (value >= -90 && value <= 90)
+      {
+        this.msg['latInput'] = '';
+      } else{
+        this.msg['latInput'] = 'Invalid latitude - must be between -90 and 90';
+      } 
+    },
+    validateLong(value){
+      if (value >= -180 && value <= 180)
+      {
+        this.msg['longInput'] = '';
+      } else{
+        this.msg['longInput'] = 'Invalid longitude - must be between -180 and 180';
+      } 
     },
     validateTilt(value){
       if (value >= 0 && value < 90)
