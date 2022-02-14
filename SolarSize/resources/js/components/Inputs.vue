@@ -26,12 +26,14 @@
                 label="Latitude"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="latitude" placement="right" triggers="hover">
                 The latitude of the building location (auto-populated by
                 selecting a location on the map).
               </b-tooltip>
+              <span style="color:red" v-if="msg.latInput">{{msg.latInput}}</span>
 
               <VueInputUi
                 id="longitude"
@@ -39,12 +41,14 @@
                 label="Longitude"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="longitude" placement="right" triggers="hover">
                 The longitude of the building location (auto-populated by
                 selecting a location on the map).
               </b-tooltip>
+              <span style="color:red" v-if="msg.longInput">{{msg.longInput}}</span>
 
               <VueInputUi
                 id="timeZone"
@@ -52,6 +56,7 @@
                 label="Time Zone"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="timeZone" placement="right" triggers="hover">
@@ -128,12 +133,14 @@
                 v-model="directionInput"
                 label="Panel Direction"
                 :dark="darkMode"
+                required
                 :loader="loading"
                 clearable
               />
               <b-tooltip target="direction" placement="right" triggers="hover">
                 The direction the panel is facing. Ex. S30W
               </b-tooltip>
+              <span style="color:red" v-if="msg.directionInput">{{msg.directionInput}}</span>
 
               <br />
 
@@ -143,11 +150,13 @@
                 label="Module Tilt"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="tilt" placement="right" triggers="hover">
                 The angle at which the solar panel is installed.
               </b-tooltip>
+              <span style="color:red" v-if="msg.tiltInput">{{msg.tiltInput}}</span>
 
               <br />
 
@@ -155,13 +164,16 @@
                 id="area"
                 v-model="areaInput"
                 label="Module Area"
+                type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
                 clearable
               />
               <b-tooltip target="area" placement="right" triggers="hover">
                 The area of a single panel. (Size of the panel LxH)
               </b-tooltip>
+              <span style="color:red" v-if="msg.areaInput">{{msg.areaInput}}</span>
 
               <div style="grid-row: 1/-1">
                 <p>
@@ -170,18 +182,16 @@
                     v-model="efficiencyInput"
                     label="Module Efficiency"
                     :dark="darkMode"
+                    required
                     :loader="loading"
                     clearable
                   />
                 </p>
-                <b-tooltip
-                  target="efficiency"
-                  placement="right"
-                  triggers="hover"
-                >
+                <b-tooltip target="efficiency" placement="right" triggers="hover">
                   The percentage of sunlight that hits the panel and is
                   converted into electricity. (Entered as a decimal)
                 </b-tooltip>
+                <span style="color:red" v-if="msg.efficiencyInput">{{msg.efficiencyInput}}</span>
 
                 <br />
 
@@ -190,6 +200,7 @@
                   v-model="lossInput"
                   label="Loss Coefficient"
                   :dark="darkMode"
+                  required
                   :loader="loading"
                   clearable
                 />
@@ -198,6 +209,7 @@
                   efficiency losses in inverters, cables, and panels. (Entered
                   as a decimal)
                 </b-tooltip>
+                <span style="color:red" v-if="msg.lossInput">{{msg.lossInput}}</span>
               </div>
             </div>
           </div>
@@ -229,11 +241,7 @@
                     label="Start Date"
                   />
                 </p>
-                <b-tooltip
-                  target="startDate"
-                  placement="right"
-                  triggers="hover"
-                >
+                <b-tooltip target="startDate" placement="right" triggers="hover">
                   The start date of analysis period.
                 </b-tooltip>
 
@@ -328,6 +336,7 @@ export default {
       consumption: [],
       addressAutoFill: [],
       address: "",
+      msg: []
     };
   },
   watch: {
@@ -346,6 +355,34 @@ export default {
         this.lossInput = "0.127";
       }
     },
+    latInput(value){
+      this.latInput = value;
+      this.validateLat(value);
+    },
+    longInput(value){
+      this.longInput = value;
+      this.validateLong(value);
+    },
+    tiltInput(value){
+      this.tiltInput = value;
+      this.validateTilt(value);
+    },
+    directionInput(value){
+      this.directionInput = value;
+      this.validateDirection(value);
+    },
+    areaInput(value){
+      this.areaInput = value;
+      this.validateArea(value);
+    },
+    efficiencyInput(value){
+      this.afficiencyInput = value;
+      this.validateEfficiency(value);
+    },
+    lossInput(value){
+      this.lossInput = value;
+      this.validateLoss(value);
+    }
   },
   methods: {
     getData(fileRecords) {
@@ -474,6 +511,62 @@ export default {
           }
         });
     },
+    validateLat(value){
+      if (value >= -90 && value <= 90)
+      {
+        this.msg['latInput'] = '';
+      } else{
+        this.msg['latInput'] = 'Invalid latitude - must be between -90 and 90';
+      } 
+    },
+    validateLong(value){
+      if (value >= -180 && value <= 180)
+      {
+        this.msg['longInput'] = '';
+      } else{
+        this.msg['longInput'] = 'Invalid longitude - must be between -180 and 180';
+      } 
+    },
+    validateTilt(value){
+      if (value >= 0 && value < 90)
+      {
+        this.msg['tiltInput'] = '';
+      } else{
+        this.msg['tiltInput'] = 'Invalid module tilt - must be an angle between 0 and 89';
+      } 
+    },
+    validateDirection(value){
+      if (value >= 0 && value < 360)
+      {
+        this.msg['directionInput'] = '';
+      } else{
+        this.msg['directionInput'] = 'Invalid panel direction - must be an angle between 0 and 359';
+      } 
+    },
+    validateArea(value){
+      if (value > 0)
+      {
+        this.msg['areaInput'] = '';
+      } else{
+        this.msg['areaInput'] = 'Invalid module area - must be greater than 0';
+      } 
+    },
+    validateEfficiency(value){
+      if (value > 0 && value < 1)
+      {
+        this.msg['efficiencyInput'] = '';
+      } else{
+        this.msg['efficiencyInput'] = 'Invalid module efficiency - must be between 0 and 1 (1 - decimal value of percentage)';
+      } 
+    },
+    validateLoss(value){
+      if (value > 0 && value < 1)
+      {
+        this.msg['lossInput'] = '';
+      } else{
+        this.msg['lossInput'] = 'Invalid loss coefficient - must be between 0 and 1';
+      } 
+    }
   },
 };
 </script>
