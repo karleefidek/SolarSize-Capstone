@@ -29,7 +29,11 @@
               v-model="costOfKWH"
               id="costOfKWH"
             />
-            ${{ costOfKWH }}/KWH
+            <VueInputUi
+              id="costOfKWH"
+              v-model="costOfKWH"
+              label="Cost of KWH/KWH"
+            />
             <label for="costOfPower">Value of Credit </label>
             <input
               type="range"
@@ -39,7 +43,11 @@
               v-model="valueOfOverCredit"
               id="valueOfCredit"
             />
-            ${{ valueOfOverCredit }}/KWH
+            <VueInputUi
+              id="valueOfOverCredit"
+              v-model="valueOfOverCredit"
+              label="Value of Credit /KWH"
+            />
             <VueInputUi
               id="costOfInvestment"
               v-model="costOfInvestment"
