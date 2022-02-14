@@ -45,6 +45,7 @@
               v-model="costOfInvestment"
               label="Cost Of Installation"
             />
+            <highcharts :options="pieChartOptions"> </highcharts>
           </template>
           <template v-slot:footer> </template>
         </ROIText>
@@ -96,6 +97,54 @@ export default {
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
       costOfInvestment: 100,
+      pieChartOptions: {
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: "pie",
+        },
+        title: {
+          text: "Full Credit Generation Value Vs. Over Generation Value",
+        },
+        tooltip: {
+          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+        },
+        accessibility: {
+          point: {
+            valueSuffix: "%",
+          },
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: "pointer",
+            dataLabels: {
+              enabled: true,
+              format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+            },
+          },
+        },
+        series: [
+          {
+            name: "Generated",
+            colorByPoint: true,
+            data: [
+              {
+                name: "Over Generation Value",
+                y: 70,
+              },
+              {
+                name: "Full Credit Value",
+                y: 30,
+              },
+            ],
+          },
+        ],
+        credits: {
+          enabled: false,
+        },
+      },
       chartOptions: {
         chart: {
           type: "line",
@@ -214,7 +263,16 @@ export default {
       return this.estimateTotal - this.overGenerationTotal;
     },
   },
-
+  watch: {
+    costOfKWH: function () {
+      this.pieChartOptions.series[0].data[1].y =
+        this.fullCreditConsumptionTotal * this.costOfKWH;
+    },
+    valueOfOverCredit: function () {
+      this.pieChartOptions.series[0].data[0].y =
+        this.overGenerationTotal * this.valueOfOverCredit;
+    },
+  },
   methods: {
     sumOverGenerationEstimate: function (
       estimateDataObject,
