@@ -56,8 +56,14 @@
             <h3>GENERATION STATS</h3>
           </template>
 
-          <p>A paragraph for the main content.</p>
-          <p>And another one.</p>
+          <p>Annual KWH Generated: {{sumTotalGenerationEstimate(estimateMap)}} KWH</p>
+
+          <highcharts
+            :options="dailyColumnChartOptions"
+            :series="series"
+            ref="chartComponent"
+            class="component-container"
+          ></highcharts>
 
           <template v-slot:footer> </template>
         </ROIText>
@@ -92,7 +98,6 @@ export default {
       // This helps to align the estimate and cosumption values together when doing calculations between them.
       consumptionMap: Object,
       estimateMap: Object,
-
       number: 0,
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
@@ -229,6 +234,62 @@ export default {
           },
         ],
       },
+      dailyColumnChartOptions: {
+        chart: {
+          type: "column",
+        },
+        title: {
+          text: "Annual KWH Generated",
+          align: "center",
+        },
+        credits: {
+          enabled: false,
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+              '<td style="padding:0"><b>{point.y:.1f} KWH</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+        },
+        xAxis: {
+        categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'KWH'
+        }
+    },
+        plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+        },
+        series: [{
+          name: "Generated",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        },{
+          name: "Consumed",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        }],
+      },
     };
   },
   computed: {
@@ -292,6 +353,33 @@ export default {
         0
       );
     },
+    sumTotalGenerationEstimate: function (
+      estimateDataObject
+    ) {
+      var totalGenerationEstimate = 0;
+      for (const timeKey in estimateDataObject) {
+        totalGenerationEstimate = totalGenerationEstimate + estimateDataObject[timeKey];
+      }
+      return totalGenerationEstimate;
+    },
+    sumAnnualGenerationEstimate: function (
+      estimateDataObject,
+      consumptionDataObject
+    ) {
+      var generationArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (const timeKey in estimateDataObject) {
+        var date = new Date(timeKey);
+        generationArray[date.getMonth()] += estimateDataObject[timeKey];
+      }
+      this.dailyColumnChartOptions.series[0].data = generationArray;
+
+      var consumptionArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (const timeKey in consumptionDataObject) {
+        var date = new Date(timeKey);
+        consumptionArray[date.getMonth()] += consumptionDataObject[timeKey];
+      }
+      this.dailyColumnChartOptions.series[1].data = consumptionArray;
+    },
   },
   created() {
     bus.$on(
@@ -310,6 +398,8 @@ export default {
         this.estimateMap = Object.assign(
           ...estimateData.map(([key, value]) => ({ [key]: value }))
         );
+
+        sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
       }
     );
 
