@@ -138,6 +138,7 @@
               <b-tooltip target="direction" placement="right" triggers="hover">
                 The direction the panel is facing. Ex. S30W
               </b-tooltip>
+              <span style="color:red" v-if="msg.directionInput">{{msg.directionInput}}</span>
 
               <br />
 
@@ -153,6 +154,7 @@
               <b-tooltip target="tilt" placement="right" triggers="hover">
                 The angle at which the solar panel is installed.
               </b-tooltip>
+              <span style="color:red" v-if="msg.tiltInput">{{msg.tiltInput}}</span>
 
               <br />
 
@@ -160,6 +162,7 @@
                 id="area"
                 v-model="areaInput"
                 label="Module Area"
+                type="number"
                 :dark="darkMode"
                 required
                 :loader="loading"
@@ -168,6 +171,7 @@
               <b-tooltip target="area" placement="right" triggers="hover">
                 The area of a single panel. (Size of the panel LxH)
               </b-tooltip>
+              <span style="color:red" v-if="msg.areaInput">{{msg.areaInput}}</span>
 
               <div style="grid-row: 1/-1">
                 <p>
@@ -185,6 +189,7 @@
                   The percentage of sunlight that hits the panel and is
                   converted into electricity. (Entered as a decimal)
                 </b-tooltip>
+                <span style="color:red" v-if="msg.efficiencyInput">{{msg.efficiencyInput}}</span>
 
                 <br />
 
@@ -202,6 +207,7 @@
                   efficiency losses in inverters, cables, and panels. (Entered
                   as a decimal)
                 </b-tooltip>
+                <span style="color:red" v-if="msg.lossInput">{{msg.lossInput}}</span>
               </div>
             </div>
           </div>
@@ -328,6 +334,7 @@ export default {
       consumption: [],
       addressAutoFill: [],
       address: "",
+      msg: []
     };
   },
   watch: {
@@ -346,6 +353,16 @@ export default {
         this.lossInput = "0.127";
       }
     },
+    tiltInput(value){
+      // binding this to the data value in the email input
+      this.tiltInput = value;
+      this.validateTilt(value);
+    },
+    directionInput(value){
+      // binding this to the data value in the email input
+      this.directionInput = value;
+      this.validateDirection(value);
+    }
   },
   methods: {
     getData(fileRecords) {
@@ -474,6 +491,22 @@ export default {
           }
         });
     },
+    validateTilt(value){
+      if (value >= 0 && value < 90)
+      {
+        this.msg['tiltInput'] = '';
+      } else{
+        this.msg['tiltInput'] = 'Invalid module tilt - must be an angle between 0 and 89';
+      } 
+    },
+    validateDirection(value){
+      if (value >= 0 && value < 360)
+      {
+        this.msg['directionInput'] = '';
+      } else{
+        this.msg['directionInput'] = 'Invalid panel direction - must be an angle between 0 and 359';
+      } 
+    }
   },
 };
 </script>
