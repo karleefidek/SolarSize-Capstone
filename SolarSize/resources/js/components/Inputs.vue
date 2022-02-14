@@ -26,6 +26,7 @@
                 label="Latitude"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="latitude" placement="right" triggers="hover">
@@ -39,6 +40,7 @@
                 label="Longitude"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="longitude" placement="right" triggers="hover">
@@ -52,6 +54,7 @@
                 label="Time Zone"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="timeZone" placement="right" triggers="hover">
@@ -128,6 +131,7 @@
                 v-model="directionInput"
                 label="Panel Direction"
                 :dark="darkMode"
+                required
                 :loader="loading"
                 clearable
               />
@@ -143,6 +147,7 @@
                 label="Module Tilt"
                 type="number"
                 :dark="darkMode"
+                required
                 :loader="loading"
               />
               <b-tooltip target="tilt" placement="right" triggers="hover">
@@ -156,6 +161,7 @@
                 v-model="areaInput"
                 label="Module Area"
                 :dark="darkMode"
+                required
                 :loader="loading"
                 clearable
               />
@@ -170,15 +176,12 @@
                     v-model="efficiencyInput"
                     label="Module Efficiency"
                     :dark="darkMode"
+                    required
                     :loader="loading"
                     clearable
                   />
                 </p>
-                <b-tooltip
-                  target="efficiency"
-                  placement="right"
-                  triggers="hover"
-                >
+                <b-tooltip target="efficiency" placement="right" triggers="hover">
                   The percentage of sunlight that hits the panel and is
                   converted into electricity. (Entered as a decimal)
                 </b-tooltip>
@@ -190,6 +193,7 @@
                   v-model="lossInput"
                   label="Loss Coefficient"
                   :dark="darkMode"
+                  required
                   :loader="loading"
                   clearable
                 />
@@ -229,11 +233,7 @@
                     label="Start Date"
                   />
                 </p>
-                <b-tooltip
-                  target="startDate"
-                  placement="right"
-                  triggers="hover"
-                >
+                <b-tooltip target="startDate" placement="right" triggers="hover">
                   The start date of analysis period.
                 </b-tooltip>
 
