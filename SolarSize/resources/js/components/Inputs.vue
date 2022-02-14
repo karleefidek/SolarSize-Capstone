@@ -354,14 +354,24 @@ export default {
       }
     },
     tiltInput(value){
-      // binding this to the data value in the email input
       this.tiltInput = value;
       this.validateTilt(value);
     },
     directionInput(value){
-      // binding this to the data value in the email input
       this.directionInput = value;
       this.validateDirection(value);
+    },
+    areaInput(value){
+      this.areaInput = value;
+      this.validateArea(value);
+    },
+    efficiencyInput(value){
+      this.afficiencyInput = value;
+      this.validateEfficiency(value);
+    },
+    lossInput(value){
+      this.lossInput = value;
+      this.validateLoss(value);
     }
   },
   methods: {
@@ -505,6 +515,30 @@ export default {
         this.msg['directionInput'] = '';
       } else{
         this.msg['directionInput'] = 'Invalid panel direction - must be an angle between 0 and 359';
+      } 
+    },
+    validateArea(value){
+      if (value > 0)
+      {
+        this.msg['areaInput'] = '';
+      } else{
+        this.msg['areaInput'] = 'Invalid module area - must be greater than 0';
+      } 
+    },
+    validateEfficiency(value){
+      if (value > 0 && value < 1)
+      {
+        this.msg['efficiencyInput'] = '';
+      } else{
+        this.msg['efficiencyInput'] = 'Invalid module efficiency - must be between 0 and 1 (1 - decimal value of percentage)';
+      } 
+    },
+    validateLoss(value){
+      if (value > 0 && value < 1)
+      {
+        this.msg['lossInput'] = '';
+      } else{
+        this.msg['lossInput'] = 'Invalid loss coefficient - must be between 0 and 1';
       } 
     }
   },
