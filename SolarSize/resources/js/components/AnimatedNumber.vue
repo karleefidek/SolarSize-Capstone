@@ -1,5 +1,5 @@
 <template>
-  <span class="number">{{ animatedNumber }}</span>
+  <span class="number">{{ animatedNumber.toFixed(2) }}</span>
 </template>
 
 <script>

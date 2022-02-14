@@ -8,14 +8,44 @@
               <span>
                 Total Return on Investment:
                 <span
-                  v-bind:class="returnTotal < 0 ? 'numberRed' : 'numberGreen'"
+                  v-bind:class="
+                    returnTotalValue < 0 ? 'numberRed' : 'numberGreen'
+                  "
                 >
-                  $<AnimatedNumber :number="returnTotal"></AnimatedNumber>
+                  $<AnimatedNumber
+                    :number="Math.ceil(returnTotalValue)"
+                  ></AnimatedNumber>
                 </span>
               </span>
             </h3>
           </template>
-
+          <template>
+            <label for="costOfKWH">Cost of KWH </label>
+            <input
+              type="range"
+              max="2.00"
+              min="0.01"
+              step="0.01"
+              v-model="costOfKWH"
+              id="costOfKWH"
+            />
+            ${{ costOfKWH }}/KWH
+            <label for="costOfPower">Value of Credit </label>
+            <input
+              type="range"
+              max="2.00"
+              min="0.01"
+              step="0.01"
+              v-model="valueOfOverCredit"
+              id="valueOfCredit"
+            />
+            ${{ valueOfOverCredit }}/KWH
+            <VueInputUi
+              id="costOfInvestment"
+              v-model="costOfInvestment"
+              label="Cost Of Installation"
+            />
+          </template>
           <template v-slot:footer> </template>
         </ROIText>
       </div>
@@ -44,6 +74,7 @@
 </template>
 
 <script>
+import VueInputUi from "vue-input-ui";
 import "vue-input-ui/dist/vue-input-ui.css";
 import { bus } from "../app";
 import { Chart } from "highcharts-vue";
@@ -52,12 +83,19 @@ import ROIText from "./ROIText";
 import AnimatedNumber from "./AnimatedNumber";
 export default {
   name: "Summary",
-  components: { highcharts: Chart, ROIText, AnimatedNumber },
+  components: { highcharts: Chart, ROIText, AnimatedNumber, VueInputUi },
   data: function () {
     return {
-      overGenerationTotal: -1000,
+      //These are objects which contain a key:value pair where the key is the UTC time, the value is the KWH
+      // E.g 1609480800000:13.14
+      // This helps to align the estimate and cosumption values together when doing calculations between them.
+      consumptionMap: Object,
+      estimateMap: Object,
+
       number: 0,
-      costOfKWH: 0.17,
+      costOfKWH: 0.13,
+      valueOfOverCredit: 0.075,
+      costOfInvestment: 100,
       chartOptions: {
         chart: {
           type: "line",
@@ -88,7 +126,7 @@ export default {
               ) + //Format ms to readable format
               " </b></br>" +
               "Power: <b>" +
-              (this.y / 1000).toFixed(2) + //Limit to 2 decmial points
+              this.y.toFixed(2) + //Limit to 2 decmial points
               "</b> KWH"
             );
           },
@@ -145,18 +183,52 @@ export default {
     };
   },
   computed: {
-    returnTotal: function () {
-      return this.costOfKWH * this.overGenerationTotal;
+    returnTotalValue: function () {
+      return (
+        this.fullCreditConsumptionTotal * this.costOfKWH +
+        this.overGenerationTotal * this.valueOfOverCredit -
+        this.costOfInvestment
+      );
+    },
+    estimateTotal: function () {
+      var sum = 0;
+      for (const timeKey in this.estimateMap) {
+        sum += this.estimateMap[timeKey];
+      }
+      return sum;
+    },
+    consumptionTotal: function () {
+      var sum = 0;
+      for (const timeKey in this.estimateMap) {
+        sum += this.consumptionMap[timeKey];
+      }
+      return sum;
+    },
+    overGenerationTotal: function () {
+      return this.sumOverGenerationEstimate(
+        this.estimateMap,
+        this.consumptionMap
+      );
+    },
+    fullCreditConsumptionTotal: function () {
+      return this.estimateTotal - this.overGenerationTotal;
     },
   },
 
   methods: {
-    // @params estimateData    Array
-    //        consumptionData Array
-    sumOverGenerationEstimate: function (estimateData, consumptionData) {
-      var overGenerationArray = estimateData.map((element, index) => {
-        return element[1] - consumptionData[index][1];
-      });
+    sumOverGenerationEstimate: function (
+      estimateDataObject,
+      consumptionDataObject
+    ) {
+      var overGenerationArray = [];
+      for (const timeKey in estimateDataObject) {
+        overGenerationArray.push(
+          Math.max(
+            estimateDataObject[timeKey] - consumptionDataObject[timeKey],
+            0
+          )
+        );
+      }
       return overGenerationArray.reduce(
         (previousEntry, currentEntry) => previousEntry + currentEntry,
         0
@@ -171,11 +243,14 @@ export default {
         this.chartOptions.series[1].data = consumptionData;
         this.chartOptions.xAxis.min = startTime;
         this.chartOptions.xAxis.max = endTime;
-        this.chartOptions.time.timezoneOffset = -offSet * 60; //Offset UTC west = negative east = positive, in minutes
+        this.chartOptions.time.timezoneOffset = -offSet * 60; //Offset UTC, west = negative east = positive, in minutes
 
-        this.overGenerationTotal = this.sumOverGenerationEstimate(
-          estimateData,
-          consumptionData
+        this.consumptionMap = Object.assign(
+          ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
+        );
+
+        this.estimateMap = Object.assign(
+          ...estimateData.map(([key, value]) => ({ [key]: value }))
         );
       }
     );

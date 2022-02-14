@@ -429,7 +429,7 @@ export default {
           ]);
           var startDate = new Date(this.startInput);
           var endDate = new Date(this.endInput);
-          endDate.setDate(endDate.getDate() + 1);
+          endDate.setDate(endDate.getDate() + 2);
           bus.$emit(
             "generationSuccess",
             formattedDataGeneration,
