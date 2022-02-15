@@ -1,12 +1,12 @@
 <template>
   <div>
-    <header>
+    <header class="header">
       <slot name="header"></slot>
     </header>
-    <main>
+    <main class="body">
       <slot></slot>
     </main>
-    <footer>
+    <footer class="footer">
       <slot name="footer"></slot>
     </footer>
   </div>
@@ -32,4 +32,17 @@ export default {
 
 
 <style scoped>
+.header {
+  position: relative;
+}
+
+.header:after {
+  content: "";
+  width: 60%;
+  height: 5px;
+  background: #25a552;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
 </style>

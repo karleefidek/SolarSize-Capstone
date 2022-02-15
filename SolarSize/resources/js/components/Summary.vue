@@ -4,8 +4,48 @@
       <div class="component-container">
         <ROIText>
           <template v-slot:header>
-            <h3>
-              <span>
+            <h3>Return Statistics</h3>
+          </template>
+          <template>
+            <div class="roiInputs">
+              <div class="sliderInput">
+                <label for="costOfKWH">Cost of KWH </label>
+                <input
+                  type="range"
+                  max="2.00"
+                  min="0.01"
+                  step="0.01"
+                  v-model="costOfKWH"
+                  id="costOfKWH"
+                />
+                <VueInputUi
+                  id="costOfKWH"
+                  v-model="costOfKWH"
+                  label="Cost of KWH/KWH"
+                />
+              </div>
+              <div class="sliderInput">
+                <label for="costOfPower"> Value of Credit </label>
+                <input
+                  type="range"
+                  max="2.00"
+                  min="0.01"
+                  step="0.01"
+                  v-model="valueOfOverCredit"
+                  id="valueOfCredit"
+                />
+                <VueInputUi
+                  id="valueOfOverCredit"
+                  v-model="valueOfOverCredit"
+                  label="Value of Credit /KWH"
+                />
+              </div>
+              <VueInputUi
+                id="costOfInvestment"
+                v-model="costOfInvestment"
+                label="Cost Of Installation"
+              />
+              <span class="roiOutput">
                 Total Return on Investment:
                 <span
                   v-bind:class="
@@ -17,42 +57,7 @@
                   ></AnimatedNumber>
                 </span>
               </span>
-            </h3>
-          </template>
-          <template>
-            <label for="costOfKWH">Cost of KWH </label>
-            <input
-              type="range"
-              max="2.00"
-              min="0.01"
-              step="0.01"
-              v-model="costOfKWH"
-              id="costOfKWH"
-            />
-            <VueInputUi
-              id="costOfKWH"
-              v-model="costOfKWH"
-              label="Cost of KWH/KWH"
-            />
-            <label for="costOfPower">Value of Credit </label>
-            <input
-              type="range"
-              max="2.00"
-              min="0.01"
-              step="0.01"
-              v-model="valueOfOverCredit"
-              id="valueOfCredit"
-            />
-            <VueInputUi
-              id="valueOfOverCredit"
-              v-model="valueOfOverCredit"
-              label="Value of Credit /KWH"
-            />
-            <VueInputUi
-              id="costOfInvestment"
-              v-model="costOfInvestment"
-              label="Cost Of Installation"
-            />
+            </div>
             <highcharts :options="pieChartOptions"> </highcharts>
           </template>
           <template v-slot:footer> </template>
@@ -61,10 +66,13 @@
       <div class="component-container">
         <ROIText>
           <template v-slot:header>
-            <h3>GENERATION STATS</h3>
+            <h3>Generation Statistics</h3>
           </template>
 
-          <p>Annual KWH Generated: {{sumTotalGenerationEstimate(estimateMap)}} KWH</p>
+          <p>
+            Annual KWH Generated:
+            {{ estimateTotal }} KWH
+          </p>
 
           <highcharts
             :options="dailyColumnChartOptions"
@@ -254,49 +262,54 @@ export default {
           enabled: false,
         },
         tooltip: {
-          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-              '<td style="padding:0"><b>{point.y:.1f} KWH</b></td></tr>',
-          footerFormat: '</table>',
+          headerFormat:
+            '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat:
+            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} KWH</b></td></tr>',
+          footerFormat: "</table>",
           shared: true,
-          useHTML: true
+          useHTML: true,
         },
         xAxis: {
-        categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec'
-        ],
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'KWH'
-        }
-    },
+          categories: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+          crosshair: true,
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: "KWH",
+          },
+        },
         plotOptions: {
           column: {
-              pointPadding: 0.2,
-              borderWidth: 0
-          }
+            pointPadding: 0.2,
+            borderWidth: 0,
+          },
         },
-        series: [{
-          name: "Generated",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        },{
-          name: "Consumed",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        }],
+        series: [
+          {
+            name: "Generated",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "Consumed",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+        ],
       },
     };
   },
@@ -361,12 +374,11 @@ export default {
         0
       );
     },
-    sumTotalGenerationEstimate: function (
-      estimateDataObject
-    ) {
+    sumTotalGenerationEstimate: function (estimateDataObject) {
       var totalGenerationEstimate = 0;
       for (const timeKey in estimateDataObject) {
-        totalGenerationEstimate = totalGenerationEstimate + estimateDataObject[timeKey];
+        totalGenerationEstimate =
+          totalGenerationEstimate + estimateDataObject[timeKey];
       }
       return totalGenerationEstimate;
     },
@@ -376,14 +388,14 @@ export default {
     ) {
       var generationArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       for (const timeKey in estimateDataObject) {
-        var date = new Date(timeKey);
+        var date = new Date(Number(timeKey));
         generationArray[date.getMonth()] += estimateDataObject[timeKey];
       }
       this.dailyColumnChartOptions.series[0].data = generationArray;
 
       var consumptionArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (const timeKey in consumptionDataObject) {
-        var date = new Date(timeKey);
+      for (const timeKey in estimateDataObject) {
+        var date = new Date(Number(timeKey));
         consumptionArray[date.getMonth()] += consumptionDataObject[timeKey];
       }
       this.dailyColumnChartOptions.series[1].data = consumptionArray;
@@ -407,7 +419,7 @@ export default {
           ...estimateData.map(([key, value]) => ({ [key]: value }))
         );
 
-        sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
+        this.sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
       }
     );
 
@@ -460,5 +472,30 @@ export default {
 .numberRed {
   text-decoration: bold;
   color: red;
+  position: relative;
+}
+
+.sliderInput {
+  display: grid;
+  grid-template-columns: 1fr 8fr 2fr;
+  grid-column-gap: 20px;
+}
+
+.sliderInput input {
+  margin: auto;
+}
+
+.roiOutput {
+  font-size: 1.8em;
+  text-align: center;
+}
+
+* {
+  /* all element selector */
+  box-sizing: border-box; /* border, within the width of the element */
+}
+input {
+  display: block;
+  width: 100%;
 }
 </style>
