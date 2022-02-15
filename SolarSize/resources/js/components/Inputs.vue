@@ -331,7 +331,6 @@ import Map from "./Map";
 import LoadingIcon from "./LoadingIcon";
 import L from "leaflet";
 import { bus } from "../app";
-import { each } from 'highcharts';
 export default {
   name: "Generation",
   components: {
@@ -614,7 +613,7 @@ export default {
           "Invalid loss coefficient - must be between 0 and 1";
         this.validated = true;
       }
-    }
+    },
   },
 };
 </script>
