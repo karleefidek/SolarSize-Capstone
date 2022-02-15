@@ -304,6 +304,7 @@
             @click="submit"
             class="submit-button"
             key="button"
+            :disabled="validated"
           >
             Calculate
           </button>
@@ -330,6 +331,7 @@ import Map from "./Map";
 import LoadingIcon from "./LoadingIcon";
 import L from "leaflet";
 import { bus } from "../app";
+import { each } from 'highcharts';
 export default {
   name: "Generation",
   components: {
@@ -370,6 +372,7 @@ export default {
       addressAutoFill: [],
       address: "",
       msg: [],
+      validated: false,
     };
   },
   watch: {
@@ -547,57 +550,71 @@ export default {
     validateLat(value) {
       if (value >= -90 && value <= 90) {
         this.msg["latInput"] = "";
+        this.validated = false;
       } else {
         this.msg["latInput"] = "Invalid latitude - must be between -90 and 90";
+        this.validated = true;
       }
     },
     validateLong(value) {
       if (value >= -180 && value <= 180) {
         this.msg["longInput"] = "";
+        this.validated = false;
       } else {
         this.msg["longInput"] =
           "Invalid longitude - must be between -180 and 180";
+        this.validated = true;
       }
     },
     validateTilt(value) {
       if (value >= 0 && value < 90) {
         this.msg["tiltInput"] = "";
+        this.validated = false;
       } else {
         this.msg["tiltInput"] =
           "Invalid module tilt - must be an angle between 0 and 89";
+        this.validated = true;
       }
     },
     validateDirection(value) {
       if (value >= 0 && value < 360) {
         this.msg["directionInput"] = "";
+        this.validated = false;
       } else {
         this.msg["directionInput"] =
           "Invalid panel direction - must be an angle between 0 and 359";
+        this.validated = true;
       }
     },
     validateArea(value) {
       if (value > 0) {
         this.msg["areaInput"] = "";
+        this.validated = false;
       } else {
         this.msg["areaInput"] = "Invalid module area - must be greater than 0";
+        this.validated = true;
       }
     },
     validateEfficiency(value) {
       if (value > 0 && value < 1) {
         this.msg["efficiencyInput"] = "";
+        this.validated = false;
       } else {
         this.msg["efficiencyInput"] =
           "Invalid module efficiency - must be between 0 and 1 (1 - decimal value of percentage)";
+        this.validated = true;
       }
     },
     validateLoss(value) {
       if (value > 0 && value < 1) {
         this.msg["lossInput"] = "";
+        this.validated = false;
       } else {
         this.msg["lossInput"] =
           "Invalid loss coefficient - must be between 0 and 1";
+        this.validated = true;
       }
-    },
+    }
   },
 };
 </script>
