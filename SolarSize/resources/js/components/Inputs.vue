@@ -20,39 +20,46 @@
                 locations will auto-populate fields).
               </b-tooltip>
 
-              <VueInputUi
-                id="latitude"
-                v-model="latInput"
-                label="Latitude"
-                type="number"
-                :dark="darkMode"
-                required
-                :loader="loading"
-              />
-              <b-tooltip target="latitude" placement="right" triggers="hover">
-                The latitude of the building location (auto-populated by
-                selecting a location on the map).
-              </b-tooltip>
-              <span style="color: red" v-if="msg.latInput">{{
-                msg.latInput
-              }}</span>
-
-              <VueInputUi
-                id="longitude"
-                v-model="longInput"
-                label="Longitude"
-                type="number"
-                :dark="darkMode"
-                required
-                :loader="loading"
-              />
-              <b-tooltip target="longitude" placement="right" triggers="hover">
-                The longitude of the building location (auto-populated by
-                selecting a location on the map).
-              </b-tooltip>
-              <span style="color: red" v-if="msg.longInput">{{
-                msg.longInput
-              }}</span>
+              <div>
+                <span class="errorMsg" v-if="msg.latInput">{{
+                  msg.latInput
+                }}</span>
+                <VueInputUi
+                  id="latitude"
+                  v-model="latInput"
+                  label="Latitude"
+                  type="number"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                />
+                <b-tooltip target="latitude" placement="right" triggers="hover">
+                  The latitude of the building location (auto-populated by
+                  selecting a location on the map).
+                </b-tooltip>
+              </div>
+              <div>
+                <span class="errorMsg" v-if="msg.longInput">{{
+                  msg.longInput
+                }}</span>
+                <VueInputUi
+                  id="longitude"
+                  v-model="longInput"
+                  label="Longitude"
+                  type="number"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                />
+                <b-tooltip
+                  target="longitude"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The longitude of the building location (auto-populated by
+                  selecting a location on the map).
+                </b-tooltip>
+              </div>
 
               <VueInputUi
                 id="timeZone"
