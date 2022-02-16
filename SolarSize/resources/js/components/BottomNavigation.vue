@@ -78,7 +78,7 @@ export default {
     },
     foregroundColor: {
       type: String,
-      default: "#39dd73",
+      default: "#96C951",
     },
     badgeColor: {
       type: String,
@@ -171,19 +171,22 @@ export default {
           z-index: 10;
         }
         .btn-item-${index}.checked ~ #sweep {
-          transform: translateX(${(index * containerWidth) /
-            this.options.length +
-            containerWidth / this.options.length / 4}px);
+          transform: translateX(${
+            (index * containerWidth) / this.options.length +
+            containerWidth / this.options.length / 4
+          }px);
           transition: transform 500ms ease;
         }
         `;
         if (this.hasChild(item)) {
           item.childs.forEach((child, idx) => {
             customStyle += `
-            .btn-item-${index}.checked .btn-class-showable .btn-child:nth-child(${idx +
-              1}) {
-              transform: translateX(${(0.5 + idx) * 45 -
-                (item.childs.length * 45) / 2}px);
+            .btn-item-${index}.checked .btn-class-showable .btn-child:nth-child(${
+              idx + 1
+            }) {
+              transform: translateX(${
+                (0.5 + idx) * 45 - (item.childs.length * 45) / 2
+              }px);
               transition: transform 500ms ease 300ms;
             }
           `;
@@ -191,7 +194,7 @@ export default {
         }
       });
       document.getElementById("sweep").style.left = `
-      ${(containerWidth / this.options.length / 4 - 300 / 2)}px`;
+      ${containerWidth / this.options.length / 4 - 300 / 2}px`;
       var head = document.getElementsByTagName("head")[0];
       var style = document.createElement("style");
       style.id = "bottom-navigation-style";

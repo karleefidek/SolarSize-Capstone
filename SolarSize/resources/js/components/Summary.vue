@@ -104,6 +104,7 @@ import { Chart } from "highcharts-vue";
 import Highcharts from "highcharts";
 import ROIText from "./ROIText";
 import AnimatedNumber from "./AnimatedNumber";
+
 export default {
   name: "Summary",
   components: { highcharts: Chart, ROIText, AnimatedNumber, VueInputUi },
@@ -154,10 +155,12 @@ export default {
               {
                 name: "Over Generation Value",
                 y: 70,
+                color: "#96C951",
               },
               {
                 name: "Full Credit Value",
                 y: 30,
+                color: "#88E9FF",
               },
             ],
           },
@@ -224,10 +227,11 @@ export default {
             type: "area",
             name: "Estimate",
             data: [1, 2, 3],
+            color: "#96C951",
             fillColor: {
               linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
               stops: [
-                [0, "rgba(58, 204, 188, 1)"],
+                [0, "#96C951"],
                 [1, "rgba(255,255,255,.25)"],
               ],
             },
@@ -235,6 +239,7 @@ export default {
           {
             type: "area",
             name: "Consumption",
+            color: "#88E9FF",
             data: [
               [Date.UTC(2021, 0, 1, 1), 1],
               [Date.UTC(2021, 0, 2, 1), 2],
@@ -243,7 +248,7 @@ export default {
             fillColor: {
               linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
               stops: [
-                [0, "#39dd73"],
+                [0, "#88E9FF"],
                 [1, "rgba(255,255,255,.25)"],
               ],
             },
@@ -304,10 +309,12 @@ export default {
           {
             name: "Generated",
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            color: "#96C951",
           },
           {
             name: "Consumed",
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            color: "#88E9FF",
           },
         ],
       },
