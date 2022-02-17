@@ -164,6 +164,22 @@ class ImportData():
         #Solar Radiation amount of tilted module.
         #solarTiltedModule = self.solarRadiation * math.sin(math.radians(self.moduleTilt + self.elevationAngle))
 
+        #calculate the tilt that will produce optimal solar production, uses the inputted roof tilt to give a overall +,- to angle the panel at.
+        #https://www.solarreviews.com/blog/best-solar-panel-angle
+        #Output as % of optimum	71.1%	(Summer,Winter Adjust) 75.2%	(All Season adjust)75.7%* -> 100% would be from an optimal tilt/tracker.. $$$$
+        #Will look for an academic ref later.
+    def calcModuleTilt(self):
+        self.moduleTilt = self.latitude
+        #if(self.roofTilt > self.latitude):
+        #   self.moduleTilt = self.roofTilt - self.latitude
+        # Negative amount to be relative to the roof tilt,i.e; raise botoom of panel to decrease angle
+        #else:
+        # self.moduleTilt = self.latitude - self.roofTilt
+        #self.moduleTilt = self.roofTilt
+        #Optimized for general use.
+        #Only ~4% gains when adjusting and adjusting is $$$$.
+        
+
     #Using a generalized approach for now. Future will have to include specifics such as inverter, current, etc.
     def getEstimatedPowerProduction(self):
         # E = A * r * H * PR
