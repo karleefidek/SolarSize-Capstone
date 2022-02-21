@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/estimate', [EstimateController::class, 'execute']);
+Route::get('/estimate', [EstimateController::class, 'executeNoPanels']);
+Route::get('/estimatePanels', [EstimateController::class, 'executePanels']);
+
 
 
 

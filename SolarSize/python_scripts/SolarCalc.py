@@ -42,9 +42,15 @@ class ImportData():
         success = False
         #https://power.larc.nasa.gov/api/temporal/daily/point?parameters=ALLSKY_SFC_SW_DWN,CLRSKY_SFC_SW_DWN,ALLSKY_KT,ALLSKY_NKT,ALLSKY_SFC_LW_DWN,ALLSKY_SFC_PAR_TOT,CLRSKY_SFC_PAR_TOT,ALLSKY_SFC_UVA,ALLSKY_SFC_UVB,ALLSKY_SFC_UV_INDEX,WS2M&community=RE&longitude=-104.9423&latitude=50.3724&start=20160115&end=20170315&format=CSV
 
-        r = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=6)
-        data = r.json()
-        self.APIResponse = data
+        if not self.APIResponse: #Don't call API again if already set 
+            try:
+                r = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=15,headers={"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"})
+                data = r.json()
+                self.APIResponse = data
+            except requests.exceptions.Timeout:
+                print("Timeout error occured")
+                
+                
 
             
 
@@ -180,12 +186,23 @@ class ImportData():
         self.estimatedModulePower = estimatedPower        
 
     def printEstimatedPower(self):
+        
         print(self.estimatedModulePower, (self.times).strftime("%Y-%m-%d %H:%M:%S").tolist())
+
 
 
 #Modelling using POWER API data and DIRINT model then converting to module irradiance 
 #Good until few-months close to real time.  Historicaal usage at the moment.
 #solarCalc = SolarInsolation()
+def outputSolarData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels):
+    numPanels = 260
+    dataImport = ImportData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels)
+    dataImport.getResponseFromAPI()
+    dataImport.parseAndCalculateJSON()
+    dataImport.calcDNIandDHI()
+    print(dataImport.calculateModuleRadiation())
+    dataImport.getEstimatedPowerProduction()
+    dataImport.printEstimatedPower()
 
 def main():
     #Arguements passed from command line.
@@ -195,18 +212,26 @@ def main():
     moduleTilt = sys.argv[4]
     startDate = sys.argv[5]
     endDate = sys.argv[6]
-    moduleArea = sys.argv[7]
-    moduleEfficiency = sys.argv[8]
-    lossCoefficient = sys.argv[9]
-    numPanels = 260
-    #
-    dataImport = ImportData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels)
-    dataImport.getResponseFromAPI()
-    dataImport.parseAndCalculateJSON()
-    dataImport.calcDNIandDHI()
-    print(dataImport.calculateModuleRadiation())
-    dataImport.getEstimatedPowerProduction()
-    dataImport.printEstimatedPower()
+    
+    
+    if len(sys.argv) == 10:
+        moduleArea = sys.argv[7]
+        moduleEfficiency = sys.argv[8]
+        lossCoefficient = sys.argv[9]
+        numPanels = 260
+        outputSolarData(latitude, longitude, timeZone, moduleTilt, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
+    else:
+        solarDict = json.loads(sys.argv[7])
+        for entry in solarDict["SolarPanels"]:
+            moduleArea = entry["Area"]
+            moduleEfficiency = entry["ModuleEfficiency"]
+            lossCoefficient = 0.1
+            numPanels = 1
+            print('['+entry["Name"]+"]")
+            outputSolarData(latitude, longitude, timeZone, moduleTilt, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
+            
+    
+    
 
 if __name__ == "__main__":
     main()
