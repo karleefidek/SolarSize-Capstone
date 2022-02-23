@@ -88,6 +88,7 @@ class EstimateController extends ApiController
         $matchesIndex = 0;
         for ($i = 0; $matchesIndex < count($matches); $i++) {
             $values[$i]["Name"] = explode(", ", $matches[$matchesIndex++][0]);
+            $values[$i]["Cost"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Power"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Dates"] = explode(", ", $matches[$matchesIndex++][0]);
             for ($j = 0; $j < count($values[$i]); $j++) {

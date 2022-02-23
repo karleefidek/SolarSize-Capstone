@@ -211,7 +211,6 @@ class ImportData():
 #Good until few-months close to real time.  Historicaal usage at the moment.
 #solarCalc = SolarInsolation()
 def outputSolarData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels):
-    numPanels = 260
     dataImport = ImportData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels)
     dataImport.getResponseFromAPI()
     dataImport.parseAndCalculateJSON()
@@ -244,6 +243,7 @@ def main():
             lossCoefficient = 0.1
             numPanels = 1
             print('['+entry["Name"]+"]")
+            print('['+ str(entry["Cost"])+ "]")
             outputSolarData(latitude, longitude, timeZone, moduleTilt, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
             
     

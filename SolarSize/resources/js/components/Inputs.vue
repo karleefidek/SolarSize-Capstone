@@ -14,6 +14,14 @@
                   label="Location"
                 >
                 </v-select>
+                <v-select
+                  id="generation-type"
+                  v-model="generationType"
+                  :options="['Custom Generation', 'Optimized Generation']"
+                  placeholder="Select a type of generation"
+                  label="Generation Type"
+                >
+                </v-select>
               </p>
               <b-tooltip target="location" placement="right" triggers="hover">
                 Either a previously saved location or new location (existing
@@ -138,7 +146,10 @@
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
-            <div class="inputContainer">
+            <div
+              v-if="generationType == 'Custom Generation'"
+              class="inputContainer"
+            >
               <div>
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
@@ -187,7 +198,6 @@
                   id="area"
                   v-model="areaInput"
                   label="Module Area"
-                  type="number"
                   :dark="darkMode"
                   required
                   :loader="loading"
@@ -238,6 +248,166 @@
                   The coefficient of losses from environmental factors and
                   efficiency losses in inverters, cables, and panels. (Entered
                   as a decimal)
+                </b-tooltip>
+              </div>
+            </div>
+            <div
+              v-if="generationType == 'Optimized Generation'"
+              class="inputContainer"
+            >
+              <div>
+                <span class="errorMsg" v-if="msg.directionInput">{{
+                  msg.directionInput
+                }}</span>
+                <VueInputUi
+                  id="direction"
+                  v-model="directionInput"
+                  label="Roof Direction"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  clearable
+                />
+                <b-tooltip
+                  target="direction"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The direction the roof is facing for the panel. Ex. S30W
+                </b-tooltip>
+              </div>
+
+              <div>
+                <span class="errorMsg" v-if="msg.roofInput">{{
+                  msg.roofInput
+                }}</span>
+                <div class="symbol-input">
+                  <VueInputUi
+                    id="area"
+                    ref="area"
+                    v-model="roofInput"
+                    label="Available Roof Area "
+                    :dark="darkMode"
+                    required
+                    :loader="loading"
+                    @focus="
+                      $refs.area.$el.nextElementSibling.classList.add('focused')
+                    "
+                    @blur="
+                      $refs.area.$el.nextElementSibling.classList.remove(
+                        'focused'
+                      )
+                    "
+                  />
+                  <i>M²</i>
+                </div>
+                <b-tooltip target="area" placement="right" triggers="hover">
+                  How much area is available for solar panels to be installed
+                  on. (M²)
+                </b-tooltip>
+              </div>
+
+              <div>
+                <span class="errorMsg" v-if="msg.interestInput">{{
+                  msg.interestInput
+                }}</span>
+                <div class="symbol-input">
+                  <VueInputUi
+                    id="interest"
+                    ref="interest"
+                    v-model="interestInput"
+                    label="Interest Rate"
+                    :dark="darkMode"
+                    required
+                    :loader="loading"
+                    clearable
+                    @focus="
+                      $refs.interest.$el.nextElementSibling.classList.add(
+                        'focused'
+                      )
+                    "
+                    @blur="
+                      $refs.interest.$el.nextElementSibling.classList.remove(
+                        'focused'
+                      )
+                    "
+                  />
+                  <i>%</i>
+                </div>
+                <b-tooltip target="interest" placement="right" triggers="hover">
+                  The interest rate of the installation.
+                </b-tooltip>
+              </div>
+
+              <div>
+                <span class="errorMsg" v-if="msg.grantInput">{{
+                  msg.grantInput
+                }}</span>
+                <div class="symbol-input">
+                  <VueInputUi
+                    id="grant"
+                    ref="grant"
+                    v-model="grantInput"
+                    label="Available Grants"
+                    :dark="darkMode"
+                    required
+                    :loader="loading"
+                    clearable
+                    @focus="
+                      $refs.grant.$el.nextElementSibling.classList.add(
+                        'focused'
+                      )
+                    "
+                    @blur="
+                      $refs.grant.$el.nextElementSibling.classList.remove(
+                        'focused'
+                      )
+                    "
+                  />
+                  <i>$</i>
+                </div>
+                <b-tooltip target="grant" placement="right" triggers="hover">
+                  The amount of project offset by grants
+                </b-tooltip>
+              </div>
+
+              <div>
+                <span class="errorMsg" v-if="msg.powerCostInput">{{
+                  msg.powerCostInput
+                }}</span>
+                <div class="symbol-input">
+                  <VueInputUi
+                    id="powercost"
+                    ref="powercost"
+                    v-model="powerCostInput"
+                    label="Cost of a kWh"
+                    :dark="darkMode"
+                    required
+                    :loader="loading"
+                    clearable
+                    @focus="
+                      $refs.powercost.$el.nextElementSibling.classList.add(
+                        'focused'
+                      )
+                    "
+                    @blur="
+                      $refs.powercost.$el.nextElementSibling.classList.remove(
+                        'focused'
+                      )
+                    "
+                  />
+                  <i style="line-height: 50%"
+                    >$<br />
+                    ― <br />
+                    kWh</i
+                  >
+                </div>
+                <b-tooltip
+                  target="powercost"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The cost of a kilowatt hour (kWh) in dollars.
                 </b-tooltip>
               </div>
             </div>
@@ -351,6 +521,7 @@ export default {
   data: function () {
     return {
       mapCenter: L.latLng(50.4452, -104.6189),
+      generationType: "",
       location: "",
       latInput: "",
       longInput: "",
@@ -449,7 +620,6 @@ export default {
     },
     submit(e) {
       e.preventDefault();
-      this.loading = true;
       this.series = [
         {
           name: "Estimate",
@@ -460,6 +630,61 @@ export default {
           data: [],
         },
       ];
+      this.loading = true;
+      if (this.generationType == "Custom Generation") {
+        this.submitCustom();
+      } else if (this.generationType == "Optimized Generation") {
+        this.submitOptimized();
+      }
+    },
+
+    submitOptimized() {
+      let params = {
+        lat: this.latInput,
+        long: this.longInput,
+        timezone: this.zoneInput,
+        moduleTilt: this.tiltInput,
+        startDate: this.startInput,
+        endDate: this.endInput,
+      };
+      axios
+        .get(
+          "/api/estimateOptimized",
+          { params: params },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          this.loading = false;
+          var dateData = response.data[1];
+          var powerData = response.data[0];
+          var formattedDataGeneration = dateData.map((e, i) => [
+            new Date(e).getTime(),
+            isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]) / 1000, // Converts NaN to 0, WH to KWH
+          ]);
+          var startDate = new Date(this.startInput);
+          var endDate = new Date(this.endInput);
+          endDate.setDate(endDate.getDate() + 2);
+          bus.$emit(
+            "generationSuccess",
+            formattedDataGeneration,
+            this.consumption,
+            startDate.getTime(),
+            endDate.getTime(),
+            this.zoneInput
+          );
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+            this.loading = false;
+          }
+        });
+    },
+    submitCustom(e) {
       let params = {
         lat: this.latInput,
         long: this.longInput,
@@ -483,17 +708,6 @@ export default {
           }
         )
         .then((response) => {
-          this.series = [
-            {
-              name: "Estimate",
-              data: response.data[0],
-            },
-            {
-              name: "Estimate",
-              data: [],
-            },
-          ];
-
           this.loading = false;
           var dateData = response.data[1];
           var powerData = response.data[0];
