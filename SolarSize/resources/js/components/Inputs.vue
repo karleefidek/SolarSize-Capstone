@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit="submit" v-on:keydown.enter.prevent>
+    <form id="mainForm" @submit="submit" v-on:keydown.enter.prevent>
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
@@ -8,6 +8,7 @@
               <p>
                 <v-select
                   id="location"
+                  name="location"
                   v-model="location"
                   :options="['Test Fill Entry']"
                   placeholder="Select a Location"
@@ -20,6 +21,7 @@
                   :options="['Custom Generation', 'Optimized Generation']"
                   placeholder="Select a type of generation"
                   label="Generation Type"
+                  @input="resetValues"
                 >
                 </v-select>
               </p>
@@ -34,12 +36,13 @@
                 }}</span>
                 <VueInputUi
                   id="latitude"
-                  v-model="latInput"
+                  name="latitude"
+                  v-model.number="formInputs.latInput"
                   label="Latitude"
-                  type="number"
                   :dark="darkMode"
                   required
                   :loader="loading"
+                  :error="!!msg.latInput"
                 />
                 <b-tooltip target="latitude" placement="right" triggers="hover">
                   The latitude of the building location (auto-populated by
@@ -47,17 +50,22 @@
                 </b-tooltip>
               </div>
               <div>
-                <span class="errorMsg" v-if="msg.longInput">{{
-                  msg.longInput
-                }}</span>
+                <span
+                  class="errorMsg"
+                  v-if="msg.longInput"
+                  :class="!msg.longInput ? 'shake' : ''"
+                  >{{ msg.longInput }}</span
+                >
                 <VueInputUi
                   id="longitude"
-                  v-model="longInput"
+                  name="longitude"
+                  v-model="formInputs.longInput"
                   label="Longitude"
                   type="number"
                   :dark="darkMode"
                   required
                   :loader="loading"
+                  :error="!!msg.longInput"
                 />
                 <b-tooltip
                   target="longitude"
@@ -71,7 +79,7 @@
 
               <VueInputUi
                 id="timeZone"
-                v-model="zoneInput"
+                v-model="formInputs.zoneInput"
                 label="Time Zone"
                 type="number"
                 :dark="darkMode"
@@ -82,30 +90,39 @@
                 The time zone the building is located in.
               </b-tooltip>
 
-              <VueFileAgent
-                id="fileUpload"
-                ref="vueFileAgent"
-                :theme="'list'"
-                :multiple="false"
-                :deletable="true"
-                :meta="true"
-                :accept="'.csv'"
-                :maxSize="'10MB'"
-                :maxFiles="1"
-                :helpText="'Choose consumption .csv files'"
-                :errorText="{
-                  type: 'Invalid file type. Only .csv files allowed',
-                  size: 'Files should not exceed 10MB in size',
-                }"
-                v-model="fileRecords"
-                uploadUrl="/api/uploadCSV"
-                :uploadHeaders="{}"
-                @select="getData($event)"
-              ></VueFileAgent>
-              <b-tooltip target="fileUpload" placement="right" triggers="hover">
-                Upload a .csv file containing building consumption data for
-                consumption/generation overlay
-              </b-tooltip>
+              <div>
+                <span class="errorMsg" v-if="msg.consumption">{{
+                  msg.consumption
+                }}</span>
+                <VueFileAgent
+                  id="fileUpload"
+                  ref="vueFileAgent"
+                  :theme="'list'"
+                  :multiple="false"
+                  :deletable="true"
+                  :meta="true"
+                  :accept="'.csv'"
+                  :maxSize="'10MB'"
+                  :maxFiles="1"
+                  :helpText="'Choose consumption .csv files'"
+                  :errorText="{
+                    type: 'Invalid file type. Only .csv files allowed',
+                    size: 'Files should not exceed 10MB in size',
+                  }"
+                  v-model="formInputs.fileRecords"
+                  uploadUrl="/api/uploadCSV"
+                  :uploadHeaders="{}"
+                  @select="getData($event)"
+                ></VueFileAgent>
+                <b-tooltip
+                  target="fileUpload"
+                  placement="right"
+                  triggers="hover"
+                >
+                  Upload a .csv file containing building consumption data for
+                  consumption/generation overlay
+                </b-tooltip>
+              </div>
 
               <div style="grid-row: 1/-2">
                 <Map ref="map" :center="mapCenter" />
@@ -156,12 +173,13 @@
                 }}</span>
                 <VueInputUi
                   id="direction"
-                  v-model="directionInput"
+                  v-model="formInputs.directionInput"
                   label="Panel Direction"
                   :dark="darkMode"
                   required
                   :loader="loading"
                   clearable
+                  :error="!!msg.directionInput"
                 />
                 <b-tooltip
                   target="direction"
@@ -178,12 +196,12 @@
                 }}</span>
                 <VueInputUi
                   id="tilt"
-                  v-model="tiltInput"
+                  v-model="formInputs.tiltInput"
                   label="Module Tilt"
-                  type="number"
                   :dark="darkMode"
                   required
                   :loader="loading"
+                  :error="!!msg.tiltInput"
                 />
                 <b-tooltip target="tilt" placement="right" triggers="hover">
                   The angle at which the solar panel is installed.
@@ -196,12 +214,13 @@
                 }}</span>
                 <VueInputUi
                   id="area"
-                  v-model="areaInput"
+                  v-model="formInputs.areaInput"
                   label="Module Area"
                   :dark="darkMode"
                   required
                   :loader="loading"
                   clearable
+                  :error="!!msg.areaInput"
                 />
                 <b-tooltip target="area" placement="right" triggers="hover">
                   The area of a single panel. (Size of the panel LxH)
@@ -214,12 +233,13 @@
                 }}</span>
                 <VueInputUi
                   id="efficiency"
-                  v-model="efficiencyInput"
+                  v-model="formInputs.efficiencyInput"
                   label="Module Efficiency"
                   :dark="darkMode"
                   required
                   :loader="loading"
                   clearable
+                  :error="!!msg.efficiencyInput"
                 />
                 <b-tooltip
                   target="efficiency"
@@ -237,12 +257,13 @@
                 }}</span>
                 <VueInputUi
                   id="loss"
-                  v-model="lossInput"
+                  v-model="formInputs.lossInput"
                   label="Loss Coefficient"
                   :dark="darkMode"
                   required
                   :loader="loading"
                   clearable
+                  :error="!!msg.lossInput"
                 />
                 <b-tooltip target="loss" placement="right" triggers="hover">
                   The coefficient of losses from environmental factors and
@@ -261,12 +282,13 @@
                 }}</span>
                 <VueInputUi
                   id="direction"
-                  v-model="directionInput"
+                  v-model="formInputs.directionInput"
                   label="Roof Direction"
                   :dark="darkMode"
                   required
                   :loader="loading"
                   clearable
+                  :error="!!msg.directionInput"
                 />
                 <b-tooltip
                   target="direction"
@@ -285,11 +307,12 @@
                   <VueInputUi
                     id="area"
                     ref="area"
-                    v-model="roofInput"
+                    v-model="formInputs.roofInput"
                     label="Available Roof Area "
                     :dark="darkMode"
                     required
                     :loader="loading"
+                    :error="!!msg.roofInput"
                     @focus="
                       $refs.area.$el.nextElementSibling.classList.add('focused')
                     "
@@ -315,12 +338,13 @@
                   <VueInputUi
                     id="interest"
                     ref="interest"
-                    v-model="interestInput"
+                    v-model="formInputs.interestInput"
                     label="Interest Rate"
                     :dark="darkMode"
                     required
                     :loader="loading"
                     clearable
+                    :error="!!msg.interestInput"
                     @focus="
                       $refs.interest.$el.nextElementSibling.classList.add(
                         'focused'
@@ -347,12 +371,13 @@
                   <VueInputUi
                     id="grant"
                     ref="grant"
-                    v-model="grantInput"
+                    v-model="formInputs.grantInput"
                     label="Available Grants"
                     :dark="darkMode"
                     required
                     :loader="loading"
                     clearable
+                    :error="!!msg.grantInput"
                     @focus="
                       $refs.grant.$el.nextElementSibling.classList.add(
                         'focused'
@@ -379,12 +404,13 @@
                   <VueInputUi
                     id="powercost"
                     ref="powercost"
-                    v-model="powerCostInput"
+                    v-model="formInputs.powerCostInput"
                     label="Cost of a kWh"
                     :dark="darkMode"
                     required
                     :loader="loading"
                     clearable
+                    :error="!!msg.powerCostInput"
                     @focus="
                       $refs.powercost.$el.nextElementSibling.classList.add(
                         'focused'
@@ -421,7 +447,7 @@
             <div class="inputContainer">
               <v-select
                 id="billing"
-                v-model="billing"
+                v-model="formInputs.billing"
                 :options="['Residential', 'Industrial']"
                 placeholder="Select Billing Type"
                 label="Billing Type"
@@ -434,7 +460,7 @@
               <div style="grid-row: 1/-1">
                 <p id="startDate">
                   <VueCtkDateTimePicker
-                    v-model="startInput"
+                    v-model="formInputs.startInput"
                     only-date
                     format="YYYY-MM-DD"
                     label="Start Date"
@@ -452,7 +478,7 @@
 
                 <p id="endDate">
                   <VueCtkDateTimePicker
-                    v-model="endInput"
+                    v-model="formInputs.endInput"
                     only-date
                     format="YYYY-MM-DD"
                     label="End Date"
@@ -469,7 +495,7 @@
       <div class="submit-container">
         <transition name="component-fade" mode="out-in">
           <button
-            v-if="!loading"
+            v-if="canSubmit"
             type="submit"
             @click="submit"
             class="submit-button"
@@ -479,7 +505,16 @@
             Calculate
           </button>
 
-          <LoadingIcon v-else key="loading-icon" />
+          <LoadingIcon v-else-if="loading" key="loading-icon" />
+
+          <button
+            v-else
+            class="disabled-button"
+            key="button"
+            @click="validateInputsBeforeSubmit"
+          >
+            Calculate
+          </button>
         </transition>
       </div>
     </form>
@@ -513,84 +548,212 @@ export default {
   },
   created() {
     bus.$on("latlongAdded", (latLong) => {
-      this.latInput = latLong[0];
-      this.longInput = latLong[1];
-      this.displayLatLong = true;
+      this.formInputs.latInput = latLong[0];
+      this.formInputs.longInput = latLong[1];
+      //this.displayLatLong = true;
     });
   },
   data: function () {
     return {
+      formInputs: {
+        latInput: "",
+        longInput: "",
+        consumptionInput: "",
+        directionInput: "",
+        zoneInput: "",
+        tiltInput: "",
+        areaInput: "",
+        efficiencyInput: "",
+        lossInput: "",
+        startInput: "",
+        endInput: "",
+        billing: "",
+        powerCostInput: "",
+        grantInput: "",
+        interestInput: "",
+        roofInput: "",
+      },
+
       mapCenter: L.latLng(50.4452, -104.6189),
       generationType: "",
       location: "",
-      latInput: "",
-      longInput: "",
-      consumptionInput: "",
-      directionInput: "",
-      zoneInput: "",
-      tiltInput: "30",
-      areaInput: "",
-      efficiencyInput: "",
-      lossInput: "",
-      startInput: "",
-      endInput: "",
-      billing: "",
       darkMode: false,
       loading: false,
       fileRecords: [],
       consumption: [],
       addressAutoFill: [],
       address: "",
-      msg: [],
-      validated: false,
+      msg: {},
+      validated: true,
     };
+  },
+  computed: {
+    canSubmit: function () {
+      return (
+        !this.validated &&
+        !this.loading &&
+        this.emptyMessages &&
+        this.filledInputs
+      );
+    },
+
+    emptyMessages: function () {
+      if (this.generationType == "Custom Generation") {
+        var currentInputs = [
+          "latInput",
+          "longInput",
+          "consumptionInput",
+          "directionInput",
+          "tiltInput",
+          "areaInput",
+          "efficiencyInput",
+          "lossInput",
+        ];
+      } else if (this.generationType == "Optimized Generation") {
+        var currentInputs = [
+          "latInput",
+          "longInput",
+          "consumptionInput",
+          "directionInput",
+          "powerCostInput",
+          "grantInput",
+          "interestInput",
+          "roofInput",
+        ];
+      }
+      let noMessages = true;
+      let filledInputs = true;
+
+      for (const input in currentInputs[input]) {
+        if (this.msg[input]) {
+          noMessages = false;
+        }
+      }
+      return noMessages;
+    },
+    filledInputs: function () {
+      if (this.generationType == "Custom Generation") {
+        var currentInputs = [
+          "latInput",
+          "longInput",
+          "directionInput",
+          "tiltInput",
+          "areaInput",
+          "efficiencyInput",
+          "lossInput",
+        ];
+      } else if (this.generationType == "Optimized Generation") {
+        var currentInputs = [
+          "latInput",
+          "longInput",
+          "directionInput",
+          "powerCostInput",
+          "grantInput",
+          "interestInput",
+          "roofInput",
+        ];
+      }
+      var filledInputs = true;
+      for (const input in currentInputs) {
+        if (!this.formInputs[currentInputs[input]]) {
+          console.log(this.formInputs[currentInputs[input]]);
+          console.log(currentInputs[input]);
+          filledInputs = false;
+        }
+      }
+      if (this.consumption.length == 0) {
+        filledInputs == false;
+      }
+      return filledInputs;
+    },
   },
   watch: {
     //TEST FILL METHOD TO FILL WITH PRESET VALUES
     location: function (value) {
       console.log(value);
       if (value === "Test Fill Entry") {
-        this.latInput = "50.4583783";
-        this.longInput = "-104.62211";
-        this.directionInput = "0";
-        this.zoneInput = "-6";
-        this.areaInput = "1.5";
-        this.efficiencyInput = "0.8";
-        this.startInput = "2021-01-01";
-        this.endInput = "2021-05-01";
-        this.lossInput = "0.127";
+        this.formInputs.latInput = "50.4583783";
+        this.formInputs.longInput = "-104.62211";
+        this.formInputs.directionInput = "0";
+        this.formInputs.zoneInput = "-6";
+        this.formInputs.areaInput = "1.5";
+        this.formInputs.efficiencyInput = "0.8";
+        this.formInputs.startInput = "2021-01-01";
+        this.formInputs.endInput = "2021-05-01";
+        this.formInputs.lossInput = "0.127";
       }
     },
-    latInput(value) {
-      this.latInput = value;
+    "formInputs.latInput": function (value) {
+      this.formInputs.latInput = value;
       this.validateLat(value);
     },
-    longInput(value) {
-      this.longInput = value;
+    "formInputs.longInput": function (value) {
+      this.formInputs.longInput = value;
       this.validateLong(value);
     },
-    tiltInput(value) {
-      this.tiltInput = value;
+    "formInputs.tiltInput": function (value) {
+      this.formInputs.tiltInput = value;
       this.validateTilt(value);
     },
-    directionInput(value) {
-      this.directionInput = value;
+    "formInputs.directionInput": function (value) {
+      this.formInputs.directionInput = value;
       this.validateDirection(value);
     },
-    areaInput(value) {
-      this.areaInput = value;
+    "formInputs.areaInput": function (value) {
+      this.formInputs.areaInput = value;
       this.validateArea(value);
     },
-    efficiencyInput(value) {
-      this.afficiencyInput = value;
+    "formInputs.efficiencyInput": function (value) {
+      this.formInputs.afficiencyInput = value;
       this.validateEfficiency(value);
     },
-    lossInput(value) {
-      this.lossInput = value;
+    "formInputs.lossInput": function (value) {
+      this.formInputs.lossInput = value;
       this.validateLoss(value);
+    },
+    "formInputs.powerCostInput": function (value) {
+      this.formInputs.powerCostInput = value;
+      this.validatePower(value);
+    },
+    "formInputs.grantInput": function (value) {
+      this.formInputs.grantInput = value;
+      this.validateGrant(value);
+    },
+    "formInputs.interestInput": function (value) {
+      this.formInputs.interestInput = value;
+      this.validateInterest(value);
+    },
+    "formInputs.roofInput": function (value) {
+      this.formInputs.roofInput = value;
+      this.validateRoof(value);
+    },
+    consumption: function (value) {
+      this.consumption = value;
+      this.validateConsumption(value);
     },
   },
   methods: {
+    resetValues() {
+      this.msg = {};
+      this.formInputs = {
+        latInput: "",
+        longInput: "",
+        consumptionInput: "",
+        directionInput: "",
+        zoneInput: "",
+        tiltInput: "",
+        areaInput: "",
+        efficiencyInput: "",
+        lossInput: "",
+        startInput: "",
+        endInput: "",
+        billing: "",
+        powerCostInput: "",
+        grantInput: "",
+        interestInput: "",
+        roofInput: "",
+      };
+    },
     getData(fileRecords) {
       let file = fileRecords[0].file;
 
@@ -640,12 +803,12 @@ export default {
 
     submitOptimized() {
       let params = {
-        lat: this.latInput,
-        long: this.longInput,
-        timezone: this.zoneInput,
-        moduleTilt: this.tiltInput,
-        startDate: this.startInput,
-        endDate: this.endInput,
+        lat: this.formInputs.latInput,
+        long: this.formInputs.longInput,
+        timezone: this.formInputs.zoneInput,
+        moduleTilt: this.formInputs.tiltInput,
+        startDate: this.formInputs.startInput,
+        endDate: this.formInputs.endInput,
       };
       axios
         .get(
@@ -686,15 +849,15 @@ export default {
     },
     submitCustom(e) {
       let params = {
-        lat: this.latInput,
-        long: this.longInput,
-        timezone: this.zoneInput,
-        moduleTilt: this.tiltInput,
-        startDate: this.startInput,
-        endDate: this.endInput,
-        moduleArea: this.areaInput,
-        moduleEfficiency: this.efficiencyInput,
-        lossCoefficient: this.lossInput,
+        lat: this.formInputs.latInput,
+        long: this.formInputs.longInput,
+        timezone: this.formInputs.zoneInput,
+        moduleTilt: this.formInputs.tiltInput,
+        startDate: this.formInputs.startInput,
+        endDate: this.formInputs.endInput,
+        moduleArea: this.formInputs.areaInput,
+        moduleEfficiency: this.formInputs.efficiencyInput,
+        lossCoefficient: this.formInputs.lossInput,
       };
 
       axios
@@ -749,9 +912,12 @@ export default {
           }
         )
         .then((response) => {
-          this.latInput = response.data["lat"];
-          this.longInput = response.data["long"];
-          this.mapCenter = L.latLng(this.latInput, this.longInput);
+          this.formInputs.latInput = response.data["lat"];
+          this.formInputs.longInput = response.data["long"];
+          this.mapCenter = L.latLng(
+            this.formInputs.latInput,
+            this.formInputs.longInput
+          );
         })
         .catch((error) => {
           if (error.response) {
@@ -760,8 +926,22 @@ export default {
           }
         });
     },
+    validateInputsBeforeSubmit(e) {
+      e.preventDefault();
+
+      for (const input in this.formInputs) {
+        if (!this.formInputs[input]) {
+          Vue.set(this.msg, input, "Please fill in");
+          this.validated = true;
+        }
+      }
+      if (this.consumption.length == 0) {
+        Vue.set(this.msg, "consumption", "Please upload file");
+        this.validated = true;
+      }
+    },
     validateLat(value) {
-      if (value >= -90 && value <= 90) {
+      if (!isNaN(value) && value >= -90 && value <= 90) {
         this.msg["latInput"] = "";
         this.validated = false;
       } else {
@@ -770,7 +950,7 @@ export default {
       }
     },
     validateLong(value) {
-      if (value >= -180 && value <= 180) {
+      if (!isNaN(value) && value >= -180 && value <= 180) {
         this.msg["longInput"] = "";
         this.validated = false;
       } else {
@@ -780,10 +960,10 @@ export default {
       }
     },
     validateTilt(value) {
-      if (value >= 0 && value < 90) {
+      if (!isNaN(value) && value >= 0 && value < 90) {
         this.msg["tiltInput"] = "";
         this.validated = false;
-      } else {
+      } else if (this.generationType == "Custom Generation") {
         this.msg["tiltInput"] =
           "Invalid module tilt - must be an angle between 0 and 89";
         this.validated = true;
@@ -800,31 +980,81 @@ export default {
       }
     },
     validateArea(value) {
-      if (value > 0) {
+      if (value == "" || (!isNaN(value) && value > 0)) {
         this.msg["areaInput"] = "";
         this.validated = false;
-      } else {
+      } else if (this.generationType == "Custom Generation") {
         this.msg["areaInput"] = "Invalid module area - must be greater than 0";
         this.validated = true;
       }
     },
     validateEfficiency(value) {
-      if (value > 0 && value < 1) {
+      if (!isNaN(value) && value > 0 && value < 1) {
         this.msg["efficiencyInput"] = "";
         this.validated = false;
-      } else {
+      } else if (this.generationType == "Custom Generation") {
         this.msg["efficiencyInput"] =
           "Invalid module efficiency - must be between 0 and 1 (1 - decimal value of percentage)";
         this.validated = true;
       }
     },
     validateLoss(value) {
-      if (value > 0 && value < 1) {
+      if (value == "" || (!isNaN(value) && value > 0 && value < 1)) {
         this.msg["lossInput"] = "";
         this.validated = false;
-      } else {
+      } else if (this.generationType == "Custom Generation") {
         this.msg["lossInput"] =
           "Invalid loss coefficient - must be between 0 and 1";
+        this.validated = true;
+      }
+    },
+    validatePower(value) {
+      if (value == "" || (!isNaN(value) && value > 0)) {
+        this.msg["powerCostInput"] = "";
+        this.validated = false;
+      } else if (this.generationType == "Optimized Generation") {
+        this.msg["powerCostInput"] =
+          "Invalid power cost - must be greater than 0";
+        this.validated = true;
+      }
+    },
+    validateGrant(value) {
+      if (!isNaN(value) && value >= 0) {
+        this.msg["grantInput"] = "";
+        this.validated = false;
+      } else if (this.generationType == "Optimized Generation") {
+        this.msg["grantInput"] =
+          "Invalid grant cost - must be greater than positive";
+        this.validated = true;
+      }
+    },
+    validateInterest(value) {
+      if (!isNaN(value) && value >= 0 && value <= 100) {
+        this.msg["interestInput"] = "";
+        this.validated = false;
+      } else if (this.generationType == "Optimized Generation") {
+        this.msg["interestInput"] =
+          "Invalid interest rate - must be between 0% and 100%";
+        this.validated = true;
+      }
+    },
+    validateRoof(value) {
+      if (value == "" || (!isNaN(value) && value > 3)) {
+        this.msg["roofInput"] = "";
+        this.validated = false;
+      } else if (this.generationType == "Optimized Generation") {
+        this.msg["roofInput"] =
+          "Invalid loss coefficient - must be atleast room for 1 panel";
+        this.validated = true;
+      }
+    },
+    validateConsumption(value) {
+      if (value) {
+        this.msg["consumption"] = "";
+        this.validated = false;
+      } else {
+        this.msg["consumption"] =
+          "Invalid consumption file - please upload a file of the correct type";
         this.validated = true;
       }
     },
