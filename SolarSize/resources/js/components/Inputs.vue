@@ -550,7 +550,7 @@ export default {
     bus.$on("latlongAdded", (latLong) => {
       this.formInputs.latInput = latLong[0];
       this.formInputs.longInput = latLong[1];
-      //this.displayLatLong = true;
+      this.displayLatLong = true;
     });
   },
   data: function () {
@@ -609,7 +609,7 @@ export default {
           "efficiencyInput",
           "lossInput",
         ];
-      } else if (this.generationType == "Optimized Generation") {
+      } else {
         var currentInputs = [
           "latInput",
           "longInput",
@@ -656,8 +656,6 @@ export default {
       var filledInputs = true;
       for (const input in currentInputs) {
         if (!this.formInputs[currentInputs[input]]) {
-          console.log(this.formInputs[currentInputs[input]]);
-          console.log(currentInputs[input]);
           filledInputs = false;
         }
       }
@@ -822,22 +820,39 @@ export default {
         )
         .then((response) => {
           this.loading = false;
-          var dateData = response.data[1];
-          var powerData = response.data[0];
-          var formattedDataGeneration = dateData.map((e, i) => [
-            new Date(e).getTime(),
-            isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]) / 1000, // Converts NaN to 0, WH to KWH
-          ]);
-          var startDate = new Date(this.startInput);
-          var endDate = new Date(this.endInput);
+          var formattedGenerationArr = [];
+          for (const index in response.data) {
+            var dateData = response.data[index]["Dates"];
+            var powerData = response.data[index]["Power"];
+            var formattedDataGeneration = dateData.map((e, i) => [
+              new Date(e).getTime(),
+              isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]) / 1000, // Converts NaN to 0, WH to KWH
+            ]);
+
+            var generationEstimateObject = {
+              Name: response.data[index]["Name"][0],
+              Cost: response.data[index]["Cost"][0],
+              Area: response.data[index]["Area"][0],
+              Data: formattedDataGeneration,
+            };
+
+            formattedGenerationArr.push(generationEstimateObject);
+          }
+          var startDate = new Date(this.formInputs.startInput);
+          var endDate = new Date(this.formInputs.endInput);
+
           endDate.setDate(endDate.getDate() + 2);
           bus.$emit(
-            "generationSuccess",
-            formattedDataGeneration,
+            "generationSuccessOptimized",
+            formattedGenerationArr,
             this.consumption,
             startDate.getTime(),
             endDate.getTime(),
-            this.zoneInput
+            this.formInputs.zoneInput,
+            this.formInputs.powerCostInput,
+            this.formInputs.grantInput,
+            this.formInputs.interestInput,
+            this.formInputs.roofInput
           );
         })
         .catch((error) => {
@@ -878,8 +893,8 @@ export default {
             new Date(e).getTime(),
             isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]) / 1000, // Converts NaN to 0, WH to KWH
           ]);
-          var startDate = new Date(this.startInput);
-          var endDate = new Date(this.endInput);
+          var startDate = new Date(this.formInputs.startInput);
+          var endDate = new Date(this.formInputs.endInput);
           endDate.setDate(endDate.getDate() + 2);
           bus.$emit(
             "generationSuccess",

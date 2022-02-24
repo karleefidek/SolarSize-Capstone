@@ -381,6 +381,31 @@ export default {
         0
       );
     },
+
+    estimateYearlyTotalGeneration: function (
+      estimateDataObject,
+      startTime,
+      endTime
+    ) {
+      var total = this.sumTotalGenerationEstimate(estimateDataObject);
+      var days = (endTime - startTime) / (1000 * 3600 * 24);
+
+      return (total / days) * 365;
+    },
+    estimateYearlyOverGeneration: function (
+      estimateDataObject,
+      consumptionDataObject,
+      startTime,
+      endTime
+    ) {
+      var total = this.sumOverGenerationEstimate(
+        estimateDataObject,
+        consumptionDataObject
+      );
+      var days = (endTime - startTime) / (1000 * 3600 * 24);
+
+      return (total / days) * 365;
+    },
     sumTotalGenerationEstimate: function (estimateDataObject) {
       var totalGenerationEstimate = 0;
       for (const timeKey in estimateDataObject) {
@@ -434,6 +459,58 @@ export default {
       console.log(this.$refs.chartComponent.chart);
       //this.$refs.chartComponent.chart.redraw();
     });
+
+    bus.$on(
+      "generationSuccessOptimized",
+      (
+        formattedGenerationArr,
+        consumptionData,
+        startDate,
+        endDate,
+        timeZone,
+        powerCost,
+        grantTotal,
+        interestInput,
+        roofSize
+      ) => {
+        this.consumptionMap = Object.assign(
+          ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
+        );
+
+        for (const index in formattedGenerationArr) {
+          var numberOfPanels = 1;
+
+          console.log(startDate, timeZone, powerCost, roofSize);
+          var generationBreakdownsArr = [];
+          while (
+            numberOfPanels * formattedGenerationArr[index]["Area"] <
+            roofSize
+          ) {
+            var estimateMap = Object.assign(
+              ...formattedGenerationArr[index]["Data"].map(([key, value]) => ({
+                [key]: value * numberOfPanels,
+              }))
+            );
+
+            var totalGenEstimate = this.estimateYearlyTotalGeneration(
+              estimateMap,
+              startDate,
+              endDate
+            );
+
+            var totalOverGenerationEstimate = this.estimateYearlyOverGeneration(
+              estimateMap,
+              this.consumptionMap,
+              startDate,
+              endDate
+            );
+
+            generationBreakdownsArr.push;
+          }
+          console.log(totalGenEstimate, totalOverGenerationEstimate);
+        }
+      }
+    );
   },
 };
 </script>
