@@ -243,6 +243,7 @@ def main():
             lossCoefficient = 0.1
             numPanels = 1
             print('['+entry["Name"]+"]")
+            print('['+str(entry["Area"])+"]")
             print('['+ str(entry["Cost"])+ "]")
             outputSolarData(latitude, longitude, timeZone, moduleTilt, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
             

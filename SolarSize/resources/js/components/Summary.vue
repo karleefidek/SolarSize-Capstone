@@ -116,6 +116,7 @@ export default {
       consumptionMap: Object,
       estimateMap: Object,
       number: 0,
+      solarPanelData: [],
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
       costOfInvestment: 100,
@@ -477,10 +478,14 @@ export default {
           ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
         );
 
+        var solarPanelBreakdowns = [];
         for (const index in formattedGenerationArr) {
           var numberOfPanels = 1;
 
-          console.log(startDate, timeZone, powerCost, roofSize);
+          var panelObject = {
+            Name: formattedGenerationArr[index]["Name"],
+            Cost: formattedGenerationArr[index]["Cost"],
+          };
           var generationBreakdownsArr = [];
           while (
             numberOfPanels * formattedGenerationArr[index]["Area"] <
@@ -505,10 +510,22 @@ export default {
               endDate
             );
 
-            generationBreakdownsArr.push;
+            generationBreakdownsArr.push({
+              panelCount: numberOfPanels,
+              totalGeneration: totalGenEstimate,
+              totalOverGeneration: totalOverGenerationEstimate,
+            });
+            numberOfPanels++;
           }
-          console.log(totalGenEstimate, totalOverGenerationEstimate);
+          panelObject.Data = generationBreakdownsArr;
+
+          solarPanelBreakdowns.push(panelObject);
+
+          console.log(panelObject);
         }
+        console.log(solarPanelBreakdowns);
+
+        this.solarPanelData = solarPanelBreakdowns;
       }
     );
   },
