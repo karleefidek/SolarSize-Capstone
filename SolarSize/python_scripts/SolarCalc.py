@@ -9,6 +9,7 @@ import statistics
 import sys
 import socket
 import requests
+import time
 
 #class SolarInsolation:
 class ImportData():
@@ -41,14 +42,17 @@ class ImportData():
     def getResponseFromAPI(self):
         success = False
         #https://power.larc.nasa.gov/api/temporal/daily/point?parameters=ALLSKY_SFC_SW_DWN,CLRSKY_SFC_SW_DWN,ALLSKY_KT,ALLSKY_NKT,ALLSKY_SFC_LW_DWN,ALLSKY_SFC_PAR_TOT,CLRSKY_SFC_PAR_TOT,ALLSKY_SFC_UVA,ALLSKY_SFC_UVB,ALLSKY_SFC_UV_INDEX,WS2M&community=RE&longitude=-104.9423&latitude=50.3724&start=20160115&end=20170315&format=CSV
-
-        if not self.APIResponse: #Don't call API again if already set 
-            try:
-                r = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=15,headers={"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"})
-                data = r.json()
-                self.APIResponse = data
-            except requests.exceptions.Timeout:
-                print("Timeout error occured")
+        retry = 0
+        if not self.APIResponse: #Don't call API again if already set
+            while retry <= 5: 
+                try:
+                    r = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?Time=LST&parameters=ALLSKY_SFC_SW_DWN,SZA,T2M,T2MDEW,PS,WS10M&community=RE&longitude={self.longitude}&latitude={self.latitude}&start={self.startDate}&end={self.endDate}&format=JSON",timeout=4,headers={"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"})
+                    data = r.json()
+                    self.APIResponse = data
+                    return
+                except requests.exceptions.Timeout:
+                    retry+=1
+                    time.sleep(3)
                 
                 
 
