@@ -698,6 +698,10 @@ export default {
         this.formInputs.startInput = "2021-01-01";
         this.formInputs.endInput = "2021-05-01";
         this.formInputs.lossInput = "0.127";
+        this.formInputs.grantInput = "500";
+        this.formInputs.interestInput = "15";
+        this.formInputs.powerCostInput = "20";
+        this.formInputs.roofInput = "400";
       }
     },
     "formInputs.latInput": function (value) {
@@ -1012,7 +1016,7 @@ export default {
           "Invalid panel direction - must be an angle between 0 and 360";
         this.validated = true;
       }
-      compassArray = [
+      var compassArray = [
         "N",
         "NNE",
         "NE",
@@ -1030,7 +1034,7 @@ export default {
         "NW",
         "NNW",
       ];
-      this.panelDirection = compassArray[Math.floor(num / 22.5 + 0.5) % 16];
+      this.panelDirection = compassArray[Math.floor(value / 22.5 + 0.5) % 16];
     },
     validateArea(value) {
       if (value == "" || (!isNaN(value) && value > 0)) {
