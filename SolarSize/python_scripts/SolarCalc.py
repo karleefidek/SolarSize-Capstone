@@ -149,10 +149,10 @@ class ImportData():
         HRA = 15 * (LST - 12)
         return HRA
 
-    #Direct Normal Irradiance (DNI)
+    #Direct Normal Irradiance (DNI) 
     def calculateModuleDNI(self):
-        #Aim south for now.
-        #Solar Panel Direction Azimuth. 180 = North, 90 = West, -90 = East, 0 = South
+        #This azimuth (panel direction angle) is based on South to West, 0 = South, 90 = East, 180 = North, 270 = West, 360 = South
+        #Solar Panel Direction Azimuth. 180 = North, 270 = West, 90 = East, 0 or 360 = South
         moduleAzimuth = 0
         #Complex equation from https://www.pveducation.org/pvcdrom/properties-of-sunlight/making-use-of-tmy-data#footnote1_j7gwlmm
         moduleDNI = self.dniValue * ((math.sin(math.radians(self.declinationAngle))*math.sin(math.radians(self.latitude))*math.cos(math.radians(self.moduleTilt))) - (math.sin(math.radians(self.declinationAngle))*math.cos(math.radians(self.latitude))*math.sin(math.radians(self.moduleTilt))*math.cos(math.radians(moduleAzimuth))) + (math.cos(math.radians(self.declinationAngle))*math.cos(math.radians(self.latitude))*math.cos(math.radians(self.moduleTilt))*math.cos(math.radians(self.hourAngle))) + (math.cos(math.radians(self.declinationAngle))*math.sin(math.radians(self.latitude))*math.sin(math.radians(self.moduleTilt))*math.cos(math.radians(moduleAzimuth))*math.cos(math.radians(self.hourAngle))) + (math.cos(math.radians(self.declinationAngle))*math.sin(math.radians(moduleAzimuth))*math.sin(math.radians(self.hourAngle)*math.sin(math.radians(self.moduleTilt)))))

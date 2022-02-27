@@ -171,7 +171,9 @@
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
                 }}</span>
-                <VueInputUi
+                <span>{{msg.PanelDirection}}</span>
+                <div class="slider" :style="{ transform: 'rotate(0deg)'}">
+                <round-slider 
                   id="direction"
                   v-model="formInputs.directionInput"
                   label="Panel Direction"
@@ -180,13 +182,23 @@
                   :loader="loading"
                   clearable
                   :error="!!msg.directionInput"
-                />
+                  :start-angle="270"
+                  :end-angle="269"      
+                  :min="0"
+                  :max="360"         
+                  :step="1"
+                  :pathColor="'#42644e'"
+                  :rangeColor="'#7FB82C'"
+                  :radius="75"
+                  @touchmove="$refs.input.blur()"
+                ></round-slider>
+                </div>
                 <b-tooltip
                   target="direction"
                   placement="right"
                   triggers="hover"
                 >
-                  The direction the panel is facing. Ex. S30W
+                  The direction the panel is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
                 </b-tooltip>
               </div>
 
@@ -530,6 +542,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import VueFileAgent from "vue-file-agent";
 import VueFileAgentStyles from "vue-file-agent/dist/vue-file-agent.css";
+import RoundSlider from 'vue-round-slider';
 import axios from "axios";
 import Modal from "./Modal";
 import Map from "./Map";
@@ -985,12 +998,13 @@ export default {
       }
     },
     validateDirection(value) {
-      if (value >= 0 && value < 360) {
+      this.msg["panelDirection"] = "Panel Direction"
+      if (value >= 0 && value <= 360) {
         this.msg["directionInput"] = "";
         this.validated = false;
       } else {
         this.msg["directionInput"] =
-          "Invalid panel direction - must be an angle between 0 and 359";
+          "Invalid panel direction - must be an angle between 0 and 360";
         this.validated = true;
       }
     },
@@ -1078,4 +1092,9 @@ export default {
 </script>
 
 <style scoped src="../../css/app.css">
+.slider{
+  display: table;
+  margin-right: 20px;
+  margin-left: 200px;
+}
 </style>
