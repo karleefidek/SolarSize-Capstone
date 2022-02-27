@@ -159,7 +159,7 @@
           </div>
         </div>
       </div>
-      <br />
+      <br/>
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
@@ -256,7 +256,7 @@
                 <div style="margin-left: 33%; margin-right: 33%;">
                 <round-slider 
                   v-model="formInputs.directionInput"
-                  label="Panel Direction"
+                  label="Roof Direction"
                   :dark="darkMode"
                   required
                   :loader="loading"
@@ -272,12 +272,12 @@
                   :radius="60"
                   @touchmove="$refs.input.blur()"
                 ></round-slider>         
-                <span style="margin-left: -28%" id="direction">Panel Orientation: {{panelDirection}}</span> <b-tooltip
+                <span style="margin-left: -28%" id="direction">Roof Orientation: {{panelDirection}}</span> <b-tooltip
                   target="direction"
                   placement="right"
                   triggers="hover"
                 >
-                  The direction the panel is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
+                  The direction the roof is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
                 </b-tooltip>
                 </div>  
               </div>
@@ -285,30 +285,7 @@
             <div
               v-if="generationType == 'Optimized Generation'"
               class="inputContainer"
-            >
-              <div>
-                <span class="errorMsg" v-if="msg.directionInput">{{
-                  msg.directionInput
-                }}</span>
-                <VueInputUi
-                  id="direction"
-                  v-model="formInputs.directionInput"
-                  label="Roof Direction"
-                  :dark="darkMode"
-                  required
-                  :loader="loading"
-                  clearable
-                  :error="!!msg.directionInput"
-                />
-                <b-tooltip
-                  target="direction"
-                  placement="right"
-                  triggers="hover"
-                >
-                  The direction the roof is facing for the panel. Ex. S30W
-                </b-tooltip>
-              </div>
-
+            >         
               <div>
                 <span class="errorMsg" v-if="msg.roofInput">{{
                   msg.roofInput
@@ -446,6 +423,41 @@
                   The cost of a kilowatt hour (kWh) in dollars.
                 </b-tooltip>
               </div>
+
+              <div>
+                <span class="errorMsg" v-if="msg.directionInput">{{
+                  msg.directionInput
+                }}</span>
+
+                <div style="margin-left: 33%; margin-right: 33%;">
+                <round-slider 
+                  v-model="formInputs.directionInput"
+                  label="Roof Direction"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  clearable
+                  :error="!!msg.directionInput"
+                  :start-angle="270"
+                  :end-angle="269"      
+                  :min="0"
+                  :max="360"         
+                  :step="1"
+                  :pathColor="'#42644e'"
+                  :rangeColor="'#7FB82C'"
+                  :radius="60"
+                  @touchmove="$refs.input.blur()"
+                ></round-slider>         
+                <span style="margin-left: -28%" id="direction">Roof Direction: {{panelDirection}}</span> <b-tooltip
+                  target="direction"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The direction the roof is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
+                </b-tooltip>
+                </div>
+                </div>  
+
             </div>
           </div>
         </div>
