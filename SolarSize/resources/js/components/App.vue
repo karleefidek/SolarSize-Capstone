@@ -23,7 +23,7 @@ export default {
   data: function () {
     return {
       modalVisible: false,
-      selected: "inputs",
+      selected: "summary",
       options: [
         { id: "inputs", title: "Inputs" },
         { id: "summary", title: "Summary" },

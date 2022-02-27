@@ -92,6 +92,10 @@
         ref="chartComponent"
         class="component-container"
       ></highcharts>
+      <cashflow
+        :solarPanelData="solarPanelData"
+        :investmentData="investmentData"
+      ></cashflow>
     </div>
   </div>
 </template>
@@ -104,10 +108,16 @@ import { Chart } from "highcharts-vue";
 import Highcharts from "highcharts";
 import ROIText from "./ROIText";
 import AnimatedNumber from "./AnimatedNumber";
+import ROICalc from "./ROICalc";
 
 export default {
   name: "Summary",
-  components: { highcharts: Chart, ROIText, AnimatedNumber, VueInputUi },
+  components: {
+    highcharts: Chart,
+    ROIText,
+    AnimatedNumber,
+    cashflow: ROICalc,
+  },
   data: function () {
     return {
       //These are objects which contain a key:value pair where the key is the UTC time, the value is the KWH
@@ -116,6 +126,11 @@ export default {
       consumptionMap: Object,
       estimateMap: Object,
       number: 0,
+      investmentData: {
+        interestRate: Number,
+        powerCost: Number,
+        grantTotal: Number,
+      },
       solarPanelData: [],
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
@@ -474,6 +489,10 @@ export default {
         interestInput,
         roofSize
       ) => {
+        this.investmentData.interestRate = interestInput;
+        this.investmentData.powerCost = powerCost;
+        this.investmentData.grantTotal = grantTotal;
+
         this.consumptionMap = Object.assign(
           ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
         );

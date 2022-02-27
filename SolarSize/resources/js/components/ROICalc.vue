@@ -9,12 +9,30 @@
     <p>{{ systemKw }}</p>
     <p>{{ grants }}</p>
     <p>{{ capitalCost }}</p>
+    <highcharts
+      :options="chartOptions"
+      :series="series"
+      ref="cashFlow"
+      class="component-container"
+    ></highcharts>
   </div>
 </template>
 
 <script>
+import "vue-input-ui/dist/vue-input-ui.css";
+import { bus } from "../app";
+import { Chart } from "highcharts-vue";
+import Highcharts from "highcharts";
+import ROIText from "./ROIText";
+import AnimatedNumber from "./AnimatedNumber";
+
 export default {
-  name: "HelloWorld",
+  props: {
+    solarPanelData: Array,
+    investmentData: Object,
+  },
+  components: { highcharts: Chart, ROIText, AnimatedNumber },
+  name: "Optimization",
   data: function () {
     return {
       //These are objects which contain a key:value pair where the key is the UTC time, the value is the KWH
@@ -30,12 +48,92 @@ export default {
       grants: 0,
       capitalCost: 0,
       powerPrice: 0.1475,
+      series: [],
+      chartOptions: {
+        chart: {
+          type: "column",
+        },
+        title: {
+          text: "Annual KWH Generated",
+          align: "center",
+        },
+        credits: {
+          enabled: false,
+        },
+        tooltip: {
+          headerFormat:
+            '<span style="font-size:10px">{point.key}</span><table>',
+          pointFormat:
+            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} KWH</b></td></tr>',
+          footerFormat: "</table>",
+          shared: true,
+          useHTML: true,
+        },
+        xAxis: {
+          categories: [
+            "Year 1",
+            "Year 2",
+            "Year 3",
+            "Year 4",
+            "Year 5",
+            "Year 6",
+            "Year 7",
+            "Year 8",
+            "Year 9",
+            "Year 10",
+            "Year 11",
+            "Year 12",
+            "Year 13",
+            "Year 14",
+            "Year 15",
+            "Year 16",
+            "Year 17",
+            "Year 18",
+            "Year 19",
+            "Year 20",
+          ],
+          crosshair: true,
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: "KWH",
+          },
+        },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0,
+          },
+        },
+        series: [
+          {
+            name: "Generated",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            color: "#96C951",
+          },
+          {
+            name: "Consumed",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            color: "#88E9FF",
+          },
+        ],
+      },
     };
   },
-  computed: {
-
+  computed: {},
+  watch: {
+    "investmentData.interestRate": function (newValue, oldValue) {
+      //this.investmentData = newValue;
+    },
+    "investmentData.grantTotal": function (newValue, oldValue) {
+      this.grants = newValue;
+    },
+    "investmentData.powerCost": function (newValue, oldValue) {
+      this.powerPrice = newValue;
+    },
   },
-  watch: {},
   methods: {
     calcAnnualCashFlow: function (interestRate) {
       var cost = this.calcCapitalCost();
@@ -88,7 +186,7 @@ export default {
     },
   },
   mounted() {
-    this.calcAnnualCashFlow(0);
+    this.calcAnnualCashFlow(20);
   },
 };
 </script>

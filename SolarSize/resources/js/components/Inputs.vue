@@ -252,35 +252,38 @@
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
                 }}</span>
-                <span>{{msg.PanelDirection}}</span>
-                <div style="margin-left: 33%; margin-right: 33%;">
-                <round-slider 
-                  id="direction"
-                  v-model="formInputs.directionInput"
-                  label="Panel Direction"
-                  :dark="darkMode"
-                  required
-                  :loader="loading"
-                  clearable
-                  :error="!!msg.directionInput"
-                  :start-angle="270"
-                  :end-angle="269"      
-                  :min="0"
-                  :max="360"         
-                  :step="1"
-                  :pathColor="'#42644e'"
-                  :rangeColor="'#7FB82C'"
-                  :radius="60"
-                  @touchmove="$refs.input.blur()"
-                ></round-slider>         
-                <span style="margin-left: -28%">Panel Orientation</span>
+                <span>{{ msg.PanelDirection }}</span>
+                <div style="margin-left: 33%; margin-right: 33%">
+                  <round-slider
+                    id="direction"
+                    v-model="formInputs.directionInput"
+                    label="Panel Direction"
+                    :dark="darkMode"
+                    required
+                    :loader="loading"
+                    clearable
+                    :error="!!msg.directionInput"
+                    :start-angle="270"
+                    :end-angle="269"
+                    :min="0"
+                    :max="360"
+                    :step="1"
+                    :pathColor="'#42644e'"
+                    :rangeColor="'#7FB82C'"
+                    :radius="60"
+                    @touchmove="$refs.input.blur()"
+                  ></round-slider>
+                  <span style="margin-left: -28%">Panel Orientation</span>
                 </div>
                 <b-tooltip
                   target="direction"
                   placement="right"
                   triggers="hover"
                 >
-                  The direction the panel is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
+                  The direction the panel is facing. South to West Cardinality
+                  Ex. 0 or 360 = South, 90 = East, 180 = North, 270 = West. In
+                  the Northern Hemisphere, south orientation will get the best
+                  results.
                 </b-tooltip>
               </div>
             </div>
@@ -542,7 +545,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import VueFileAgent from "vue-file-agent";
 import VueFileAgentStyles from "vue-file-agent/dist/vue-file-agent.css";
-import RoundSlider from 'vue-round-slider';
+import RoundSlider from "vue-round-slider";
 import axios from "axios";
 import Modal from "./Modal";
 import Map from "./Map";
@@ -998,7 +1001,7 @@ export default {
       }
     },
     validateDirection(value) {
-      this.msg["panelDirection"] = "Panel Direction"
+      this.msg["panelDirection"] = "Panel Direction";
       if (value >= 0 && value <= 360) {
         this.msg["directionInput"] = "";
         this.validated = false;
@@ -1092,7 +1095,7 @@ export default {
 </script>
 
 <style scoped src="../../css/app.css">
-.slider{
+.slider {
   display: table;
   margin-right: 20px;
   margin-left: 200px;
