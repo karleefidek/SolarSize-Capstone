@@ -168,41 +168,6 @@
               class="inputContainer"
             >
               <div>
-                <span class="errorMsg" v-if="msg.directionInput">{{
-                  msg.directionInput
-                }}</span>
-                <span>{{msg.PanelDirection}}</span>
-                <div class="slider" :style="{ transform: 'rotate(0deg)'}">
-                <round-slider 
-                  id="direction"
-                  v-model="formInputs.directionInput"
-                  label="Panel Direction"
-                  :dark="darkMode"
-                  required
-                  :loader="loading"
-                  clearable
-                  :error="!!msg.directionInput"
-                  :start-angle="270"
-                  :end-angle="269"      
-                  :min="0"
-                  :max="360"         
-                  :step="1"
-                  :pathColor="'#42644e'"
-                  :rangeColor="'#7FB82C'"
-                  :radius="75"
-                  @touchmove="$refs.input.blur()"
-                ></round-slider>
-                </div>
-                <b-tooltip
-                  target="direction"
-                  placement="right"
-                  triggers="hover"
-                >
-                  The direction the panel is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
-                </b-tooltip>
-              </div>
-
-              <div>
                 <span class="errorMsg" v-if="msg.tiltInput">{{
                   msg.tiltInput
                 }}</span>
@@ -281,6 +246,41 @@
                   The coefficient of losses from environmental factors and
                   efficiency losses in inverters, cables, and panels. (Entered
                   as a decimal)
+                </b-tooltip>
+              </div>
+              <div>
+                <span class="errorMsg" v-if="msg.directionInput">{{
+                  msg.directionInput
+                }}</span>
+                <span>{{msg.PanelDirection}}</span>
+                <div style="margin-left: 33%; margin-right: 33%;">
+                <round-slider 
+                  id="direction"
+                  v-model="formInputs.directionInput"
+                  label="Panel Direction"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  clearable
+                  :error="!!msg.directionInput"
+                  :start-angle="270"
+                  :end-angle="269"      
+                  :min="0"
+                  :max="360"         
+                  :step="1"
+                  :pathColor="'#42644e'"
+                  :rangeColor="'#7FB82C'"
+                  :radius="60"
+                  @touchmove="$refs.input.blur()"
+                ></round-slider>         
+                <span style="margin-left: -28%">Panel Orientation</span>
+                </div>
+                <b-tooltip
+                  target="direction"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The direction the panel is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
                 </b-tooltip>
               </div>
             </div>
