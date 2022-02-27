@@ -8,7 +8,8 @@
     <p>{{ costInstallKw }}</p>
     <p>{{ systemKw }}</p>
     <p>{{ grants }}</p>
-    <p>{{ capitalCost }}</p>
+    <p>{{ bestSolarPanel }}</p>
+
     <highcharts
       :options="chartOptions"
       :series="series"
@@ -48,10 +49,14 @@ export default {
       grants: 0,
       capitalCost: 0,
       powerPrice: 0.1475,
+      fullCreditPower: 0,
+      overGenPower: 0,
+      breakEvenYear: 0,
       series: [],
       chartOptions: {
         chart: {
           type: "column",
+          zoomType: "x",
         },
         title: {
           text: "Annual KWH Generated",
@@ -60,16 +65,16 @@ export default {
         credits: {
           enabled: false,
         },
-        tooltip: {
-          headerFormat:
-            '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat:
-            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} KWH</b></td></tr>',
-          footerFormat: "</table>",
-          shared: true,
-          useHTML: true,
-        },
+        // tooltip: {
+        //   headerFormat:
+        //     '<span style="font-size:10px">{point.key}</span><table>',
+        //   pointFormat:
+        //     '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        //     '<td style="padding:0"><b>${point.y:.1f} </b></td></tr>',
+        //   footerFormat: "</table>",
+        //   shared: true,
+        //   useHTML: true,
+        // },
         xAxis: {
           categories: [
             "Year 1",
@@ -96,27 +101,33 @@ export default {
           crosshair: true,
         },
         yAxis: {
-          min: 0,
           title: {
             text: "KWH",
           },
         },
         plotOptions: {
           column: {
+            stacking: "normal",
+            dataLabels: {
+              enabled: true,
+            },
             pointPadding: 0.2,
             borderWidth: 0,
           },
         },
         series: [
           {
-            name: "Generated",
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            color: "#96C951",
+            name: "John",
+            data: [5, 3, 4, 7, 2],
           },
           {
-            name: "Consumed",
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            color: "#88E9FF",
+            name: "Jane",
+            data: [2, 2, 3, 2, 1],
+          },
+          {
+            name: "Joe",
+            data: [-3, 4, 4, 2, 5],
+            negativeColor: "red",
           },
         ],
       },
@@ -124,6 +135,48 @@ export default {
   },
   computed: {},
   watch: {
+    solarPanelData: {
+      handler: function (newValue, oldValue) {
+        this.powerPrice = Number(this.investmentData.powerCost);
+        var solarPanel = this.findBestSolarPanel();
+
+        this.fullCreditPower = solarPanel.totalGeneration;
+        this.overGenPower = solarPanel.totalOverGeneration;
+        this.systemKw = 0.3 * solarPanel.panelCount;
+
+        this.calcAnnualCashFlow(20);
+
+        this.chartOptions.series = [
+          {
+            name: "Captial Cost",
+            data: [-this.capitalCost],
+            negativeColor: "red",
+            stack: "Costs",
+          },
+          {
+            name: "Maintanence Cost",
+            data: this.maintenanceCost.map((num) => -num),
+            stack: "Costs",
+          },
+          {
+            name: "Value of Power Saved",
+            data: this.priceOfPowerSaved,
+            stack: "Costs",
+          },
+          {
+            name: "Interest Cost",
+            data: this.interestCost.map((num) => -num),
+            stack: "Costs",
+          },
+          {
+            name: "Remaining Balance",
+            data: this.balanceRemaining,
+            stack: "Principle",
+          },
+        ];
+      },
+      deep: true,
+    },
     "investmentData.interestRate": function (newValue, oldValue) {
       //this.investmentData = newValue;
     },
@@ -131,19 +184,54 @@ export default {
       this.grants = newValue;
     },
     "investmentData.powerCost": function (newValue, oldValue) {
-      this.powerPrice = newValue;
+      this.powerPrice = Number(newValue);
     },
   },
   methods: {
+    findBestSolarPanel: function () {
+      var bestPanelIndex;
+      var bestPanelNumberIndex;
+      var mostAmountSaved = -Infinity;
+
+      console.log(this.solarPanelData);
+
+      for (const solarIndex in this.solarPanelData) {
+        for (const dataIndex in this.solarPanelData[solarIndex].Data) {
+          this.fullCreditPower =
+            this.solarPanelData[solarIndex].Data[dataIndex].totalGeneration;
+          this.overGenPower =
+            this.solarPanelData[solarIndex].Data[dataIndex].totalOverGeneration;
+          this.systemKw =
+            0.3 * this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
+
+          var currentValueAtYear20 = this.calcAnnualCashFlow(20);
+          if (currentValueAtYear20 > mostAmountSaved) {
+            bestPanelIndex = solarIndex;
+            bestPanelNumberIndex =
+              this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
+            mostAmountSaved = currentValueAtYear20;
+          }
+        }
+      }
+      console.log(bestPanelIndex, bestPanelNumberIndex);
+      return this.solarPanelData[bestPanelIndex].Data[bestPanelNumberIndex];
+    },
     calcAnnualCashFlow: function (interestRate) {
       var cost = this.calcCapitalCost();
+      var breakEvenYear = Infinity;
       for (let year = 1; year <= 20; year++) {
         this.interestCost[year - 1] = cost * (interestRate / 100);
         this.balanceRemaining[year - 1] =
           cost + this.interestCost[year - 1] - this.calcAmountSaved(year);
-        cost = this.balanceRemaining[year - 1];
+        //cost = this.balanceRemaining[year - 1];
+        if (this.balanceRemaining[year - 1] < 0 && breakEvenYear == Infinity) {
+          this.breakEvenYear = year - 1;
+        }
       }
-      return 1;
+      return this.balanceRemaining[19];
+    },
+    totalAmountSaved: function () {
+      return this.amountSaved.reduce((a, b) => a + b, 0);
     },
     calcCapitalCost: function () {
       this.capitalCost = this.systemKw * this.costInstallKw - this.grants;
@@ -157,6 +245,8 @@ export default {
     calcPriceOfPowerSaved: function (year) {
       if (year - 1 > 0) {
         this.powerPrice = this.powerPrice + this.powerPrice * 0.055;
+      } else {
+        this.powerPrice = Number(this.investmentData.powerCost);
       }
       var fullCreditSaved = this.fullCreditPower * this.powerPrice;
       var halfCreditSaved = this.overGenPower * (this.powerPrice / 2);
@@ -185,9 +275,7 @@ export default {
       return this.maintenanceCost[year - 1];
     },
   },
-  mounted() {
-    this.calcAnnualCashFlow(20);
-  },
+  mounted() {},
 };
 </script>
 
