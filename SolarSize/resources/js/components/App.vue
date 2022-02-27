@@ -45,6 +45,10 @@ export default {
       this.selected = "summary";
       this.$refs.nav.$data.localOptions[1].isActive = true; //sets the navbar to Summary
     });
+    bus.$on("generationSuccessOptimized", () => {
+      this.selected = "summary";
+      this.$refs.nav.$data.localOptions[1].isActive = true; //sets the navbar to Summary
+    });
   },
 };
 </script>
