@@ -255,7 +255,6 @@
 
                 <div style="margin-left: 33%; margin-right: 33%;">
                 <round-slider 
-                  id="direction"
                   v-model="formInputs.directionInput"
                   label="Panel Direction"
                   :dark="darkMode"
@@ -273,15 +272,14 @@
                   :radius="60"
                   @touchmove="$refs.input.blur()"
                 ></round-slider>         
-                <span style="margin-left: -28%">Panel Orientation: {{panelDirection}}</span>
-                </div>
-                <b-tooltip
+                <span style="margin-left: -28%" id="direction">Panel Orientation: {{panelDirection}}</span> <b-tooltip
                   target="direction"
                   placement="right"
                   triggers="hover"
                 >
                   The direction the panel is facing. South to West Cardinality Ex. 0 or 360 = South, 90 = East, 180  = North, 270 = West. In the Northern Hemisphere, south orientation will get the best results.
                 </b-tooltip>
+                </div>  
               </div>
             </div>
             <div
@@ -1007,8 +1005,8 @@ export default {
           "Invalid panel direction - must be an angle between 0 and 360";
         this.validated = true;
       }
-      compassArray = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-      this.panelDirection = compassArray[Math.floor((num / 22.5) + 0.5) % 16]
+      var compassArray = ["South", "South South West", "South West", "West South West", "West", "West North West", "North West", "North North West", "North", "North North East", "North East", "East North East",  "East", "East South East", "South East","South South East", "South"];
+      this.panelDirection = compassArray[Math.floor((value / 22.5) + 0.5) % 16]
     },
     validateArea(value) {
       if (value == "" || (!isNaN(value) && value > 0)) {
