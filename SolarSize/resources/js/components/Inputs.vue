@@ -252,7 +252,7 @@
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
                 }}</span>
-                <span>{{msg.PanelDirection}}</span>
+
                 <div style="margin-left: 33%; margin-right: 33%;">
                 <round-slider 
                   id="direction"
@@ -273,7 +273,7 @@
                   :radius="60"
                   @touchmove="$refs.input.blur()"
                 ></round-slider>         
-                <span style="margin-left: -28%">Panel Orientation</span>
+                <span style="margin-left: -28%">Panel Orientation: {{panelDirection}}</span>
                 </div>
                 <b-tooltip
                   target="direction"
@@ -597,6 +597,7 @@ export default {
       addressAutoFill: [],
       address: "",
       msg: {},
+      panelDirection: "South",
       validated: true,
     };
   },
@@ -998,7 +999,6 @@ export default {
       }
     },
     validateDirection(value) {
-      this.msg["panelDirection"] = "Panel Direction"
       if (value >= 0 && value <= 360) {
         this.msg["directionInput"] = "";
         this.validated = false;
@@ -1007,6 +1007,8 @@ export default {
           "Invalid panel direction - must be an angle between 0 and 360";
         this.validated = true;
       }
+      compassArray = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+      this.panelDirection = compassArray[Math.floor((num / 22.5) + 0.5) % 16]
     },
     validateArea(value) {
       if (value == "" || (!isNaN(value) && value > 0)) {
