@@ -103,16 +103,23 @@ export default {
           ],
           crosshair: true,
         },
+        tooltip: {
+          pointFormat:
+            "<span style='color:{series.color}'>{series.name}</span>: <b>$ {point.y:,.0f}</b><br/>",
+          shared: true,
+        },
         yAxis: {
           title: {
             text: "KWH",
           },
+          allowDecimals: false,
         },
         plotOptions: {
           column: {
             stacking: "normal",
             dataLabels: {
               enabled: true,
+              format: "$ {point.y:,.0f}",
             },
             pointPadding: 0.2,
             borderWidth: 0,
@@ -153,28 +160,33 @@ export default {
           {
             name: "Captial Cost",
             data: [-this.capitalCost],
-            negativeColor: "red",
+            negativeColor: "#EE4036",
             stack: "Costs",
           },
           {
             name: "Maintanence Cost",
             data: this.maintenanceCost.map((num) => -num),
             stack: "Costs",
+            negativeColor: "#FFBA40",
           },
           {
             name: "Value of Power Saved",
             data: this.priceOfPowerSaved,
             stack: "Costs",
+            color: "#96C951",
           },
           {
             name: "Interest Cost",
             data: this.interestCost.map((num) => -num),
             stack: "Costs",
+            color: "#523B89",
           },
           {
             name: "Remaining Balance",
             data: this.balanceRemaining,
             stack: "Principle",
+            color: "#EE4036",
+            negativeColor: "#C0D73E",
           },
         ];
       },
