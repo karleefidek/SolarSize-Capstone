@@ -43,7 +43,9 @@ export default {
       interestCost: [],
       maintenanceCost: [],
       priceOfPowerSaved: [],
-      costInstallKw: 2400,
+      costInstallKw: 3000,
+      interconnectionFee: 315,
+      meterCost: 498.15,
       systemKw: 90,
       grants: 0,
       capitalCost: 0,
@@ -51,6 +53,8 @@ export default {
       fullCreditPower: 0,
       overGenPower: 0,
       breakEvenYear: 0,
+      ROIPercent: 0,
+      ROIYears: 0,
       series: [],
       chartOptions: {
         chart: {
@@ -143,7 +147,7 @@ export default {
         this.overGenPower = solarPanel.totalOverGeneration;
         this.systemKw = 0.3 * solarPanel.panelCount;
 
-        this.calcAnnualCashFlow(20);
+        this.calcAnnualCashFlow();
 
         this.chartOptions.series = [
           {
@@ -177,7 +181,7 @@ export default {
       deep: true,
     },
     "investmentData.interestRate": function (newValue, oldValue) {
-      //this.investmentData = newValue;
+      //this.interestRate = newValue;
     },
     "investmentData.grantTotal": function (newValue, oldValue) {
       this.grants = newValue;
@@ -216,25 +220,40 @@ export default {
 
       return this.solarPanelData[bestPanelIndex].Data[bestPanelNumberIndex - 1];
     },
-    calcAnnualCashFlow: function (interestRate) {
+    calcAnnualCashFlow: function () {
       var cost = this.calcCapitalCost();
       var breakEvenYear = Infinity;
       for (let year = 1; year <= 20; year++) {
-        this.interestCost[year - 1] = cost * (interestRate / 100);
+        if (cost > 0) {
+          this.interestCost[year - 1] =
+            cost * (Number(this.investmentData.interestRate) / 100);
+        } else {
+          this.interestCost[year - 1] = 0;
+        }
         this.balanceRemaining[year - 1] =
           cost + this.interestCost[year - 1] - this.calcAmountSaved(year);
-        //cost = this.balanceRemaining[year - 1];
+        cost = this.balanceRemaining[year - 1];
         if (this.balanceRemaining[year - 1] < 0 && breakEvenYear == Infinity) {
           this.breakEvenYear = year - 1;
         }
       }
       return this.balanceRemaining[19];
     },
+    calcROIPercent: function () {
+      this.ROIPercent = (this.balanceRemaining[0] / this.capitalCost) * 100;
+    },
+    calcROIYears: function () {
+      this.ROIYears = 1 / (this.ROIPercent / 100);
+    },
     totalAmountSaved: function () {
       return this.amountSaved.reduce((a, b) => a + b, 0);
     },
     calcCapitalCost: function () {
-      this.capitalCost = this.systemKw * this.costInstallKw - this.grants;
+      this.capitalCost =
+        this.systemKw * this.costInstallKw +
+        this.interconnectionFee +
+        this.meterCost -
+        this.grants;
       return this.capitalCost;
     },
     calcAmountSaved: function (year) {
@@ -249,7 +268,10 @@ export default {
         this.powerPrice = Number(this.investmentData.powerCost);
       }
       var fullCreditSaved = this.fullCreditPower * this.powerPrice;
-      var halfCreditSaved = this.overGenPower * (this.powerPrice / 2);
+
+      //SaskPower credits all over generation at 7.5 cents
+      var overGenPowerPrice = 0.075;
+      var halfCreditSaved = this.overGenPower * overGenPowerPrice;
 
       this.priceOfPowerSaved[year - 1] = fullCreditSaved + halfCreditSaved;
       return this.priceOfPowerSaved[year - 1];
