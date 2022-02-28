@@ -251,3 +251,10 @@ td {
     padding-right: 25px;
     text-align: left;
   } */
+
+  .slider-text{
+    margin-left: -28%; 
+    color: #7fb82c; 
+    font-size: large;
+    font-weight: bold;
+  }
