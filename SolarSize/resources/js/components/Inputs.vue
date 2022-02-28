@@ -269,10 +269,12 @@
                     :step="1"
                     :pathColor="'#42644e'"
                     :rangeColor="'#7FB82C'"
+                    :disabled="loading"
                     :radius="60"
+                    :tooltipFormat="sliderTooltip"
                     @touchmove="$refs.input.blur()"
                   ></round-slider>
-                  <span style="margin-left: -28%" id="direction"
+                  <span class="slider-text" id="direction"
                     >Roof Orientation: {{ panelDirection }}</span
                   >
                   <b-tooltip
@@ -451,10 +453,12 @@
                     :step="1"
                     :pathColor="'#42644e'"
                     :rangeColor="'#7FB82C'"
+                    :disabled="loading"
                     :radius="60"
+                    :tooltipFormat="sliderTooltip"
                     @touchmove="$refs.input.blur()"
                   ></round-slider>
-                  <span style="margin-left: -28%" id="direction"
+                  <span class="slider-text" id="direction"
                     >Roof Direction: {{ panelDirection }}</span
                   >
                   <b-tooltip
@@ -770,6 +774,10 @@ export default {
     },
   },
   methods: {
+    sliderTooltip(e) {
+      console.log(e);
+      return e.value + "°";
+    },
     resetValues() {
       this.msg = {};
       this.formInputs = {
