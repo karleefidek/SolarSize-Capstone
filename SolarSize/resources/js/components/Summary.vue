@@ -7,7 +7,7 @@
             <h3>Return Statistics</h3>
           </template>
           <template>
-            <div class="roiInputs">
+            <div class="roiInputs" v>
               <div class="sliderInput">
                 <label for="costOfKWH">Cost of KWH </label>
                 <input
@@ -76,7 +76,6 @@
 
           <highcharts
             :options="dailyColumnChartOptions"
-            :series="series"
             ref="chartComponent"
             class="component-container"
           ></highcharts>
@@ -85,17 +84,35 @@
         </ROIText>
       </div>
     </div>
-    <div>
-      <highcharts
-        :options="chartOptions"
-        :series="series"
-        ref="chartComponent"
-        class="component-container"
-      ></highcharts>
-      <cashflow
-        :solarPanelData="solarPanelData"
-        :investmentData="investmentData"
-      ></cashflow>
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Consumption Graph</h3>
+        </template>
+
+        <highcharts
+          :options="chartOptions"
+          ref="chartComponent"
+          class="component-container"
+        ></highcharts>
+
+        <template v-slot:footer> </template>
+      </ROIText>
+    </div>
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Cash Flow Estimation</h3>
+        </template>
+
+        <cashflow
+          :solarPanelData="solarPanelData"
+          :investmentData="investmentData"
+          :formattedGenerationArr="formattedGenerationArr"
+        ></cashflow>
+
+        <template v-slot:footer> </template>
+      </ROIText>
     </div>
   </div>
 </template>
@@ -117,6 +134,7 @@ export default {
     ROIText,
     AnimatedNumber,
     cashflow: ROICalc,
+    VueInputUi,
   },
   data: function () {
     return {
@@ -125,12 +143,14 @@ export default {
       // This helps to align the estimate and cosumption values together when doing calculations between them.
       consumptionMap: Object,
       estimateMap: Object,
+      formattedGenerationArr: Array,
       number: 0,
       investmentData: {
         interestRate: Number,
         powerCost: Number,
         grantTotal: Number,
       },
+      consumptionData: [],
       solarPanelData: [],
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
@@ -481,9 +501,9 @@ export default {
       (
         formattedGenerationArr,
         consumptionData,
-        startDate,
-        endDate,
-        timeZone,
+        startTime,
+        endTime,
+        offSet,
         powerCost,
         grantTotal,
         interestInput,
@@ -492,7 +512,12 @@ export default {
         this.investmentData.interestRate = interestInput;
         this.investmentData.powerCost = powerCost;
         this.investmentData.grantTotal = grantTotal;
+        this.formattedGenerationArr = formattedGenerationArr;
 
+        this.consumptionData = consumptionData;
+        this.chartOptions.xAxis.min = startTime;
+        this.chartOptions.xAxis.max = endTime;
+        this.chartOptions.time.timezoneOffset = -offSet * 60;
         this.consumptionMap = Object.assign(
           ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
         );
@@ -518,15 +543,15 @@ export default {
 
             var totalGenEstimate = this.estimateYearlyTotalGeneration(
               estimateMap,
-              startDate,
-              endDate
+              startTime,
+              endTime
             );
 
             var totalOverGenerationEstimate = this.estimateYearlyOverGeneration(
               estimateMap,
               this.consumptionMap,
-              startDate,
-              endDate
+              startTime,
+              endTime
             );
 
             generationBreakdownsArr.push({
@@ -539,14 +564,34 @@ export default {
           panelObject.Data = generationBreakdownsArr;
 
           solarPanelBreakdowns.push(panelObject);
-
-          console.log(panelObject);
         }
-        console.log(solarPanelBreakdowns);
 
         this.solarPanelData = solarPanelBreakdowns;
       }
     );
+
+    bus.$on("bestSolarPanelFound", (bestPanelIndex, numOfPanels) => {
+      var generationArray = [];
+      for (const index in this.formattedGenerationArr[bestPanelIndex].Data) {
+        generationArray[index] = [];
+        generationArray[index][0] =
+          this.formattedGenerationArr[bestPanelIndex].Data[index][0];
+        generationArray[index][1] =
+          this.formattedGenerationArr[bestPanelIndex].Data[index][1] *
+          numOfPanels;
+      }
+
+      this.chartOptions.series[1].data = this.consumptionData;
+      this.chartOptions.series[0].data = generationArray;
+
+      this.estimateMap = Object.assign(
+        ...generationArray.map(([key, value]) => ({
+          [key]: value,
+        })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
+      );
+
+      this.sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
+    });
   },
 };
 </script>
