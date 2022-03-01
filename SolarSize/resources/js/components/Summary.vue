@@ -7,8 +7,8 @@
             <h3>Return Statistics</h3>
           </template>
           <template>
-            <div class="roiInputs" v>
-              <div class="sliderInput">
+            <div class="roiInputs">
+              <!-- <div class="sliderInput">
                 <label for="costOfKWH">Cost of KWH </label>
                 <input
                   type="range"
@@ -44,16 +44,16 @@
                 id="costOfInvestment"
                 v-model="costOfInvestment"
                 label="Cost Of Installation"
-              />
+              /> -->
               <span class="roiOutput">
                 Total Return on Investment:
                 <span
                   v-bind:class="
-                    returnTotalValue < 0 ? 'numberRed' : 'numberGreen'
+                    -returnTotalValue < 0 ? 'numberRed' : 'numberGreen'
                   "
                 >
                   $<AnimatedNumber
-                    :number="Math.ceil(returnTotalValue)"
+                    :number="-1 * Math.ceil(returnTotalValue)"
                   ></AnimatedNumber>
                 </span>
               </span>
@@ -84,6 +84,55 @@
         </ROIText>
       </div>
     </div>
+    <div class="calculation-items">
+      <div class="component-container">
+        <ROIText>
+          <template v-slot:header>
+            <h3>Cash Flow Estimation</h3>
+          </template>
+
+          <cashflow
+            :solarPanelData="solarPanelData"
+            :investmentData="investmentData"
+            :formattedGenerationArr="formattedGenerationArr"
+          ></cashflow>
+
+          <template v-slot:footer> </template>
+        </ROIText>
+      </div>
+      <div class="component-container">
+        <ROIText>
+          <template v-slot:header>
+            <h3>Best Panel Setup</h3>
+          </template>
+
+          <h3>The optimal panel setup is:</h3>
+          <div v-if="bestPanel.name != ''">
+            <h3>
+              <span style="color: #96c951">{{ bestPanel.count }}</span>
+              <span style="color: #88e9ff">{{ bestPanel.name }}s</span>
+              Angled at <span style="color: #ee4036">30°</span> degrees
+            </h3>
+            <div class="panel-repeat-group">
+              <span style="margin: 3px" v-for="i in bestPanel.count" :key="i">
+                <svg width="10" height="10">
+                  <rect
+                    width="10"
+                    height="10"
+                    v-bind:style="{
+                      fill: i % 2 == 0 ? '#96c951' : '#88e9ff',
+                    }"
+                    style="stroke-width: 1; stroke: rgb(0, 0, 0)"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <template v-slot:footer> </template>
+        </ROIText>
+      </div>
+    </div>
     <div class="component-container">
       <ROIText>
         <template v-slot:header>
@@ -95,21 +144,6 @@
           ref="chartComponent"
           class="component-container"
         ></highcharts>
-
-        <template v-slot:footer> </template>
-      </ROIText>
-    </div>
-    <div class="component-container">
-      <ROIText>
-        <template v-slot:header>
-          <h3>Cash Flow Estimation</h3>
-        </template>
-
-        <cashflow
-          :solarPanelData="solarPanelData"
-          :investmentData="investmentData"
-          :formattedGenerationArr="formattedGenerationArr"
-        ></cashflow>
 
         <template v-slot:footer> </template>
       </ROIText>
@@ -149,6 +183,10 @@ export default {
         interestRate: Number,
         powerCost: Number,
         grantTotal: Number,
+      },
+      bestPanel: {
+        name: "",
+        count: 0,
       },
       consumptionData: [],
       solarPanelData: [],
@@ -572,6 +610,9 @@ export default {
 
     bus.$on("bestSolarPanelFound", (bestPanelIndex, numOfPanels) => {
       var generationArray = [];
+      this.bestPanel.name = this.formattedGenerationArr[bestPanelIndex].Name;
+      this.bestPanel.count = numOfPanels;
+
       for (const index in this.formattedGenerationArr[bestPanelIndex].Data) {
         generationArray[index] = [];
         generationArray[index][0] =
@@ -615,6 +656,7 @@ export default {
   min-width: 300px;
   transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   flex: 1 0 48%;
+  white-space: break-spaces;
 }
 .component-container:hover {
   box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
