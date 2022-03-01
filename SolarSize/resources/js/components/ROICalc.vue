@@ -135,13 +135,13 @@ export default {
 
         this.chartOptions.series = [
           {
-            name: "Capital  Cost",
+            name: "Capital Cost",
             data: [-this.capitalCost],
             negativeColor: "#EE4036",
             stack: "Costs",
           },
           {
-            name: "Maintenance  Cost",
+            name: "Maintenance Cost",
             data: this.maintenanceCost.map((num) => -num),
             stack: "Costs",
             negativeColor: "#FFBA40",
