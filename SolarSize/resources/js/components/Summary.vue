@@ -396,11 +396,11 @@ export default {
   },
   computed: {
     returnTotalValue: function () {
-      return (
-        this.fullCreditConsumptionTotal * this.costOfKWH +
-        this.overGenerationTotal * this.valueOfOverCredit -
-        this.costOfInvestment
-      );
+      return this.bestPanel.name == ""
+        ? this.fullCreditConsumptionTotal * this.costOfKWH +
+            this.overGenerationTotal * this.valueOfOverCredit -
+            this.costOfInvestment
+        : this.valueAtEnd;
     },
     estimateTotal: function () {
       var sum = 0;
@@ -432,6 +432,14 @@ export default {
         this.fullCreditConsumptionTotal * this.costOfKWH;
     },
     valueOfOverCredit: function () {
+      this.pieChartOptions.series[0].data[0].y =
+        this.overGenerationTotal * this.valueOfOverCredit;
+    },
+    fullCreditConsumptionTotal: function () {
+      this.pieChartOptions.series[0].data[1].y =
+        this.fullCreditConsumptionTotal * this.costOfKWH;
+    },
+    overGenerationTotal: function () {
       this.pieChartOptions.series[0].data[0].y =
         this.overGenerationTotal * this.valueOfOverCredit;
     },
@@ -603,36 +611,41 @@ export default {
 
           solarPanelBreakdowns.push(panelObject);
         }
-
+        this.costOfKWH = Number(powerCost);
+        this.valueOfOverCredit = Number(powerCost) / 2;
         this.solarPanelData = solarPanelBreakdowns;
       }
     );
 
-    bus.$on("bestSolarPanelFound", (bestPanelIndex, numOfPanels) => {
-      var generationArray = [];
-      this.bestPanel.name = this.formattedGenerationArr[bestPanelIndex].Name;
-      this.bestPanel.count = numOfPanels;
+    bus.$on(
+      "bestSolarPanelFound",
+      (bestPanelIndex, numOfPanels, valueAtEnd) => {
+        this.valueAtEnd = valueAtEnd;
+        var generationArray = [];
+        this.bestPanel.name = this.formattedGenerationArr[bestPanelIndex].Name;
+        this.bestPanel.count = numOfPanels;
 
-      for (const index in this.formattedGenerationArr[bestPanelIndex].Data) {
-        generationArray[index] = [];
-        generationArray[index][0] =
-          this.formattedGenerationArr[bestPanelIndex].Data[index][0];
-        generationArray[index][1] =
-          this.formattedGenerationArr[bestPanelIndex].Data[index][1] *
-          numOfPanels;
+        for (const index in this.formattedGenerationArr[bestPanelIndex].Data) {
+          generationArray[index] = [];
+          generationArray[index][0] =
+            this.formattedGenerationArr[bestPanelIndex].Data[index][0];
+          generationArray[index][1] =
+            this.formattedGenerationArr[bestPanelIndex].Data[index][1] *
+            numOfPanels;
+        }
+
+        this.chartOptions.series[1].data = this.consumptionData;
+        this.chartOptions.series[0].data = generationArray;
+
+        this.estimateMap = Object.assign(
+          ...generationArray.map(([key, value]) => ({
+            [key]: value,
+          })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
+        );
+
+        this.sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
       }
-
-      this.chartOptions.series[1].data = this.consumptionData;
-      this.chartOptions.series[0].data = generationArray;
-
-      this.estimateMap = Object.assign(
-        ...generationArray.map(([key, value]) => ({
-          [key]: value,
-        })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
-      );
-
-      this.sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
-    });
+    );
   },
 };
 </script>

@@ -205,7 +205,12 @@ export default {
         }
       }
 
-      bus.$emit("bestSolarPanelFound", bestPanelIndex, bestPanelNumberIndex);
+      bus.$emit(
+        "bestSolarPanelFound",
+        bestPanelIndex,
+        bestPanelNumberIndex,
+        mostAmountSaved
+      );
 
       return this.solarPanelData[bestPanelIndex].Data[bestPanelNumberIndex - 1];
     },
