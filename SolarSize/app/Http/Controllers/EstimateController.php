@@ -88,10 +88,11 @@ class EstimateController extends ApiController
         $matchesIndex = 0;
         for ($i = 0; $matchesIndex < count($matches); $i++) {
             $values[$i]["Name"] = explode(", ", $matches[$matchesIndex++][0]);
+            $values[$i]["Area"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Cost"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Power"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Dates"] = explode(", ", $matches[$matchesIndex++][0]);
-            for ($j = 0; $j < count($values[$i]); $j++) {
+            for ($j = 0; $j < count($values[$i]["Dates"]); $j++) {
                 $values[$i]["Dates"][$j] = str_replace("'", "", $values[$i]["Dates"][$j]);
             }
         }

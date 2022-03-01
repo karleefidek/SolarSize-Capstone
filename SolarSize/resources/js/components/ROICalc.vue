@@ -1,14 +1,5 @@
 <template>
   <div class="hello">
-    <p>
-      balance remaining: {{ balanceRemaining }} Amount Saved: {{ amountSaved }}
-    </p>
-    <p>interest: {{ interestCost }} maint: {{ maintenanceCost }}</p>
-    <p>{{ priceOfPowerSaved }}</p>
-    <p>{{ costInstallKw }}</p>
-    <p>{{ systemKw }}</p>
-    <p>{{ grants }}</p>
-
     <highcharts
       :options="chartOptions"
       :series="series"
@@ -125,21 +116,7 @@ export default {
             borderWidth: 0,
           },
         },
-        series: [
-          {
-            name: "John",
-            data: [5, 3, 4, 7, 2],
-          },
-          {
-            name: "Jane",
-            data: [2, 2, 3, 2, 1],
-          },
-          {
-            name: "Joe",
-            data: [-3, 4, 4, 2, 5],
-            negativeColor: "red",
-          },
-        ],
+        series: [],
       },
     };
   },
