@@ -5,6 +5,7 @@
       <div class="extra">
         <Inputs v-show="selected == 'inputs'" />
         <Summary v-show="selected == 'summary'" />
+        <About v-show="selected == 'about'" />
       </div>
     </div>
   </div>
@@ -14,6 +15,7 @@
 import BottomNavigation from "./BottomNavigation";
 import Inputs from "./Inputs";
 import Summary from "./Summary";
+import About from "./About"
 import Modal from "./Modal";
 import { bus } from "../app";
 
@@ -25,6 +27,7 @@ export default {
       modalVisible: false,
       selected: "inputs",
       options: [
+        { id: "about", title: "About" },
         { id: "inputs", title: "Inputs" },
         { id: "summary", title: "Summary" },
       ],
