@@ -8,43 +8,6 @@
           </template>
           <template>
             <div class="roiInputs">
-              <!-- <div class="sliderInput">
-                <label for="costOfKWH">Cost of KWH </label>
-                <input
-                  type="range"
-                  max="2.00"
-                  min="0.01"
-                  step="0.01"
-                  v-model="costOfKWH"
-                  id="costOfKWH"
-                />
-                <VueInputUi
-                  id="costOfKWH"
-                  v-model="costOfKWH"
-                  label="Cost of KWH/KWH"
-                />
-              </div>
-              <div class="sliderInput">
-                <label for="costOfPower"> Value of Credit </label>
-                <input
-                  type="range"
-                  max="2.00"
-                  min="0.01"
-                  step="0.01"
-                  v-model="valueOfOverCredit"
-                  id="valueOfCredit"
-                />
-                <VueInputUi
-                  id="valueOfOverCredit"
-                  v-model="valueOfOverCredit"
-                  label="Value of Credit /KWH"
-                />
-              </div>
-              <VueInputUi
-                id="costOfInvestment"
-                v-model="costOfInvestment"
-                label="Cost Of Installation"
-              /> -->
               <span class="roiOutput">
                 Total Return on Investment:
                 <span
@@ -58,7 +21,13 @@
                 </span>
               </span>
             </div>
-            <highcharts :options="pieChartOptions"> </highcharts>
+            <OvergenerationPieChart
+              :overgenerationTotal="overGenerationTotal"
+              :fullCreditConsumptionTotal="fullCreditConsumptionTotal"
+              :costOfKWH="costOfKWH"
+              :valueOfOverCredit="valueOfOverCredit"
+            >
+            </OvergenerationPieChart>
           </template>
           <template v-slot:footer> </template>
         </ROIText>
@@ -74,11 +43,12 @@
             {{ estimateTotal }} KWH
           </p>
 
-          <highcharts
-            :options="dailyColumnChartOptions"
+          <AnnualGenerationChart
+            :estimateDataObject="estimateMap"
+            :consumptionDataObject="consumptionMap"
             ref="chartComponent"
             class="component-container"
-          ></highcharts>
+          ></AnnualGenerationChart>
 
           <template v-slot:footer> </template>
         </ROIText>
@@ -139,11 +109,14 @@
           <h3>Consumption Graph</h3>
         </template>
 
-        <highcharts
-          :options="chartOptions"
+        <ConsumptionVsEstimateChart
+          :startTime="startTime"
+          :endTime="endTime"
+          :offset="offset"
+          :generationSeries="generationSeries"
           ref="chartComponent"
           class="component-container"
-        ></highcharts>
+        ></ConsumptionVsEstimateChart>
 
         <template v-slot:footer> </template>
       </ROIText>
@@ -160,6 +133,9 @@ import Highcharts from "highcharts";
 import ROIText from "./ROIText";
 import AnimatedNumber from "./AnimatedNumber";
 import ROICalc from "./ROICalc";
+import OvergenerationPieChart from "./OvergenerationPieChart";
+import ConsumptionVsEstimateChart from "./ConsumptionVsEstimateChart";
+import AnnualGenerationChart from "./AnnualGenerationChart";
 
 export default {
   name: "Summary",
@@ -169,16 +145,20 @@ export default {
     AnimatedNumber,
     cashflow: ROICalc,
     VueInputUi,
+    OvergenerationPieChart,
+    ConsumptionVsEstimateChart,
+    AnnualGenerationChart,
   },
   data: function () {
     return {
       //These are objects which contain a key:value pair where the key is the UTC time, the value is the KWH
       // E.g 1609480800000:13.14
       // This helps to align the estimate and cosumption values together when doing calculations between them.
-      consumptionMap: Object,
-      estimateMap: Object,
-      formattedGenerationArr: Array,
+      consumptionMap: {},
+      estimateMap: {},
+      formattedGenerationArr: [],
       number: 0,
+      generationSeries: [],
       investmentData: {
         interestRate: Number,
         powerCost: Number,
@@ -193,205 +173,9 @@ export default {
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
       costOfInvestment: 100,
-      pieChartOptions: {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: "pie",
-        },
-        title: {
-          text: "Full Credit Generation Value Vs. Over Generation Value",
-        },
-        tooltip: {
-          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
-        },
-        accessibility: {
-          point: {
-            valueSuffix: "%",
-          },
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: "pointer",
-            dataLabels: {
-              enabled: true,
-              format: "<b>{point.name}</b>: {point.percentage:.1f} %",
-            },
-          },
-        },
-        series: [
-          {
-            name: "Generated",
-            colorByPoint: true,
-            data: [
-              {
-                name: "Over Generation Value",
-                y: 70,
-                color: "#96C951",
-              },
-              {
-                name: "Full Credit Value",
-                y: 30,
-                color: "#88E9FF",
-              },
-            ],
-          },
-        ],
-        credits: {
-          enabled: false,
-        },
-      },
-      chartOptions: {
-        chart: {
-          type: "line",
-          zoomType: "x",
-        },
-        title: {
-          text: "Expected Solar Generation Vs. Actual Generation",
-          align: "center",
-        },
-        time: {
-          timezoneOffset: 6 * 60,
-        },
-        credits: {
-          enabled: false,
-        },
-        tooltip: {
-          formatter: function () {
-            var timezoneOffset =
-              this.point.series.chart.options.time.timezoneOffset;
-            console.log(timezoneOffset);
-            var dateMS = -timezoneOffset * 1000 * 60 + this.x;
-
-            return (
-              "Date: <b>" +
-              Highcharts.dateFormat(
-                "%a, %b, %d, %I:%M %p",
-                new Date(dateMS) //Need this as this.x doesn't account for timezone offset automatically.
-              ) + //Format ms to readable format
-              " </b></br>" +
-              "Power: <b>" +
-              this.y.toFixed(2) + //Limit to 2 decmial points
-              "</b> KWH"
-            );
-          },
-        },
-        xAxis: {
-          type: "datetime",
-          title: {
-            text: "Dates",
-          },
-          min: Date.UTC(2021, 0, 1, 0),
-          max: Date.UTC(2021, 11, 1, 0),
-          labels: {
-            format: "{value:%b %d %Y}",
-            rotation: -45,
-            align: "right",
-          },
-        },
-        yAxis: {
-          title: {
-            text: "Power Generation WH",
-          },
-        },
-        series: [
-          {
-            type: "area",
-            name: "Estimate",
-            data: [1, 2, 3],
-            color: "#96C951",
-            fillColor: {
-              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-              stops: [
-                [0, "#96C951"],
-                [1, "rgba(255,255,255,.25)"],
-              ],
-            },
-          },
-          {
-            type: "area",
-            name: "Consumption",
-            color: "#88E9FF",
-            data: [
-              [Date.UTC(2021, 0, 1, 1), 1],
-              [Date.UTC(2021, 0, 2, 1), 2],
-              [Date.UTC(2021, 0, 3, 1), 3],
-            ],
-            fillColor: {
-              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-              stops: [
-                [0, "#88E9FF"],
-                [1, "rgba(255,255,255,.25)"],
-              ],
-            },
-          },
-        ],
-      },
-      dailyColumnChartOptions: {
-        chart: {
-          type: "column",
-        },
-        title: {
-          text: "Annual KWH Generated",
-          align: "center",
-        },
-        credits: {
-          enabled: false,
-        },
-        tooltip: {
-          headerFormat:
-            '<span style="font-size:10px">{point.key}</span><table>',
-          pointFormat:
-            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} KWH</b></td></tr>',
-          footerFormat: "</table>",
-          shared: true,
-          useHTML: true,
-        },
-        xAxis: {
-          categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ],
-          crosshair: true,
-        },
-        yAxis: {
-          min: 0,
-          title: {
-            text: "KWH",
-          },
-        },
-        plotOptions: {
-          column: {
-            pointPadding: 0.2,
-            borderWidth: 0,
-          },
-        },
-        series: [
-          {
-            name: "Generated",
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            color: "#96C951",
-          },
-          {
-            name: "Consumed",
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            color: "#88E9FF",
-          },
-        ],
-      },
+      startTime: 0,
+      endTime: 0,
+      offset: 0,
     };
   },
   computed: {
@@ -424,24 +208,6 @@ export default {
     },
     fullCreditConsumptionTotal: function () {
       return this.estimateTotal - this.overGenerationTotal;
-    },
-  },
-  watch: {
-    costOfKWH: function () {
-      this.pieChartOptions.series[0].data[1].y =
-        this.fullCreditConsumptionTotal * this.costOfKWH;
-    },
-    valueOfOverCredit: function () {
-      this.pieChartOptions.series[0].data[0].y =
-        this.overGenerationTotal * this.valueOfOverCredit;
-    },
-    fullCreditConsumptionTotal: function () {
-      this.pieChartOptions.series[0].data[1].y =
-        this.fullCreditConsumptionTotal * this.costOfKWH;
-    },
-    overGenerationTotal: function () {
-      this.pieChartOptions.series[0].data[0].y =
-        this.overGenerationTotal * this.valueOfOverCredit;
     },
   },
   methods: {
@@ -496,34 +262,17 @@ export default {
       }
       return totalGenerationEstimate;
     },
-    sumAnnualGenerationEstimate: function (
-      estimateDataObject,
-      consumptionDataObject
-    ) {
-      var generationArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (const timeKey in estimateDataObject) {
-        var date = new Date(Number(timeKey));
-        generationArray[date.getMonth()] += estimateDataObject[timeKey];
-      }
-      this.dailyColumnChartOptions.series[0].data = generationArray;
-
-      var consumptionArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for (const timeKey in estimateDataObject) {
-        var date = new Date(Number(timeKey));
-        consumptionArray[date.getMonth()] += consumptionDataObject[timeKey];
-      }
-      this.dailyColumnChartOptions.series[1].data = consumptionArray;
-    },
   },
   created() {
     bus.$on(
       "generationSuccess",
       (estimateData, consumptionData, startTime, endTime, offSet) => {
-        this.chartOptions.series[0].data = estimateData;
-        this.chartOptions.series[1].data = consumptionData;
-        this.chartOptions.xAxis.min = startTime;
-        this.chartOptions.xAxis.max = endTime;
-        this.chartOptions.time.timezoneOffset = -offSet * 60; //Offset UTC, west = negative east = positive, in minutes
+        Vue.set(this.generationSeries, 0, estimateData);
+        Vue.set(this.generationSeries, 1, consumptionData);
+
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.offSet = -offSet * 60; //Offset UTC, west = negative east = positive, in minutes
 
         this.consumptionMap = Object.assign(
           ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
@@ -532,8 +281,6 @@ export default {
         this.estimateMap = Object.assign(
           ...estimateData.map(([key, value]) => ({ [key]: value }))
         );
-
-        this.sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
       }
     );
 
@@ -561,9 +308,9 @@ export default {
         this.formattedGenerationArr = formattedGenerationArr;
 
         this.consumptionData = consumptionData;
-        this.chartOptions.xAxis.min = startTime;
-        this.chartOptions.xAxis.max = endTime;
-        this.chartOptions.time.timezoneOffset = -offSet * 60;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.offSet = -offSet * 60;
         this.consumptionMap = Object.assign(
           ...consumptionData.map(([key, value]) => ({ [key]: value })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
         );
@@ -633,17 +380,13 @@ export default {
             this.formattedGenerationArr[bestPanelIndex].Data[index][1] *
             numOfPanels;
         }
-
-        this.chartOptions.series[1].data = this.consumptionData;
-        this.chartOptions.series[0].data = generationArray;
-
+        Vue.set(this.generationSeries, 0, this.consumptionData);
+        Vue.set(this.generationSeries, 1, generationArray);
         this.estimateMap = Object.assign(
           ...generationArray.map(([key, value]) => ({
             [key]: value,
           })) //We map the UTC time to a Key:value object so we can align estimate and actual consumption by UTC time lookup
         );
-
-        this.sumAnnualGenerationEstimate(this.estimateMap, this.consumptionMap);
       }
     );
   },
