@@ -120,7 +120,7 @@
                   triggers="hover"
                 >
                   Upload a .csv file containing building consumption data for
-                  consumption/generation overlay
+                  consumption/generation overlay. Columns to include for data are Main Power, Inverter #1, Inverters #2 - #5
                 </b-tooltip>
               </div>
 
@@ -266,7 +266,7 @@
                     :end-angle="269"
                     :min="0"
                     :max="360"
-                    :step="1"
+                    :step="1"        
                     :pathColor="'#42644e'"
                     :rangeColor="'#7FB82C'"
                     :disabled="loading"
@@ -714,10 +714,10 @@ export default {
         this.formInputs.directionInput = "0";
         this.formInputs.zoneInput = "-6";
         this.formInputs.areaInput = "1.5";
-        this.formInputs.efficiencyInput = "0.8";
+        this.formInputs.efficiencyInput = "0.127";
         this.formInputs.startInput = "2021-01-01";
         this.formInputs.endInput = "2021-05-01";
-        this.formInputs.lossInput = "0.127";
+        this.formInputs.lossInput = "0.8";
         this.formInputs.grantInput = "500";
         this.formInputs.interestInput = "15";
         this.formInputs.powerCostInput = "20";
@@ -784,7 +784,7 @@ export default {
         latInput: "",
         longInput: "",
         consumptionInput: "",
-        directionInput: "",
+        directionInput: "0",
         zoneInput: "",
         tiltInput: "",
         areaInput: "",
@@ -803,6 +803,7 @@ export default {
       let file = fileRecords[0].file;
 
       var results;
+      try{
       this.$papa.parse(file, {
         header: true,
         dynamicTyping: true,
@@ -816,7 +817,6 @@ export default {
             let inverters = entry["Inverters #2 - #5"];
             let totalInverters = Math.abs(inverter1 + inverters);
             totalConsumption = totalInverters + mainPower;
-
             arrResults.push([
               new Date(entry["Date/Time"]).getTime(),
               Math.max(totalConsumption, 0),
@@ -825,6 +825,10 @@ export default {
           this.consumption = arrResults;
         },
       });
+      } catch(error){
+        Vue.set(this.msg, "consumption", "CSV Error: Please ensure that the file has the columns: Main Power, Inverter #1, Inverters #2 - #5");
+        this.validated = false;
+      }
     },
     submit(e) {
       e.preventDefault();
