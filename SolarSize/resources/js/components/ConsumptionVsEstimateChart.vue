@@ -90,21 +90,21 @@ export default {
         series: [
           {
             type: "area",
-            name: "Estimate",
+            name: "Consumption",
             data: [1, 2, 3],
-            color: "#96C951",
+            color: "#88E9FF",
             fillColor: {
               linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
               stops: [
-                [0, "#96C951"],
+                [0, "#88E9FF"],
                 [1, "rgba(255,255,255,.25)"],
               ],
             },
           },
           {
             type: "area",
-            name: "Consumption",
-            color: "#88E9FF",
+            name: "Estimate",
+            color: "#96C951",
             data: [
               [Date.UTC(2021, 0, 1, 1), 1],
               [Date.UTC(2021, 0, 2, 1), 2],
@@ -113,7 +113,7 @@ export default {
             fillColor: {
               linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
               stops: [
-                [0, "#88E9FF"],
+                [0, "#96C951"],
                 [1, "rgba(255,255,255,.25)"],
               ],
             },
