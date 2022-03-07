@@ -1,3 +1,5 @@
+// BottomNavigation.vue is a library file downloaded from https://www.npmjs.com/package/bottom-navigation-vue
+// to create our menu bar at the top of our page
 <template>
   <div class="btn-containrt_foreground" :style="cssVariables">
     <div class="btn-containrt">
