@@ -586,8 +586,8 @@ export default {
   },
   created() {
     bus.$on("latlongAdded", (latLong) => {
-      this.formInputs.latInput = latLong[0];
-      this.formInputs.longInput = latLong[1];
+      this.formInputs.latInput = latLong[0] % 90;
+      this.formInputs.longInput = latLong[1] % 180;
       this.displayLatLong = true;
     });
   },
