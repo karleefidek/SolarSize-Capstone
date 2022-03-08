@@ -25,7 +25,7 @@ export default {
   data: function () {
     return {
       modalVisible: false,
-      selected: "inputs",
+      selected: "about",
       options: [
         { id: "about", title: "About" },
         { id: "inputs", title: "Inputs" },
