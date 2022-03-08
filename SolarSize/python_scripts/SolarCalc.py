@@ -244,7 +244,7 @@ def main():
         for entry in solarDict["SolarPanels"]:
             moduleArea = entry["Area"]
             moduleEfficiency = entry["ModuleEfficiency"]
-            lossCoefficient = 0.1
+            lossCoefficient = sys.argv[9]
             numPanels = 1
             print('['+entry["Name"]+"]")
             print('['+str(entry["Area"])+"]")
