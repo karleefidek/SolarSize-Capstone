@@ -21,7 +21,7 @@ import { bus } from "../app";
 
 export default {
   name: "App",
-  components: { BottomNavigation, Inputs, Modal, Summary },
+  components: { BottomNavigation, Inputs, Modal, Summary, About },
   data: function () {
     return {
       modalVisible: false,

@@ -13,6 +13,7 @@ window.Vue.use(VuePapaParse);
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Vue from 'vue';
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
@@ -32,6 +33,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('BottomNavigation', require('./components/BottomNavigation.vue').default);
 Vue.component('Inputs', require('./components/Inputs.vue').default);
 Vue.component('Summary', require('./components/Summary.vue').default);
+Vue.component('About', require('./components/About.vue').default);
 Vue.component('Modal', require('./components/Modal.vue').default);
 Vue.component('Map', require('./components/Map.vue').default);
 Vue.component('solarsize', require('./components/App.vue').default);
