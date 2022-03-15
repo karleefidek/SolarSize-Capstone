@@ -15,7 +15,7 @@
 import BottomNavigation from "./BottomNavigation";
 import Inputs from "./Inputs";
 import Summary from "./Summary";
-import About from "./About"
+import About from "./About";
 import Modal from "./Modal";
 import { bus } from "../app";
 
@@ -25,11 +25,11 @@ export default {
   data: function () {
     return {
       modalVisible: false,
-      selected: "about",
+      selected: "inputs",
       options: [
-        { id: "about", title: "About" },
         { id: "inputs", title: "Inputs" },
         { id: "summary", title: "Summary" },
+        { id: "about", title: "About" },
       ],
       foregroundColor: "#39dd73",
       badgeColor: "#FBC02D",
