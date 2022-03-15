@@ -1,5 +1,10 @@
 <template>
-  <span class="number">{{ animatedNumber.toFixed(2) }}</span>
+  <span class="number">{{
+    animatedNumber
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }}</span>
 </template>
 
 <script>
