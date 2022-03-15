@@ -14,6 +14,7 @@
           variant="outline-secondary"
           block
           @click="selected = 'general'"
+          :class="{ focusBtn: selected == 'general' }"
           >General</b-button
         >
         <b-button
@@ -21,6 +22,7 @@
           variant="outline-secondary"
           block
           @click="selected = 'roi'"
+          :class="{ focusBtn: selected == 'roi' }"
           >ROI</b-button
         >
         <b-button
@@ -28,6 +30,7 @@
           variant="outline-secondary"
           block
           @click="selected = 'inputs'"
+          :class="{ focusBtn: selected == 'inputs' }"
           >Inputs</b-button
         >
         <b-button
@@ -35,6 +38,7 @@
           variant="outline-secondary"
           block
           @click="selected = 'solarModel'"
+          :class="{ focusBtn: selected == 'solarModel' }"
           >Solar Model</b-button
         >
       </div>
@@ -143,5 +147,9 @@ input {
 .extra {
   padding-left: 15%;
   width: 115%;
+}
+
+.focusBtn {
+  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
 }
 </style>
