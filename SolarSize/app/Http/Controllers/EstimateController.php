@@ -59,29 +59,8 @@ class EstimateController extends ApiController
         $moduleTilt = (int)$request->moduleTilt;
         $startDate = (string)$request->startDate;
         $endDate = (string)$request->endDate;
-        $solarPanelJson = '{
-            "SolarPanels": [
-              {
-                "ModuleEfficiency": 0.184,
-                "Area": 1.6864,
-                "Name": "310W Black Frame 60 cell Mono-PERC 35mm T4 CANADIAN MADE",
-                "Cost": 222.0
-              },
-              {
-                "ModuleEfficiency": 0.198,
-                "Area": 1.82169,
-                "Name": "Longi – LR4-60HPB-360M – Mono – Black",
-                "Cost":281.76
-              },
-              {
-                "ModuleEfficiency": 0.184,
-                "Area": 2.290836,
-                "Name": "Longi ‐ LR4‐72HPH‐450M, Monofacial, 35mm",
-                "Cost":322.79
-              }
-            ]
-          }';
-
+        $requestArray["SolarPanels"] = $request->panels;
+        $solarPanelJson = json_encode($requestArray);
         $text = PythonCaller::callSolarWithPanels($lat, $long, $timezone, $moduleTilt, $startDate, $endDate, $solarPanelJson);
         $re = '/(?<=\[).+?(?=\])/m';
         preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0);
