@@ -112,7 +112,7 @@
               </div>
 
               <div style="grid-row: 1/-2">
-                <Map ref="map" :center="mapCenter" />
+                <Map ref="map" :center="mapCenter" id="mapSelect" />
                 <div class="input-address-grid">
                   <VueInputUi
                     id="address"
