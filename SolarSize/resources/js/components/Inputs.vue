@@ -15,7 +15,7 @@
                   label="Location"
                 >
                 </v-select>
-                <v-select
+                <!-- <v-select
                   id="generation-type"
                   v-model="generationType"
                   :options="['Custom Generation', 'Optimized Generation']"
@@ -23,14 +23,14 @@
                   label="Generation Type"
                   @input="resetValues"
                 >
-                </v-select>
+                </v-select> -->
               </p>
               <b-tooltip target="location" placement="right" triggers="hover">
                 Either a previously saved location or new location (existing
                 locations will auto-populate fields).
               </b-tooltip>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.latInput">{{
                   msg.latInput
                 }}</span>
@@ -49,7 +49,7 @@
                   selecting a location on the map).
                 </b-tooltip>
               </div>
-              <div>
+              <div class="inputAndMessage">
                 <span
                   class="errorMsg"
                   v-if="msg.longInput"
@@ -61,7 +61,6 @@
                   name="longitude"
                   v-model="formInputs.longInput"
                   label="Longitude"
-                  type="number"
                   :dark="darkMode"
                   required
                   :loader="loading"
@@ -77,20 +76,7 @@
                 </b-tooltip>
               </div>
 
-              <VueInputUi
-                id="timeZone"
-                v-model="formInputs.zoneInput"
-                label="Time Zone"
-                type="number"
-                :dark="darkMode"
-                required
-                :loader="loading"
-              />
-              <b-tooltip target="timeZone" placement="right" triggers="hover">
-                The time zone the building is located in.
-              </b-tooltip>
-
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.consumption">{{
                   msg.consumption
                 }}</span>
@@ -120,7 +106,8 @@
                   triggers="hover"
                 >
                   Upload a .csv file containing building consumption data for
-                  consumption/generation overlay. Columns to include for data are Main Power, Inverter #1, Inverters #2 - #5
+                  consumption/generation overlay. Columns to include for data
+                  are Main Power, Inverter #1, Inverters #2 - #5
                 </b-tooltip>
               </div>
 
@@ -160,6 +147,145 @@
         </div>
       </div>
       <br />
+      <div class="main-container">
+        <div class="container">
+          <div class="component-container">
+            <div v-for="(panel, index) in panels" :key="index" class="panels">
+              <div class="symbol-input">
+                <VueInputUi
+                  :id="'panel_name' + index"
+                  v-model="panel.Name"
+                  :ref="'panel_name' + index"
+                  label="Panel Name"
+                  :dark="darkMode"
+                  :loader="loading"
+                  @focus="
+                    $refs[
+                      'panel_name' + index
+                    ][0].$el.nextElementSibling.classList.add('focused')
+                  "
+                  @blur="
+                    $refs[
+                      'panel_name' + index
+                    ][0].$el.nextElementSibling.classList.remove('focused')
+                  "
+                />
+                <i>ID</i>
+              </div>
+              <div class="symbol-input">
+                <VueInputUi
+                  :id="'panel_eff' + index"
+                  v-model="panel.ModuleEfficiency"
+                  label="Module Efficiency"
+                  :ref="'panel_eff' + index"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  @focus="
+                    $refs[
+                      'panel_eff' + index
+                    ][0].$el.nextElementSibling.classList.add('focused')
+                  "
+                  @blur="
+                    $refs[
+                      'panel_eff' + index
+                    ][0].$el.nextElementSibling.classList.remove('focused')
+                  "
+                />
+                <i>0.xx</i>
+              </div>
+              <div class="symbol-input">
+                <VueInputUi
+                  :id="'panel_area' + index"
+                  v-model="panel.Area"
+                  label="Panel Area"
+                  :ref="'panel_area' + index"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  @focus="
+                    $refs[
+                      'panel_area' + index
+                    ][0].$el.nextElementSibling.classList.add('focused')
+                  "
+                  @blur="
+                    $refs[
+                      'panel_area' + index
+                    ][0].$el.nextElementSibling.classList.remove('focused')
+                  "
+                />
+                <i>M²</i>
+              </div>
+              <div class="symbol-input">
+                <VueInputUi
+                  :id="'panel_cost' + index"
+                  v-model="panel.Cost"
+                  label="Panel Unit Cost"
+                  :ref="'panel_cost' + index"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  @focus="
+                    $refs[
+                      'panel_cost' + index
+                    ][0].$el.nextElementSibling.classList.add('focused')
+                  "
+                  @blur="
+                    $refs[
+                      'panel_cost' + index
+                    ][0].$el.nextElementSibling.classList.remove('focused')
+                  "
+                />
+                <i style="line-height: 50%"
+                  >$<br />
+                  ― <br />
+                  Unt</i
+                >
+              </div>
+              <div class="symbol-input">
+                <VueInputUi
+                  :id="'panel_watt' + index"
+                  v-model="panel.Wattage"
+                  :ref="'panel_watt' + index"
+                  label="Panel Wattage"
+                  :dark="darkMode"
+                  required
+                  :loader="loading"
+                  @focus="
+                    $refs[
+                      'panel_watt' + index
+                    ][0].$el.nextElementSibling.classList.add('focused')
+                  "
+                  @blur="
+                    $refs[
+                      'panel_watt' + index
+                    ][0].$el.nextElementSibling.classList.remove('focused')
+                  "
+                />
+                <i>W</i>
+              </div>
+              <div>
+                <span
+                  v-show="panels.length > 1"
+                  @click="removePanel(index)"
+                  class="delete-btn"
+                  >X</span
+                >
+              </div>
+              <br />
+            </div>
+            <button
+              v-if="!loading && panels.length < 7"
+              type="button"
+              @click="addPanel"
+              class="add-panel-button"
+              key="addressButton"
+            >
+              Add Panel
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
@@ -167,7 +293,7 @@
               v-if="generationType == 'Custom Generation'"
               class="inputContainer"
             >
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.tiltInput">{{
                   msg.tiltInput
                 }}</span>
@@ -185,7 +311,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.areaInput">{{
                   msg.areaInput
                 }}</span>
@@ -204,7 +330,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.efficiencyInput">{{
                   msg.efficiencyInput
                 }}</span>
@@ -228,7 +354,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.lossInput">{{
                   msg.lossInput
                 }}</span>
@@ -248,12 +374,12 @@
                   as a decimal)
                 </b-tooltip>
               </div>
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
                 }}</span>
 
-                <div style="margin-left: 33%; margin-right: 33%">
+                <div class="inputAndMessage">
                   <round-slider
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
@@ -264,9 +390,9 @@
                     :error="!!msg.directionInput"
                     :start-angle="270"
                     :end-angle="269"
-                    :min="0"
-                    :max="360"
-                    :step="1"        
+                    :min="360"
+                    :max="0"
+                    :step="-1"
                     :pathColor="'#42644e'"
                     :rangeColor="'#7FB82C'"
                     :disabled="loading"
@@ -294,7 +420,7 @@
               v-if="generationType == 'Optimized Generation'"
               class="inputContainer"
             >
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.roofInput">{{
                   msg.roofInput
                 }}</span>
@@ -325,7 +451,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.interestInput">{{
                   msg.interestInput
                 }}</span>
@@ -358,7 +484,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.grantInput">{{
                   msg.grantInput
                 }}</span>
@@ -391,7 +517,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.powerCostInput">{{
                   msg.powerCostInput
                 }}</span>
@@ -407,9 +533,7 @@
                     clearable
                     :error="!!msg.powerCostInput"
                     @focus="
-                      $refs.powercost.$el.nextElementSibling.classList.add(
-                        'focused'
-                      )
+                      this.$el.nextElementSibling.classList.add('focused')
                     "
                     @blur="
                       $refs.powercost.$el.nextElementSibling.classList.remove(
@@ -432,7 +556,7 @@
                 </b-tooltip>
               </div>
 
-              <div>
+              <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
                 }}</span>
@@ -446,16 +570,20 @@
                     :loader="loading"
                     clearable
                     :error="!!msg.directionInput"
-                    :start-angle="270"
-                    :end-angle="269"
+                    :start-angle="90"
+                    :end-angle="90"
                     :min="0"
                     :max="360"
                     :step="1"
                     :pathColor="'#42644e'"
-                    :rangeColor="'#7FB82C'"
+                    :rangeColor="'#42644e'"
                     :disabled="loading"
                     :radius="60"
                     :tooltipFormat="sliderTooltip"
+                    path-color="#094818"
+                    width="6"
+                    handle-size="35,4"
+                    handle-shape="square"
                     @touchmove="$refs.input.blur()"
                   ></round-slider>
                   <span class="slider-text" id="direction"
@@ -482,14 +610,6 @@
         <div class="container">
           <div class="component-container">
             <div class="inputContainer">
-              <v-select
-                id="billing"
-                v-model="formInputs.billing"
-                :options="['Residential', 'Industrial']"
-                placeholder="Select Billing Type"
-                label="Billing Type"
-              >
-              </v-select>
               <b-tooltip target="billing" placement="right" triggers="hover">
                 The type of SaskPower billing.
               </b-tooltip>
@@ -529,6 +649,7 @@
           </div>
         </div>
       </div>
+
       <div class="submit-container">
         <transition name="component-fade" mode="out-in">
           <button
@@ -599,7 +720,7 @@ export default {
         consumptionInput: "",
         directionInput: "",
         zoneInput: "",
-        tiltInput: "",
+        tiltInput: "0",
         areaInput: "",
         efficiencyInput: "",
         lossInput: "",
@@ -611,9 +732,32 @@ export default {
         interestInput: "",
         roofInput: "",
       },
+      panels: [
+        {
+          ModuleEfficiency: 0.184,
+          Area: 1.6864,
+          Name: "310W Black Frame 60 cell Mono-PERC 35mm T4 CANADIAN MADE",
+          Cost: 222.0,
+          Wattage: 310,
+        },
+        {
+          ModuleEfficiency: 0.198,
+          Area: 1.82169,
+          Name: "Longi – LR4-60HPB-360M – Mono – Black",
+          Cost: 281.76,
+          Wattage: 360,
+        },
+        {
+          ModuleEfficiency: 0.184,
+          Area: 2.290836,
+          Name: "Longi ‐ LR4‐72HPH‐450M, Monofacial, 35mm",
+          Cost: 322.79,
+          Wattage: 450,
+        },
+      ],
 
       mapCenter: L.latLng(50.4452, -104.6189),
-      generationType: "",
+      generationType: "Optimized Generation",
       location: "",
       darkMode: false,
       loading: false,
@@ -622,7 +766,7 @@ export default {
       addressAutoFill: [],
       address: "",
       msg: {},
-      panelDirection: "South",
+      panelDirection: "North",
       validated: true,
     };
   },
@@ -707,7 +851,6 @@ export default {
   watch: {
     //TEST FILL METHOD TO FILL WITH PRESET VALUES
     location: function (value) {
-      console.log(value);
       if (value === "Test Fill Entry") {
         this.formInputs.latInput = "50.4583783";
         this.formInputs.longInput = "-104.62211";
@@ -774,8 +917,19 @@ export default {
     },
   },
   methods: {
+    addPanel() {
+      this.panels.push({
+        ModuleEfficiency: "",
+        Area: "",
+        Name: "",
+        Cost: "",
+        Wattage: "",
+      });
+    },
+    removePanel(index) {
+      this.panels.splice(index, 1);
+    },
     sliderTooltip(e) {
-      console.log(e);
       return e.value + "°";
     },
     resetValues() {
@@ -784,7 +938,7 @@ export default {
         latInput: "",
         longInput: "",
         consumptionInput: "",
-        directionInput: "0",
+        directionInput: "",
         zoneInput: "",
         tiltInput: "",
         areaInput: "",
@@ -803,30 +957,34 @@ export default {
       let file = fileRecords[0].file;
 
       var results;
-      try{
-      this.$papa.parse(file, {
-        header: true,
-        dynamicTyping: true,
-        complete: (parsedResults) => {
-          results = parsedResults;
-          var arrResults = [];
-          for (var entry of results.data) {
-            let totalConsumption = 0;
-            let mainPower = entry["Main Power"];
-            let inverter1 = entry["Inverter #1"];
-            let inverters = entry["Inverters #2 - #5"];
-            let totalInverters = Math.abs(inverter1 + inverters);
-            totalConsumption = totalInverters + mainPower;
-            arrResults.push([
-              new Date(entry["Date/Time"]).getTime(),
-              Math.max(totalConsumption, 0),
-            ]);
-          }
-          this.consumption = arrResults;
-        },
-      });
-      } catch(error){
-        Vue.set(this.msg, "consumption", "CSV Error: Please ensure that the file has the columns: Main Power, Inverter #1, Inverters #2 - #5");
+      try {
+        this.$papa.parse(file, {
+          header: true,
+          dynamicTyping: true,
+          complete: (parsedResults) => {
+            results = parsedResults;
+            var arrResults = [];
+            for (var entry of results.data) {
+              let totalConsumption = 0;
+              let mainPower = entry["Main Power"];
+              let inverter1 = entry["Inverter #1"];
+              let inverters = entry["Inverters #2 - #5"];
+              let totalInverters = Math.abs(inverter1 + inverters);
+              totalConsumption = totalInverters + mainPower;
+              arrResults.push([
+                new Date(entry["Date/Time"]).getTime(),
+                Math.max(totalConsumption, 0),
+              ]);
+            }
+            this.consumption = arrResults;
+          },
+        });
+      } catch (error) {
+        Vue.set(
+          this.msg,
+          "consumption",
+          "CSV Error: Please ensure that the file has the columns: Main Power, Inverter #1, Inverters #2 - #5"
+        );
         this.validated = false;
       }
     },
@@ -850,14 +1008,18 @@ export default {
       }
     },
 
+    addFocus(event) {
+      console.log(event);
+    },
     submitOptimized() {
       let params = {
         lat: this.formInputs.latInput,
         long: this.formInputs.longInput,
         timezone: this.formInputs.zoneInput,
-        moduleTilt: this.formInputs.tiltInput,
+        moduleTilt: this.formInputs.directionInput,
         startDate: this.formInputs.startInput,
         endDate: this.formInputs.endInput,
+        panels: this.panels,
       };
       axios
         .get(
@@ -1045,14 +1207,6 @@ export default {
         this.validated = true;
       }
       var compassArray = [
-        "South",
-        "South South West",
-        "South West",
-        "West South West",
-        "West",
-        "West North West",
-        "North West",
-        "North North West",
         "North",
         "North North East",
         "North East",
@@ -1062,6 +1216,13 @@ export default {
         "South East",
         "South South East",
         "South",
+        "South South West",
+        "South West",
+        "West South West",
+        "West",
+        "West North West",
+        "North West",
+        "North North West",
       ];
       this.panelDirection = compassArray[Math.floor(value / 22.5 + 0.5) % 16];
     },

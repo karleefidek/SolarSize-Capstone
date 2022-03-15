@@ -5,19 +5,25 @@ import pvlib
 import pandas
 import urllib.request, json
 from datetime import datetime
+from pytz import timezone, utc
 import statistics
 import sys
 import socket
 import requests
 import time
+from timezonefinder import TimezoneFinder
+tf = TimezoneFinder() 
 
 #class SolarInsolation:
 class ImportData():
-    def  __init__(self, latitude, longitude, timeZone, moduleTilt, startDate, endDate,moduleArea,moduleEfficiency,lossCoefficient, numPanels):
+    def  __init__(self, latitude, longitude, timeZone, moduleDirection, startDate, endDate,moduleArea,moduleEfficiency,lossCoefficient, numPanels):
         self.latitude = float(latitude)
         self.longitude = float(longitude)
-        self.timeZone = float(timeZone) #-5 is regina
-        self.moduleTilt = float(moduleTilt)
+        self.timeZone = float(timeZone)
+        self.moduleTilt = self.latitude
+        self.moduleDirection = float(moduleDirection)
+        self.moduleDirection += 180 #Converts from south = 180 to south = 0, calculation differ from the norm
+        self.moduleDirection %= 360
         self.moduleArea = float(moduleArea)
         self.moduleEfficiency = float(moduleEfficiency)
         self.lossCoefficient = float(lossCoefficient)
@@ -157,7 +163,7 @@ class ImportData():
     def calculateModuleDNI(self):
         #This azimuth (panel direction angle) is based on South to West, 0 = South, 90 = East, 180 = North, 270 = West, 360 = South
         #Solar Panel Direction Azimuth. 180 = North, 270 = West, 90 = East, 0 or 360 = South
-        moduleAzimuth = 0
+        moduleAzimuth = self.moduleDirection
         #Complex equation from https://www.pveducation.org/pvcdrom/properties-of-sunlight/making-use-of-tmy-data#footnote1_j7gwlmm
         moduleDNI = self.dniValue * ((math.sin(math.radians(self.declinationAngle))*math.sin(math.radians(self.latitude))*math.cos(math.radians(self.moduleTilt))) - (math.sin(math.radians(self.declinationAngle))*math.cos(math.radians(self.latitude))*math.sin(math.radians(self.moduleTilt))*math.cos(math.radians(moduleAzimuth))) + (math.cos(math.radians(self.declinationAngle))*math.cos(math.radians(self.latitude))*math.cos(math.radians(self.moduleTilt))*math.cos(math.radians(self.hourAngle))) + (math.cos(math.radians(self.declinationAngle))*math.sin(math.radians(self.latitude))*math.sin(math.radians(self.moduleTilt))*math.cos(math.radians(moduleAzimuth))*math.cos(math.radians(self.hourAngle))) + (math.cos(math.radians(self.declinationAngle))*math.sin(math.radians(moduleAzimuth))*math.sin(math.radians(self.hourAngle)*math.sin(math.radians(self.moduleTilt)))))
         if (moduleDNI < 0):
@@ -209,6 +215,7 @@ class ImportData():
         
         print(self.estimatedModulePower, (self.times).strftime("%Y-%m-%d %H:%M:%S").tolist())
 
+        
 
 
 #Modelling using POWER API data and DIRINT model then converting to module irradiance 
@@ -222,34 +229,41 @@ def outputSolarData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,mod
     print(dataImport.calculateModuleRadiation())
     dataImport.getEstimatedPowerProduction()
     dataImport.printEstimatedPower()
+    
+
+def get_offset(lat,long):
+    today = datetime.now()
+    tzTarget = timezone(tf.certain_timezone_at(lng=long, lat=lat))
+    todayTarget = tzTarget.localize(today)
+    todayUtc = utc.localize(today)
+    return (todayUtc - todayTarget).total_seconds() / (60*60) #3600 seconds in an hour, we want hour offset
 
 def main():
     #Arguements passed from command line.
     latitude = sys.argv[1]
     longitude = sys.argv[2]
-    timeZone = sys.argv[3]
-    moduleTilt = sys.argv[4]
+    timeZone = str(get_offset(float(latitude),float(longitude)))
+    moduleDirection = sys.argv[4]
     startDate = sys.argv[5]
     endDate = sys.argv[6]
-    
-    
     if len(sys.argv) == 10:
         moduleArea = sys.argv[7]
         moduleEfficiency = sys.argv[8]
         lossCoefficient = sys.argv[9]
         numPanels = 260
-        outputSolarData(latitude, longitude, timeZone, moduleTilt, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
+        outputSolarData(latitude, longitude, timeZone, moduleDirection, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
     else:
         solarDict = json.loads(sys.argv[7])
-        for entry in solarDict["SolarPanels"]:
+        for entryString in solarDict["SolarPanels"]:
+            entry = json.loads(entryString)
             moduleArea = entry["Area"]
             moduleEfficiency = entry["ModuleEfficiency"]
-            lossCoefficient = sys.argv[9]
+            lossCoefficient = 0.8
             numPanels = 1
             print('['+entry["Name"]+"]")
             print('['+str(entry["Area"])+"]")
             print('['+ str(entry["Cost"])+ "]")
-            outputSolarData(latitude, longitude, timeZone, moduleTilt, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
+            outputSolarData(latitude, longitude, timeZone, moduleDirection, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
             
     
     

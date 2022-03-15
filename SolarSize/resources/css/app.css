@@ -85,6 +85,21 @@ td {
     width: 60%;
 }
 
+
+.add-panel-button {
+  margin: auto;
+  border: 2px solid #96c951;
+  border-radius: 0.5rem;
+  background: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.8s;
+  position: relative;
+  overflow: hidden;
+  color: #838080;
+  font-size: small;
+}
+
 .submit-button:hover {
     color: #39dd73;
 }
@@ -166,7 +181,10 @@ td {
 
 
 .inputContainer {
+    position: relative;
     display: grid;
+    width: 100%;
+    height: 100%;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     grid-auto-flow: row;
@@ -174,9 +192,22 @@ td {
     grid-template-areas: ". ." ;
 }
 
+#tiltInput{
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: center;
+}
+
+.inputAndMessage {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
 .errorMsg{
-    color:red;
-    margin: 0px;
+    /* left: 0px;
+    bottom: 70px;
+    position: absolute; */
+    color:#dc3545;
 }
 
 
@@ -257,4 +288,27 @@ td {
     color: #7fb82c; 
     font-size: large;
     font-weight: bold;
+  }
+
+
+  .panels{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 4fr repeat(4,1fr) 0.2fr;
+    grid-template-rows: 1fr;
+    grid-auto-flow: row;
+    gap: 30px 30px;
+  }
+
+  .delete-btn{
+    margin: auto;
+    color: #dc3545;
+    cursor: pointer;
+  }
+
+  * >>> .rs-handle {
+    box-shadow: none !important;
+    background: #669e79;
+    
   }
