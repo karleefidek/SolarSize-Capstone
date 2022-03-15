@@ -42,6 +42,8 @@
     "install": "^0.13.0",
     "katex": "^0.12.0",
     "leaflet": "^1.7.1",
+    "mix": "^0.0.1",
+    "optimizer": "^1.8.4",
     "vue-apexcharts": "^1.6.2",
     "vue-circle-slider": "^1.0.2",
     "vue-ctk-date-time-picker": "^2.5.0",
@@ -51,6 +53,7 @@
     "vue-papa-parse": "^3.0.4",
     "vue-round-slider": "^1.0.1",
     "vue-select": "^3.16.0",
-    "vue2-leaflet": "^2.7.1"
+    "vue2-leaflet": "^2.7.1",
+    "webpack": "^5.70.0"
   }
 }

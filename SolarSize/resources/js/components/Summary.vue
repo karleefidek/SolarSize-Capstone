@@ -10,14 +10,14 @@
             <div class="roiInputs">
               <span class="roiOutput">
                 Total Return on Investment:
-                <span
+                <span 
                   v-bind:class="
                     -returnTotalValue < 0 ? 'numberRed' : 'numberGreen'
                   "
                 >
                   $<AnimatedNumber
                     :number="-1 * Math.ceil(returnTotalValue)"
-                  ></AnimatedNumber>
+                  id="roiValue"></AnimatedNumber>
                 </span>
               </span>
             </div>
