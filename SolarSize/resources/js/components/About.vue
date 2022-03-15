@@ -7,7 +7,7 @@
       bg-variant="white"
       width="12%"
     >
-      <div class="px-3 py-2" bg-white>
+      <div id="sidebarButtons" class="px-3 py-2" bg-white>
         <br /><br />
         <b-button
           pill
@@ -147,8 +147,8 @@ input {
 }
 
 .extra {
-  padding-left: 15%;
-  width: 115%;
+  padding-left: 10%;
+  width: 130%;
 }
 
 .focusBtn {
