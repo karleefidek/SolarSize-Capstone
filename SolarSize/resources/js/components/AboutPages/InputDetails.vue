@@ -73,12 +73,12 @@ The “Main Power” column corresponds to the building meter readings, power co
 </template>
 
 <script>
-import ROIText from "./ROIText";
+import ROIText from "../ROIText";
 import 'katex/dist/katex.min.css';
 import VueKatex from 'vue-katex';
 
 export default {
-  name: "Summary",
+  name: "InputDetails",
   components: {
     ROIText,
     VueKatex,

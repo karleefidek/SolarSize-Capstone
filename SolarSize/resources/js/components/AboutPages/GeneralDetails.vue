@@ -1,46 +1,21 @@
 <template>
   <div class="summary-wrapper">
-    <div class="calculation-items">
-      <div class="component-container">
-        <ROIText>
-          <template v-slot:header>
-            <h3>Balance Remaining</h3>
-          </template>
-          <p>End of 1st year:</p><div v-katex="'\\small Balance = Capital Cost + Loan Interest - Amount Saved'"></div>
-          
-          <p>2nd year and on:</p><div v-katex="'\\small Balance = Previous Balance + Loan Interest - Amount Saved'"></div>
-          <template v-slot:footer> </template>
-        </ROIText>
-      </div>
+    <div class="description-items">
       <div class="component-container">
       <ROIText>
         <template v-slot:header>
-          <h3>Capital Cost</h3>
+          <h3>Our App</h3>
         </template>
-        <div v-katex="'\\small Capital Cost = (System KW \\times Cost/KW Installed) + Interconnection Study Fee + Bidirectional Meter - Grants/Rebates'"></div>
-        <p>Per Canadian solar providers Powertec Solar Inc. and HES PV:</p><div v-katex="'\\small Cost/KW Installed = \\$3000'"></div>
-       
-        <p>Per SaskPower NetMetering Documentation:</p><div v-katex="'\\small Interconnection Study Fee = \\$315'"></div><div v-katex="'\\small Bidirectional Meter = \\$498.75'"></div>
+        <p>Our app utilizes building energy consumption metrics and solar intensity data to calculate accurate ROIs for solar power generation installations. This tool allows users to see how different solar power systems match up to their requirements, so they can make informed decisions. There could also be an extension into other Greenwave business domains such as power storage sizing for cloudy days and the night time.</p>
         <template v-slot:footer> </template>
       </ROIText>
     </div>
     <div class="component-container">
       <ROIText>
         <template v-slot:header>
-          <h3>Amount Saved</h3>
+          <h3>Our Why</h3>
         </template>
-        <div v-katex="'\\small Amount Saved = (Power Produced \\times Price of Power) - Maintenance Costs'"></div>
-        <template v-slot:footer> </template>
-      </ROIText>
-    </div>
-    <div class="component-container">
-      <ROIText>
-        <template v-slot:header>
-          <h3>ROI</h3>
-        </template>
-        <div v-katex="'\\small ROI \\% = \\large \\frac{Total Saved}{Total Cost} \\small \\times 100'"></div>
-        <div v-katex="'\\small Years Until Paid Back = \\large \\large \\frac{1}{\\large \\frac{ROI \\%}{100}}'"></div>
-
+        <p>Fossil fuels are the primary source of energy in Canada and pose serious threats to the environment. Therefore, they need to be replaced by more renewable and sustainable alternatives. Solar energy is a renewable and sustainable source of green energy that can be used in place of fossil fuels. So, a tool that can analyze and calculate the returns on solar power installations may prove very helpful in persuading more people and business to install their own solar generation solutions. Increasing the use of solar power over fossil fuels can help slow the detrimental environmental effects our world is experiencing today.</p>
         <template v-slot:footer> </template>
       </ROIText>
     </div>
@@ -49,12 +24,12 @@
 </template>
 
 <script>
-import ROIText from "./ROIText";
+import ROIText from "../ROIText";
 import 'katex/dist/katex.min.css';
 import VueKatex from 'vue-katex';
 
 export default {
-  name: "Summary",
+  name: "GeneralDetails",
   components: {
     ROIText,
     VueKatex,
@@ -88,7 +63,7 @@ export default {
     0 2px 4px 0 rgba(232, 237, 250, 0.5);
 }
 
-.calculation-items {
+.description-items {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;

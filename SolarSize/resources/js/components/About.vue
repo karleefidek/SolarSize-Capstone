@@ -27,8 +27,9 @@
 import ROIText from "./ROIText";
 import 'katex/dist/katex.min.css';
 import VueKatex from 'vue-katex';
-import Rois from "./ROIDetails";
-import Inputs from "./InputDetails";
+import Rois from "./AboutPages/ROIDetails";
+import Inputs from "./AboutPages/InputDetails";
+import General from "./AboutPages/GeneralDetails";
 
 export default {
   name: "Summary",
@@ -36,18 +37,18 @@ export default {
     ROIText,
     VueKatex,
     Rois,
-    Inputs
+    Inputs, 
+    General
   },
   data: function () {
     return {
       selected: "general",
     };
-  }
+  },
 }
 </script>
 
 <style scoped>
-b-
 .summary-wrapper {
   width: 80%;
 }
