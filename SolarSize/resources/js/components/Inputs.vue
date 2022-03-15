@@ -88,6 +88,7 @@
                   :deletable="true"
                   :meta="true"
                   :accept="'.csv'"
+				  :id="fileUpload1"
                   :maxSize="'10MB'"
                   :maxFiles="1"
                   :helpText="'Choose consumption .csv files'"
