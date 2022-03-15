@@ -1,32 +1,57 @@
 <template>
   <div class="summary-wrapper">
-    <b-sidebar 
-      id="sidebar-1" 
-      title="Sidebar" 
+    <b-sidebar
+      id="sidebar-1"
+      title="Sidebar"
       visible="true"
       bg-variant="white"
-      width="12%">
-        <div class="px-3 py-2" bg-white>
-          <br/><br/>
-          <b-button pill variant="outline-secondary" block @click="selected = 'general'">General</b-button>
-          <b-button pill variant="outline-secondary" block @click="selected = 'roi'">ROI</b-button>
-          <b-button pill variant="outline-secondary" block @click="selected = 'inputs'">Inputs</b-button>
-          <b-button pill variant="outline-secondary" block @click="selected = 'solarModel'">Solar Model</b-button>
-        </div>  
+      width="12%"
+    >
+      <div class="px-3 py-2" bg-white>
+        <br /><br />
+        <b-button
+          pill
+          variant="outline-secondary"
+          block
+          @click="selected = 'general'"
+          >General</b-button
+        >
+        <b-button
+          pill
+          variant="outline-secondary"
+          block
+          @click="selected = 'roi'"
+          >ROI</b-button
+        >
+        <b-button
+          pill
+          variant="outline-secondary"
+          block
+          @click="selected = 'inputs'"
+          >Inputs</b-button
+        >
+        <b-button
+          pill
+          variant="outline-secondary"
+          block
+          @click="selected = 'solarModel'"
+          >Solar Model</b-button
+        >
+      </div>
     </b-sidebar>
     <div class="extra">
-        <General v-show="selected == 'general'" />
-        <Rois v-show="selected == 'roi'" />
-        <Inputs v-show="selected == 'inputs'" />
-        <Solar v-show="selected == 'solarModel'" />
+      <General v-show="selected == 'general'" />
+      <Rois v-show="selected == 'roi'" />
+      <Inputs v-show="selected == 'inputs'" />
+      <Solar v-show="selected == 'solarModel'" />
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
 import ROIText from "./ROIText";
-import 'katex/dist/katex.min.css';
-import VueKatex from 'vue-katex';
+import "katex/dist/katex.min.css";
+import VueKatex from "vue-katex";
 import Rois from "./ROIDetails";
 import Inputs from "./InputDetails";
 
@@ -36,19 +61,18 @@ export default {
     ROIText,
     VueKatex,
     Rois,
-    Inputs
+    Inputs,
   },
   data: function () {
     return {
       selected: "general",
     };
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-b-
-.summary-wrapper {
+b- .summary-wrapper {
   width: 80%;
 }
 
@@ -118,6 +142,6 @@ input {
 
 .extra {
   padding-left: 15%;
-  width: 115%
+  width: 115%;
 }
 </style>
