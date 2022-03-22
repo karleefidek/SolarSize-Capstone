@@ -32,9 +32,7 @@ class EstimateController extends ApiController
         $moduleArea = (float)$request->moduleArea;
         $moduleEfficiency = (float)$request->moduleEfficiency;
         $lossCoefficient = (float)$request->lossCoefficient;
-        $jsonString = '{
-            
-          }';
+
 
         $text = PythonCaller::callSolarNoPanels($lat, $long, $timezone, $moduleTilt, $startDate, $endDate, $moduleArea, $moduleEfficiency, $lossCoefficient);
         $re = '/(?<=\[).+?(?=\])/m';
@@ -65,10 +63,12 @@ class EstimateController extends ApiController
         $re = '/(?<=\[).+?(?=\])/m';
         preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0);
         $matchesIndex = 0;
-        for ($i = 0; $matchesIndex < count($matches); $i++) {
+        for ($i = 1; $matchesIndex < count($matches); $i++) {
             $values[$i]["Name"] = explode(", ", $matches[$matchesIndex++][0]);
+            $values[$i]["TimeZone"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Area"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Cost"] = explode(", ", $matches[$matchesIndex++][0]);
+            $values[$i]["Wattage"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Power"] = explode(", ", $matches[$matchesIndex++][0]);
             $values[$i]["Dates"] = explode(", ", $matches[$matchesIndex++][0]);
             for ($j = 0; $j < count($values[$i]["Dates"]); $j++) {

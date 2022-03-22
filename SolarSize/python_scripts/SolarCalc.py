@@ -4,7 +4,7 @@ import pvlib
 #from pvlib.forecast import GFS
 import pandas
 import urllib.request, json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone, utc
 import statistics
 import sys
@@ -69,7 +69,7 @@ class ImportData():
         #All Sky conditions GHI horizontal plane on Earth Surface. W/m^2
         #Get datetime values and convert to a DateTimeIndex.
         dateList = list(self.APIResponse["properties"]["parameter"]["ALLSKY_SFC_SW_DWN"].keys())
-        dateListConverted = (datetime.strptime(i, "%Y%m%d%H") for i in dateList)
+        dateListConverted = (datetime.strptime(i, "%Y%m%d%H") - timedelta(hours=(self.timeZone - 1)) for i in dateList)
         self.times = pandas.DatetimeIndex(dateListConverted, freq='H')
         self.ghiValues = pandas.Series(list(self.APIResponse["properties"]["parameter"]["ALLSKY_SFC_SW_DWN"].values()),index=self.times)
         #print(self.ghiValues)
@@ -254,6 +254,7 @@ def main():
         outputSolarData(latitude, longitude, timeZone, moduleDirection, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
     else:
         solarDict = json.loads(sys.argv[7])
+       
         for entryString in solarDict["SolarPanels"]:
             entry = json.loads(entryString)
             moduleArea = entry["Area"]
@@ -261,8 +262,10 @@ def main():
             lossCoefficient = 0.8
             numPanels = 1
             print('['+entry["Name"]+"]")
+            print('['+timeZone+"]")
             print('['+str(entry["Area"])+"]")
             print('['+ str(entry["Cost"])+ "]")
+            print('['+ str(entry["Wattage"])+ "]")
             outputSolarData(latitude, longitude, timeZone, moduleDirection, startDate, endDate, moduleArea, moduleEfficiency, lossCoefficient, numPanels)
             
     
