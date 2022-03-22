@@ -29,9 +29,9 @@ export default {
   },
 
   components: { highcharts: Chart },
-  data: function () {
-    return {
-      pieChartOptions: {
+  computed: {
+    pieChartOptions: function () {
+      return {
         chart: {
           plotBackgroundColor: null,
           plotBorderWidth: null,
@@ -66,12 +66,12 @@ export default {
             data: [
               {
                 name: "Over Generation Value",
-                y: 70,
+                y: this.overgenerationTotal * this.valueOfOverCredit,
                 color: "#96C951",
               },
               {
                 name: "Full Credit Value",
-                y: 30,
+                y: this.fullCreditConsumptionTotal * this.costOfKWH,
                 color: "#88E9FF",
               },
             ],
@@ -80,26 +80,11 @@ export default {
         credits: {
           enabled: false,
         },
-      },
-    };
+      };
+    },
   },
-  watch: {
-    costOfKWH: function () {
-      this.pieChartOptions.series[0].data[1].y =
-        this.fullCreditConsumptionTotal * this.costOfKWH;
-    },
-    valueOfOverCredit: function () {
-      this.pieChartOptions.series[0].data[0].y =
-        this.overGenerationTotal * this.valueOfOverCredit;
-    },
-    fullCreditConsumptionTotal: function () {
-      this.pieChartOptions.series[0].data[1].y =
-        this.fullCreditConsumptionTotal * this.costOfKWH;
-    },
-    overGenerationTotal: function () {
-      this.pieChartOptions.series[0].data[0].y =
-        this.overGenerationTotal * this.valueOfOverCredit;
-    },
+  data: function () {
+    return {};
   },
 };
 </script>
