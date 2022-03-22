@@ -88,7 +88,6 @@
                   :deletable="true"
                   :meta="true"
                   :accept="'.csv'"
-				  :id="fileUpload1"
                   :maxSize="'10MB'"
                   :maxFiles="1"
                   :helpText="'Choose consumption .csv files'"
@@ -1047,6 +1046,7 @@ export default {
               Name: response.data[index]["Name"][0],
               Cost: response.data[index]["Cost"][0],
               Area: response.data[index]["Area"][0],
+              Wattage: response.data[index]["Wattage"][0],
               Data: formattedDataGeneration,
             };
 

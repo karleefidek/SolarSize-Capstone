@@ -10,14 +10,15 @@
             <div class="roiInputs">
               <span class="roiOutput">
                 Total Return on Investment:
-                <span 
+                <span
                   v-bind:class="
                     -returnTotalValue < 0 ? 'numberRed' : 'numberGreen'
                   "
                 >
                   $<AnimatedNumber
                     :number="-1 * Math.ceil(returnTotalValue)"
-                  id="roiValue"></AnimatedNumber>
+                    id="roiValue"
+                  ></AnimatedNumber>
                 </span>
               </span>
             </div>
@@ -322,6 +323,7 @@ export default {
           var panelObject = {
             Name: formattedGenerationArr[index]["Name"],
             Cost: formattedGenerationArr[index]["Cost"],
+            Wattage: formattedGenerationArr[index]["Wattage"],
           };
           var generationBreakdownsArr = [];
           while (
