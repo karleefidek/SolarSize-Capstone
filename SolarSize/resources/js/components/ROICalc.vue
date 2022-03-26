@@ -129,7 +129,9 @@ export default {
 
         this.fullCreditPower = solarPanel.totalGeneration;
         this.overGenPower = solarPanel.totalOverGeneration;
-        this.systemKw = 0.3 * solarPanel.panelCount;
+        // this.systemKw =
+        //   this.solarPanelData[solarIndex].Wattage *
+        //   this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
 
         this.calcAnnualCashFlow();
 
@@ -192,7 +194,10 @@ export default {
           this.overGenPower =
             this.solarPanelData[solarIndex].Data[dataIndex].totalOverGeneration;
           this.systemKw =
-            0.3 * this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
+            (this.solarPanelData[solarIndex].Wattage *
+              this.solarPanelData[solarIndex].Data[dataIndex].panelCount) /
+            1000;
+          // 0.3 * this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
 
           var currentValueAtYear20 = this.calcAnnualCashFlow(20);
           if (currentValueAtYear20 < mostAmountSaved) {
@@ -215,6 +220,7 @@ export default {
       return this.solarPanelData[bestPanelIndex].Data[bestPanelNumberIndex - 1];
     },
     calcAnnualCashFlow: function () {
+      this.balanceRemaining = [];
       var cost = this.calcCapitalCost();
       var breakEvenYear = Infinity;
       for (let year = 1; year <= 20; year++) {
