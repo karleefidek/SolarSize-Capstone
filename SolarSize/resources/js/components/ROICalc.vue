@@ -206,6 +206,7 @@ export default {
               this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
             this.bestPanelSetup.mostAmountSaved = currentValueAtYear20;
             this.bestPanelSetup.annualCashFlow = this.balanceRemaining;
+            this.bestPanelSetup.capitalCost = this.calcCapitalCost(this.solarPanelData[solarIndex].Cost,this.solarPanelData[solarIndex].Data[dataIndex].panelCount);
             this.bestPanelSetup.interestCostFlow = this.interestCost;
             this.bestPanelSetup.valueOfPowerSavedFlow = this.priceOfPowerSaved;
             this.bestPanelSetup.maintenanceCostFlow = this.maintenanceCost;
@@ -254,11 +255,7 @@ export default {
       return this.amountSaved.reduce((a, b) => a + b, 0);
     },
     calcCapitalCost: function (panelCount, panelCost) {
-      this.capitalCost =
-        panelCount * panelCost +
-        this.interconnectionFee +
-        this.meterCost -
-        this.grants;
+      this.capitalCost = panelCount * panelCost + this.interconnectionFee + this.meterCost - this.grants;
       return this.capitalCost;
     },
     calcAmountSaved: function (year) {
