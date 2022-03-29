@@ -186,11 +186,15 @@ export default {
 
           var currentValueAtYear20 = this.calcAnnualCashFlow(
             this.solarPanelData[solarIndex].Data[dataIndex].panelCount,
-            this.solarPanelData[solarIndex].Cost
-          );
+            this.solarPanelData[solarIndex].Cost);
+          if(mostAmountSaved == Infinity)
+          {
+            mostAmountSaved = currentValueAtYear20;
+          }
+          
           if (currentValueAtYear20 < mostAmountSaved) {
             //A negative value indicated we get money back, so we minimize the return.
-
+            mostAmountSaved = currentValueAtYear20;
             this.bestPanelSetup = {
               index: Number,
               panelCount: Number,
@@ -201,6 +205,7 @@ export default {
               valueOfPowerSavedFlow: [],
               maintenanceCostFlow: [],
             };
+            
             this.bestPanelSetup.index = solarIndex;
             this.bestPanelSetup.panelCount =
               this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
