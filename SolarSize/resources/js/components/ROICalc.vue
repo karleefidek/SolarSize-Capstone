@@ -254,7 +254,8 @@ export default {
       return this.amountSaved.reduce((a, b) => a + b, 0);
     },
     calcCapitalCost: function (panelCount, panelCost) {
-      panelCount * panelCost +
+      this.capitalCost =
+        panelCount * panelCost +
         this.interconnectionFee +
         this.meterCost -
         this.grants;
