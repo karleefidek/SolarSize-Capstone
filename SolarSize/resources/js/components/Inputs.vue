@@ -388,8 +388,7 @@
                     :loader="loading"
                     clearable
                     :error="!!msg.directionInput"
-                    :start-angle="270"
-                    :end-angle="269"
+
                     :min="360"
                     :max="0"
                     :step="-1"
@@ -397,6 +396,7 @@
                     :rangeColor="'#7FB82C'"
                     :disabled="loading"
                     :radius="60"
+                    :startValue="188"
                     :tooltipFormat="sliderTooltip"
                     @touchmove="$refs.input.blur()"
                   ></round-slider>
@@ -408,8 +408,8 @@
                     placement="right"
                     triggers="hover"
                   >
-                    The direction the roof is facing. South to West Cardinality
-                    Ex. 0 or 360 = South, 90 = East, 180 = North, 270 = West. In
+                    The direction the roof is facing.
+                    Ex. 0 or 360 = North, 90 = East, 180 = South, 270 = West. In
                     the Northern Hemisphere, south orientation will get the best
                     results.
                   </b-tooltip>
@@ -565,7 +565,8 @@
                   <round-slider
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
-                    :dark="darkMode"
+                    dark="darkMode"
+                    startValue=180
                     required
                     :loader="loading"
                     clearable
@@ -587,7 +588,7 @@
                     @touchmove="$refs.input.blur()"
                   ></round-slider>
                   <span class="slider-text" id="direction"
-                    >Roof Direction: {{ panelDirection }}</span
+                    ><br>Roof Direction: {{ panelDirection }}</span
                   >
                   <b-tooltip
                     target="direction"
@@ -718,7 +719,7 @@ export default {
         latInput: "",
         longInput: "",
         consumptionInput: "",
-        directionInput: "",
+        directionInput: "180",
         zoneInput: "",
         tiltInput: "0",
         areaInput: "",
@@ -766,7 +767,7 @@ export default {
       addressAutoFill: [],
       address: "",
       msg: {},
-      panelDirection: "North",
+      panelDirection: "South",
       validated: true,
     };
   },
@@ -854,7 +855,7 @@ export default {
       if (value === "Test Fill Entry") {
         this.formInputs.latInput = "50.4583783";
         this.formInputs.longInput = "-104.62211";
-        this.formInputs.directionInput = "0";
+        this.formInputs.directionInput = "180";
         this.formInputs.zoneInput = "-6";
         this.formInputs.areaInput = "1.5";
         this.formInputs.efficiencyInput = "0.127";
@@ -1159,10 +1160,16 @@ export default {
       e.preventDefault();
 
       for (const input in this.formInputs) {
-        if (!this.formInputs[input]) {
+        if (this.formInputs[input] == "") {
           Vue.set(this.msg, input, "Please fill in");
           this.validated = true;
+          if(this.msg["directionInput"] == "Please fill in")
+          {
+            this.validated = false;
+            this.msg["directionInput"] = "";
+          } 
         }
+        
       }
       if (this.consumption.length == 0) {
         Vue.set(this.msg, "consumption", "Please upload file");
