@@ -3,7 +3,7 @@
     <b-sidebar
       id="sidebar-1"
       title="Sidebar"
-      visible="true"
+      :visible="true"
       bg-variant="white"
       width="12%"
     >
@@ -49,13 +49,14 @@
       <Inputs v-show="selected == 'inputs'" />
       <Solar v-show="selected == 'solarModel'" />
     </div>
+    {{ route }}
   </div>
 </template>
 
 <script>
 import ROIText from "./ROIText";
-import 'katex/dist/katex.min.css';
-import VueKatex from 'vue-katex';
+import "katex/dist/katex.min.css";
+import VueKatex from "vue-katex";
 import Rois from "./AboutPages/ROIDetails";
 import Inputs from "./AboutPages/InputDetails";
 import General from "./AboutPages/GeneralDetails";
@@ -67,16 +68,42 @@ export default {
     ROIText,
     VueKatex,
     Rois,
+<<<<<<< HEAD
+    Inputs,
+    General,
+=======
     Inputs, 
     General,
     Solar
+>>>>>>> 82e934613b2e0abdc7b7f6a131aa6c17490eac1b
   },
   data: function () {
     return {
       selected: "general",
     };
   },
-}
+  created() {},
+  computed: {
+    route: function () {
+      let urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("page")) {
+        this.selected = urlParams.get("page");
+      }
+    },
+  },
+  watch: {
+    selected: function () {
+      var newurl =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        window.location.pathname +
+        "?page=" +
+        this.selected;
+      window.history.pushState({ path: newurl }, "", newurl);
+    },
+  },
+};
 </script>
 
 <style scoped>
