@@ -60,6 +60,7 @@ import VueKatex from "vue-katex";
 import Rois from "./AboutPages/ROIDetails";
 import Inputs from "./AboutPages/InputDetails";
 import General from "./AboutPages/GeneralDetails";
+import Solar from "./AboutPages/SolarDetails";
 
 export default {
   name: "Summary",
@@ -67,8 +68,14 @@ export default {
     ROIText,
     VueKatex,
     Rois,
+<<<<<<< HEAD
     Inputs,
     General,
+=======
+    Inputs, 
+    General,
+    Solar
+>>>>>>> 82e934613b2e0abdc7b7f6a131aa6c17490eac1b
   },
   data: function () {
     return {
