@@ -51,6 +51,7 @@ class inputsTest extends DuskTestCase
 					->assertSee('219');
 			$browser1->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
 					->screenshot('summaryTestPT2');
+			$browser1->driver->manage()->deleteAllCookies();
         });
     }
 	

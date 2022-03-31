@@ -32,6 +32,28 @@ class inputsTest extends DuskTestCase
 			$browser->driver->manage()->deleteAllCookies();
         });
     }
+	public function testExamplePanelType1()
+    {
+        $this->browse(function (Browser $browser1) {
+            $browser1->visit('/')			               
+					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
+	 				->assertValueIsNot('#latitude','0')
+					->assertValueIsNot('#longitude','0')
+					->attach('#mainForm > div:nth-child(1) > div > div > div > div:nth-child(4) > div > div > input', '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
+					->keys('#grant','{backspace}','{backspace}','{backspace}','50000')
+					->keys('#interest','{backspace}','{backspace}','6')
+					->keys('#powercost','{backspace}','{backspace}','0.15')
+					->keys('#endDatePicker-input','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_left}','{arrow_left}','{arrow_left}','{enter}','{escape}')
+					->screenshot('panelTypeTest2')
+					->click('#mainForm > div.submit-container > button')
+					->screenshot('panelTypeTest2.1')
+					->waitFor('#roiValue', 30)
+					->assertSee('219');
+			$browser1->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
+					->screenshot('summaryTestPT2');
+			$browser1->driver->manage()->deleteAllCookies();
+        });
+    }
 	public function testExamplePanelType2()
     {
         $this->browse(function (Browser $browser1) {
@@ -54,6 +76,29 @@ class inputsTest extends DuskTestCase
 			$browser1->driver->manage()->deleteAllCookies();
         });
     }
+	public function testExamplePanelType3()
+    {
+        $this->browse(function (Browser $browser1) {
+            $browser1->visit('/')			               
+					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
+	 				->assertValueIsNot('#latitude','0')
+					->assertValueIsNot('#longitude','0')
+					->attach('#mainForm > div:nth-child(1) > div > div > div > div:nth-child(4) > div > div > input', '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
+					->keys('#grant','{backspace}','{backspace}','{backspace}','50000')
+					->keys('#interest','{backspace}','{backspace}','6')
+					->keys('#powercost','{backspace}','{backspace}','0.15')
+					->keys('#endDatePicker-input','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_left}','{arrow_left}','{arrow_left}','{enter}','{escape}')
+					->screenshot('panelTypeTest2')
+					->click('#mainForm > div.submit-container > button')
+					->screenshot('panelTypeTest2.1')
+					->waitFor('#roiValue', 30)
+					->assertSee('219');
+			$browser1->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
+					->screenshot('summaryTestPT2');
+			$browser1->driver->manage()->deleteAllCookies();
+        });
+    }
+	
 	
 	public function testErrorLatitude()
 	{
