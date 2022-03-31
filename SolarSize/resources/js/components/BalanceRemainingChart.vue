@@ -10,7 +10,11 @@ import Highcharts from "highcharts";
 export default {
   name: "BalanceRemainingChart",
   components: { highcharts: Chart },
-
+  created() {
+    bus.$on("balanceRemainingCalculated", (balanceRemaining) => {
+      this.yearlySavingsChartOptions.series = balanceRemaining;
+    });
+  },
   data: function () {
     return {
       yearlySavingsChartOptions: {

@@ -121,7 +121,6 @@ export default {
         this.fullCreditPower = solarPanel.totalGeneration;
         this.overGenPower = solarPanel.totalOverGeneration;
 
-
         this.chartOptions.series = [
           {
             name: "Capital Cost",
@@ -143,7 +142,7 @@ export default {
           },
           {
             name: "Interest Cost",
-            data:  this.bestPanelSetup.interestCostFlow.map((num) => -num),
+            data: this.bestPanelSetup.interestCostFlow.map((num) => -num),
             stack: "Costs",
             color: "#523B89",
           },
@@ -186,12 +185,12 @@ export default {
 
           var currentValueAtYear20 = this.calcAnnualCashFlow(
             this.solarPanelData[solarIndex].Data[dataIndex].panelCount,
-            this.solarPanelData[solarIndex].Cost);
-          if(mostAmountSaved == Infinity)
-          {
+            this.solarPanelData[solarIndex].Cost
+          );
+          if (mostAmountSaved == Infinity) {
             mostAmountSaved = currentValueAtYear20;
           }
-          
+
           if (currentValueAtYear20 < mostAmountSaved) {
             //A negative value indicated we get money back, so we minimize the return.
             mostAmountSaved = currentValueAtYear20;
@@ -205,7 +204,7 @@ export default {
               valueOfPowerSavedFlow: [],
               maintenanceCostFlow: [],
             };
-            
+
             this.bestPanelSetup.index = solarIndex;
             this.bestPanelSetup.panelCount =
               this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
@@ -215,8 +214,6 @@ export default {
             this.bestPanelSetup.interestCostFlow = this.interestCost;
             this.bestPanelSetup.valueOfPowerSavedFlow = this.priceOfPowerSaved;
             this.bestPanelSetup.maintenanceCostFlow = this.maintenanceCost;
-
-
           }
         }
       }
@@ -225,10 +222,12 @@ export default {
         "bestSolarPanelFound",
         this.bestPanelSetup.index,
         this.bestPanelSetup.panelCount,
-        this.bestPanelSetup.mostAmountSaved,
+        this.bestPanelSetup.mostAmountSaved
       );
 
-      return this.solarPanelData[this.bestPanelSetup.index].Data[this.bestPanelSetup.panelCount - 1];
+      return this.solarPanelData[this.bestPanelSetup.index].Data[
+        this.bestPanelSetup.panelCount - 1
+      ];
     },
     calcAnnualCashFlow: function (panelCount, panelCost) {
       this.balanceRemaining = [];
@@ -248,6 +247,7 @@ export default {
           this.breakEvenYear = year - 1;
         }
       }
+      bus.$emit("balanceRemainingCalculated", this.balanceRemaining);
       return this.balanceRemaining[19];
     },
     calcROIPercent: function () {
@@ -260,7 +260,11 @@ export default {
       return this.amountSaved.reduce((a, b) => a + b, 0);
     },
     calcCapitalCost: function (panelCount, panelCost) {
-      this.capitalCost = panelCount * panelCost + this.interconnectionFee + this.meterCost - this.grants;
+      this.capitalCost =
+        panelCount * panelCost +
+        this.interconnectionFee +
+        this.meterCost -
+        this.grants;
       return this.capitalCost;
     },
     calcAmountSaved: function (year) {
