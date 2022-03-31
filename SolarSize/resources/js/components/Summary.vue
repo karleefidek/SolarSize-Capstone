@@ -122,11 +122,30 @@
         <template v-slot:footer> </template>
       </ROIText>
     </div>
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Consumption Graph</h3>
+        </template>
+
+        <ConsumptionVsEstimateChart
+          :startTime="startTime"
+          :endTime="endTime"
+          :offset="offset"
+          :generationSeries="generationSeries"
+          ref="chartComponent"
+          class="component-container"
+        ></ConsumptionVsEstimateChart>
+
+        <template v-slot:footer> </template>
+      </ROIText>
+    </div>
   </div>
 </template>
 
 <script>
 import VueInputUi from "vue-input-ui";
+import exporting from 'highcharts/modules/exporting';
 import "vue-input-ui/dist/vue-input-ui.css";
 import { bus } from "../app";
 import { Chart } from "highcharts-vue";
@@ -137,6 +156,15 @@ import ROICalc from "./ROICalc";
 import OvergenerationPieChart from "./OvergenerationPieChart";
 import ConsumptionVsEstimateChart from "./ConsumptionVsEstimateChart";
 import AnnualGenerationChart from "./AnnualGenerationChart";
+
+exporting(Highcharts);
+
+    Highcharts.setOptions({
+        exporting: {
+            filename: 'test',
+            enabled: true,
+        }
+    });
 
 export default {
   name: "Summary",
