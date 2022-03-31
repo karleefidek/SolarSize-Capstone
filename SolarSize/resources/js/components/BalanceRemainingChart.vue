@@ -70,7 +70,7 @@ export default {
           column: {
             stacking: "normal",
             dataLabels: {
-              enabled: true,
+              enabled: false,
               format: "$ {point.y:,.0f}",
             },
             pointPadding: 0.2,

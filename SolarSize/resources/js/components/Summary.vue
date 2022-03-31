@@ -161,7 +161,9 @@ Highcharts.setOptions({
   exporting: {
     filename: "test",
     enabled: true,
-    width: 1500,
+    sourceWidth: 1400.64,
+    sourceHeight: 278.4,
+    scale: 1,
     fallbackToExportServer: false,
   },
 });
