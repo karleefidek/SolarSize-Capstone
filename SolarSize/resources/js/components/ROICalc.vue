@@ -54,7 +54,7 @@ export default {
           zoomType: "x",
         },
         title: {
-          text: "Annual KWH Generated",
+          text: "Cash Flow Diagram",
           align: "center",
         },
         credits: {
@@ -84,6 +84,11 @@ export default {
             "Year 20",
           ],
           crosshair: true,
+          labels: {
+            style: {
+              fontSize: "16px",
+            },
+          },
         },
         tooltip: {
           pointFormat:
@@ -92,7 +97,7 @@ export default {
         },
         yAxis: {
           title: {
-            text: "KWH",
+            text: "$ CAD",
           },
           allowDecimals: false,
         },
@@ -125,33 +130,33 @@ export default {
           {
             name: "Capital Cost",
             data: [-this.bestPanelSetup.capitalCost],
-            negativeColor: "#EE4036",
+            color: "#C25E5E",
             stack: "Costs",
           },
           {
             name: "Maintenance Cost",
             data: this.bestPanelSetup.maintenanceCostFlow.map((num) => -num),
             stack: "Costs",
-            negativeColor: "#FFBA40",
+            color: "#7A6ED9",
           },
           {
             name: "Value of Power Saved",
             data: this.bestPanelSetup.valueOfPowerSavedFlow,
             stack: "Costs",
-            color: "#96C951",
+            color: "#00C4FF",
           },
           {
             name: "Interest Cost",
             data: this.bestPanelSetup.interestCostFlow.map((num) => -num),
             stack: "Costs",
-            color: "#523B89",
+            color: "#728434",
           },
           {
             name: "Remaining Balance",
             data: this.bestPanelSetup.annualCashFlow,
             stack: "Principle",
             color: "#EE4036",
-            negativeColor: "#C0D73E",
+            negativeColor: "#29B463",
           },
         ];
       },
