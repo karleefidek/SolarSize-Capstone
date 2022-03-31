@@ -604,6 +604,7 @@
                     only-date
                     format="YYYY-MM-DD"
                     label="Start Date"
+                    id="startDatePicker"
                   />
                 </p>
                 <b-tooltip
@@ -622,6 +623,7 @@
                     only-date
                     format="YYYY-MM-DD"
                     label="End Date"
+                    id="endDatePicker"
                   />
                 </p>
                 <b-tooltip target="endDate" placement="right" triggers="hover">
