@@ -107,17 +107,13 @@
     <div class="component-container">
       <ROIText>
         <template v-slot:header>
-          <h3>Consumption Graph</h3>
+          <h3>Yearly Balance Remaining</h3>
         </template>
 
-        <ConsumptionVsEstimateChart
-          :startTime="startTime"
-          :endTime="endTime"
-          :offset="offset"
-          :generationSeries="generationSeries"
-          ref="chartComponent"
+        <BalanceRemainingChart
+          ref="balanceRemainingChart"
           class="component-container"
-        ></ConsumptionVsEstimateChart>
+        ></BalanceRemainingChart>
 
         <template v-slot:footer> </template>
       </ROIText>
@@ -145,7 +141,7 @@
 
 <script>
 import VueInputUi from "vue-input-ui";
-import exporting from 'highcharts/modules/exporting';
+import exporting from "highcharts/modules/exporting";
 import "vue-input-ui/dist/vue-input-ui.css";
 import { bus } from "../app";
 import { Chart } from "highcharts-vue";
@@ -156,15 +152,16 @@ import ROICalc from "./ROICalc";
 import OvergenerationPieChart from "./OvergenerationPieChart";
 import ConsumptionVsEstimateChart from "./ConsumptionVsEstimateChart";
 import AnnualGenerationChart from "./AnnualGenerationChart";
+import BalanceRemainingChart from "./BalanceRemainingChart.vue";
 
 exporting(Highcharts);
 
-    Highcharts.setOptions({
-        exporting: {
-            filename: 'test',
-            enabled: true,
-        }
-    });
+Highcharts.setOptions({
+  exporting: {
+    filename: "test",
+    enabled: true,
+  },
+});
 
 export default {
   name: "Summary",
@@ -177,6 +174,7 @@ export default {
     OvergenerationPieChart,
     ConsumptionVsEstimateChart,
     AnnualGenerationChart,
+    BalanceRemainingChart,
   },
   data: function () {
     return {

@@ -187,9 +187,6 @@ export default {
             this.solarPanelData[solarIndex].Data[dataIndex].panelCount,
             this.solarPanelData[solarIndex].Cost
           );
-          if (mostAmountSaved == Infinity) {
-            mostAmountSaved = currentValueAtYear20;
-          }
 
           if (currentValueAtYear20 < mostAmountSaved) {
             //A negative value indicated we get money back, so we minimize the return.
@@ -224,6 +221,10 @@ export default {
         this.bestPanelSetup.panelCount,
         this.bestPanelSetup.mostAmountSaved
       );
+      bus.$emit(
+        "balanceRemainingCalculated",
+        this.bestPanelSetup.annualCashFlow
+      );
 
       return this.solarPanelData[this.bestPanelSetup.index].Data[
         this.bestPanelSetup.panelCount - 1
@@ -247,7 +248,7 @@ export default {
           this.breakEvenYear = year - 1;
         }
       }
-      bus.$emit("balanceRemainingCalculated", this.balanceRemaining);
+
       return this.balanceRemaining[19];
     },
     calcROIPercent: function () {
@@ -264,7 +265,7 @@ export default {
         panelCount * panelCost +
         this.interconnectionFee +
         this.meterCost -
-        this.grants;
+        this.investmentData.grantTotal;
       return this.capitalCost;
     },
     calcAmountSaved: function (year) {

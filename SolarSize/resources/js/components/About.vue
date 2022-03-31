@@ -68,14 +68,9 @@ export default {
     ROIText,
     VueKatex,
     Rois,
-<<<<<<< HEAD
     Inputs,
     General,
-=======
-    Inputs, 
-    General,
-    Solar
->>>>>>> 82e934613b2e0abdc7b7f6a131aa6c17490eac1b
+    Solar,
   },
   data: function () {
     return {

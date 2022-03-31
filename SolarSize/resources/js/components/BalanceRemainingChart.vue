@@ -7,12 +7,15 @@
 <script>
 import { Chart } from "highcharts-vue";
 import Highcharts from "highcharts";
+import { bus } from "../app";
 export default {
   name: "BalanceRemainingChart",
   components: { highcharts: Chart },
   created() {
     bus.$on("balanceRemainingCalculated", (balanceRemaining) => {
-      this.yearlySavingsChartOptions.series = balanceRemaining;
+      this.yearlySavingsChartOptions.series[0].data = balanceRemaining.map(
+        (num) => -num
+      );
     });
   },
   data: function () {
@@ -74,7 +77,13 @@ export default {
             borderWidth: 0,
           },
         },
-        series: [],
+        series: [
+          {
+            name: "Annual Balance Remaining",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            color: "#96C951",
+          },
+        ],
       },
     };
   },
