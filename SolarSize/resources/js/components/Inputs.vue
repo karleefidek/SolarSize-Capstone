@@ -939,6 +939,29 @@ export default {
         interestInput: "",
         roofInput: "",
       };
+      this.panels = [
+        {
+          ModuleEfficiency: 0.184,
+          Area: 1.6864,
+          Name: "310W Black Frame 60 cell Mono-PERC 35mm T4 CANADIAN MADE",
+          Cost: 222.0,
+          Wattage: 310,
+        },
+        {
+          ModuleEfficiency: 0.198,
+          Area: 1.82169,
+          Name: "Longi – LR4-60HPB-360M – Mono – Black",
+          Cost: 281.76,
+          Wattage: 360,
+        },
+        {
+          ModuleEfficiency: 0.184,
+          Area: 2.290836,
+          Name: "Longi ‐ LR4‐72HPH‐450M, Monofacial, 35mm",
+          Cost: 322.79,
+          Wattage: 450,
+        },
+      ];
     },
     getData(fileRecords) {
       let file = fileRecords[0].file;
