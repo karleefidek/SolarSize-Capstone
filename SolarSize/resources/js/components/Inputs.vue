@@ -40,7 +40,6 @@
                   v-model.number="formInputs.latInput"
                   label="Latitude"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   :error="!!msg.latInput"
                 />
@@ -62,7 +61,6 @@
                   v-model="formInputs.longInput"
                   label="Longitude"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   :error="!!msg.longInput"
                 />
@@ -179,7 +177,6 @@
                   label="Module Efficiency"
                   :ref="'panel_eff' + index"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   @focus="
                     $refs[
@@ -201,7 +198,6 @@
                   label="Panel Area"
                   :ref="'panel_area' + index"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   @focus="
                     $refs[
@@ -223,7 +219,6 @@
                   label="Panel Unit Cost"
                   :ref="'panel_cost' + index"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   @focus="
                     $refs[
@@ -249,7 +244,6 @@
                   :ref="'panel_watt' + index"
                   label="Panel Wattage"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   @focus="
                     $refs[
@@ -302,7 +296,6 @@
                   v-model="formInputs.tiltInput"
                   label="Module Tilt"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   :error="!!msg.tiltInput"
                 />
@@ -320,7 +313,6 @@
                   v-model="formInputs.areaInput"
                   label="Module Area"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   clearable
                   :error="!!msg.areaInput"
@@ -339,7 +331,6 @@
                   v-model="formInputs.efficiencyInput"
                   label="Module Efficiency"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   clearable
                   :error="!!msg.efficiencyInput"
@@ -363,7 +354,6 @@
                   v-model="formInputs.lossInput"
                   label="Loss Coefficient"
                   :dark="darkMode"
-                  required
                   :loader="loading"
                   clearable
                   :error="!!msg.lossInput"
@@ -384,11 +374,9 @@
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
                     :dark="darkMode"
-                    required
                     :loader="loading"
                     clearable
                     :error="!!msg.directionInput"
-
                     :min="360"
                     :max="0"
                     :step="-1"
@@ -408,10 +396,9 @@
                     placement="right"
                     triggers="hover"
                   >
-                    The direction the roof is facing.
-                    Ex. 0 or 360 = North, 90 = East, 180 = South, 270 = West. In
-                    the Northern Hemisphere, south orientation will get the best
-                    results.
+                    The direction the roof is facing. Ex. 0 or 360 = North, 90 =
+                    East, 180 = South, 270 = West. In the Northern Hemisphere,
+                    south orientation will get the best results.
                   </b-tooltip>
                 </div>
               </div>
@@ -431,7 +418,6 @@
                     v-model="formInputs.roofInput"
                     label="Available Roof Area "
                     :dark="darkMode"
-                    required
                     :loader="loading"
                     :error="!!msg.roofInput"
                     @focus="
@@ -462,7 +448,6 @@
                     v-model="formInputs.interestInput"
                     label="Interest Rate"
                     :dark="darkMode"
-                    required
                     :loader="loading"
                     clearable
                     :error="!!msg.interestInput"
@@ -495,7 +480,6 @@
                     v-model="formInputs.grantInput"
                     label="Available Grants"
                     :dark="darkMode"
-                    required
                     :loader="loading"
                     clearable
                     :error="!!msg.grantInput"
@@ -528,7 +512,6 @@
                     v-model="formInputs.powerCostInput"
                     label="Cost of a kWh"
                     :dark="darkMode"
-                    required
                     :loader="loading"
                     clearable
                     :error="!!msg.powerCostInput"
@@ -566,8 +549,7 @@
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
                     dark="darkMode"
-                    startValue=180
-                    required
+                    startValue="180"
                     :loader="loading"
                     clearable
                     :error="!!msg.directionInput"
@@ -588,7 +570,7 @@
                     @touchmove="$refs.input.blur()"
                   ></round-slider>
                   <span class="slider-text" id="direction"
-                    ><br>Roof Direction: {{ panelDirection }}</span
+                    ><br />Roof Direction: {{ panelDirection }}</span
                   >
                   <b-tooltip
                     target="direction"
@@ -675,6 +657,7 @@
             Calculate
           </button>
         </transition>
+        <button class="reset-button" @click.prevent="resetValues">Reset</button>
       </div>
     </form>
   </div>
@@ -866,6 +849,7 @@ export default {
         this.formInputs.interestInput = "15";
         this.formInputs.powerCostInput = "20";
         this.formInputs.roofInput = "400";
+        this.location = "";
       }
     },
     "formInputs.latInput": function (value) {
@@ -1163,13 +1147,11 @@ export default {
         if (this.formInputs[input] == "") {
           Vue.set(this.msg, input, "Please fill in");
           this.validated = true;
-          if(this.msg["directionInput"] == "Please fill in")
-          {
+          if (this.msg["directionInput"] == "Please fill in") {
             this.validated = false;
             this.msg["directionInput"] = "";
-          } 
+          }
         }
-        
       }
       if (this.consumption.length == 0) {
         Vue.set(this.msg, "consumption", "Please upload file");
