@@ -142,6 +142,7 @@
 <script>
 import VueInputUi from "vue-input-ui";
 import exporting from "highcharts/modules/exporting";
+import offlineExporting from "highcharts/modules/offline-exporting";
 import "vue-input-ui/dist/vue-input-ui.css";
 import { bus } from "../app";
 import { Chart } from "highcharts-vue";
@@ -155,11 +156,13 @@ import AnnualGenerationChart from "./AnnualGenerationChart";
 import BalanceRemainingChart from "./BalanceRemainingChart.vue";
 
 exporting(Highcharts);
-
+offlineExporting(Highcharts);
 Highcharts.setOptions({
   exporting: {
     filename: "test",
     enabled: true,
+    width: 1500,
+    fallbackToExportServer: false,
   },
 });
 
