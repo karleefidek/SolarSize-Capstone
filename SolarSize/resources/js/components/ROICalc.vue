@@ -211,7 +211,7 @@ export default {
               this.solarPanelData[solarIndex].Data[dataIndex].panelCount;
             this.bestPanelSetup.mostAmountSaved = currentValueAtYear20;
             this.bestPanelSetup.annualCashFlow = this.balanceRemaining;
-            this.bestPanelSetup.capitalCost = this.calcCapitalCost(this.solarPanelData[solarIndex].Data[dataIndex].panelCount,-(this.solarPanelData[solarIndex].Cost));
+            this.bestPanelSetup.capitalCost = this.capitalCost;
             this.bestPanelSetup.interestCostFlow = this.interestCost;
             this.bestPanelSetup.valueOfPowerSavedFlow = this.priceOfPowerSaved;
             this.bestPanelSetup.maintenanceCostFlow = this.maintenanceCost;
