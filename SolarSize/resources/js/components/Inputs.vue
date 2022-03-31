@@ -659,7 +659,13 @@
             Calculate
           </button>
         </transition>
-        <button class="reset-button" @click.prevent="resetValues">Reset</button>
+        <button
+          v-if="!loading"
+          class="reset-button"
+          @click.prevent="resetValues"
+        >
+          Reset
+        </button>
       </div>
     </form>
   </div>
