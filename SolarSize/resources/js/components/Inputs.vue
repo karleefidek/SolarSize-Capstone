@@ -525,6 +525,7 @@
                     :disabled="loading"
                     noHeader
                     :error="!!msg.startInput"
+                    max-date="2021-12-31"
                   />
                 </p>
                 <b-tooltip
@@ -552,6 +553,7 @@
                     :disabled="loading"
                     noHeader
                     :error="!!msg.startInput"
+                    max-date="2021-12-31"
                   />
                 </p>
                 <b-tooltip target="endDate" placement="right" triggers="hover">
@@ -1360,7 +1362,7 @@ export default {
       var endTime = new Date(this.formInputs.endInput);
 
       if (
-        startTime > endTime &&
+        startTime >= endTime &&
         this.formInputs.startInput &&
         this.formInputs.endInput
       ) {

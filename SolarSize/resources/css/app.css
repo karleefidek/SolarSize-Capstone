@@ -228,7 +228,9 @@ td {
     color:#dc3545;
 }
 
-
+#directionSlider{
+  margin: auto;
+}
 .symbol-input {
     position: relative;
   }
@@ -255,7 +257,11 @@ td {
       left:27px;
   }
 
-  
+  .dateInputs {
+    column-span: all;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
   
   .symbol-input > i {
     
@@ -313,7 +319,7 @@ td {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 4fr repeat(4,1fr) 0.2fr;
+    grid-template-columns: 2.5fr repeat(4,1fr) 0.2fr;
     grid-template-rows: 1fr;
     grid-auto-flow: row;
     gap: 30px 30px;
