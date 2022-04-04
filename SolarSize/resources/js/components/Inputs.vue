@@ -32,6 +32,7 @@
                   label="Latitude"
                   :dark="darkMode"
                   :loader="loading"
+                  :disabled="loading"
                   :error="!!msg.latInput"
                 />
                 <b-tooltip target="latitude" placement="right" triggers="hover">
@@ -53,6 +54,7 @@
                   label="Longitude"
                   :dark="darkMode"
                   :loader="loading"
+                  :disabled="loading"
                   :error="!!msg.longInput"
                 />
                 <b-tooltip
@@ -112,6 +114,7 @@
                     label="Enter your Address"
                     :dark="darkMode"
                     :loader="loading"
+                    :disabled="loading"
                     @keyup.enter.prevent="getCoordsFromAddress"
                   />
                   <button
@@ -142,6 +145,12 @@
           <div class="component-container">
             <div v-for="(panel, index) in panels" :key="index" class="panels">
               <div class="symbol-input">
+                <span
+                  class="errorMsg"
+                  v-if="msg.panelNameInput[index]"
+                  :class="!msg.panelNameInput[index] ? 'shake' : ''"
+                  >{{ msg.panelNameInput[index] }}</span
+                >
                 <VueInputUi
                   :id="'panel_name' + index"
                   v-model="panel.Name"
@@ -149,6 +158,8 @@
                   label="Panel Name"
                   :dark="darkMode"
                   :loader="loading"
+                  :error="!!msg.panelNameInput[index]"
+                  :disabled="loading"
                   @focus="
                     $refs[
                       'panel_name' + index
@@ -163,6 +174,12 @@
                 <i>ID</i>
               </div>
               <div class="symbol-input">
+                <span
+                  class="errorMsg"
+                  v-if="msg.panelEffInput[index]"
+                  :class="!msg.panelEffInput[index] ? 'shake' : ''"
+                  >{{ msg.panelEffInput[index] }}</span
+                >
                 <VueInputUi
                   :id="'panel_eff' + index"
                   v-model="panel.ModuleEfficiency"
@@ -170,6 +187,8 @@
                   :ref="'panel_eff' + index"
                   :dark="darkMode"
                   :loader="loading"
+                  :error="!!msg.panelEffInput[index]"
+                  :disabled="loading"
                   @focus="
                     $refs[
                       'panel_eff' + index
@@ -184,6 +203,12 @@
                 <i>0.xx</i>
               </div>
               <div class="symbol-input">
+                <span
+                  class="errorMsg"
+                  v-if="msg.panelAreaInput[index]"
+                  :class="!msg.panelAreaInput[index] ? 'shake' : ''"
+                  >{{ msg.panelAreaInput[index] }}</span
+                >
                 <VueInputUi
                   :id="'panel_area' + index"
                   v-model="panel.Area"
@@ -191,6 +216,8 @@
                   :ref="'panel_area' + index"
                   :dark="darkMode"
                   :loader="loading"
+                  :error="!!msg.panelAreaInput[index]"
+                  :disabled="loading"
                   @focus="
                     $refs[
                       'panel_area' + index
@@ -205,6 +232,12 @@
                 <i>M²</i>
               </div>
               <div class="symbol-input">
+                <span
+                  class="errorMsg"
+                  v-if="msg.panelCostInput[index]"
+                  :class="!msg.panelCostInput[index] ? 'shake' : ''"
+                  >{{ msg.panelCostInput[index] }}</span
+                >
                 <VueInputUi
                   :id="'panel_cost' + index"
                   v-model="panel.Cost"
@@ -212,6 +245,8 @@
                   :ref="'panel_cost' + index"
                   :dark="darkMode"
                   :loader="loading"
+                  :error="!!msg.panelCostInput[index]"
+                  :disabled="loading"
                   @focus="
                     $refs[
                       'panel_cost' + index
@@ -230,6 +265,12 @@
                 >
               </div>
               <div class="symbol-input">
+                <span
+                  class="errorMsg"
+                  v-if="msg.panelWattageInput[index]"
+                  :class="!msg.panelWattageInput[index] ? 'shake' : ''"
+                  >{{ msg.panelWattageInput[index] }}</span
+                >
                 <VueInputUi
                   :id="'panel_watt' + index"
                   v-model="panel.Wattage"
@@ -237,6 +278,8 @@
                   label="Panel Wattage"
                   :dark="darkMode"
                   :loader="loading"
+                  :error="!!msg.panelWattageInput[index]"
+                  :disabled="loading"
                   @focus="
                     $refs[
                       'panel_watt' + index
@@ -289,6 +332,7 @@
                     :dark="darkMode"
                     :loader="loading"
                     :error="!!msg.roofInput"
+                    :disabled="loading"
                     @focus="
                       $refs.area.$el.nextElementSibling.classList.add('focused')
                     "
@@ -318,7 +362,7 @@
                     label="Loan Rate"
                     :dark="darkMode"
                     :loader="loading"
-                    clearable
+                    :disabled="loading"
                     :error="!!msg.interestInput"
                     @focus="
                       $refs.interest.$el.nextElementSibling.classList.add(
@@ -350,7 +394,7 @@
                     label="Available Grants"
                     :dark="darkMode"
                     :loader="loading"
-                    clearable
+                    :disabled="loading"
                     :error="!!msg.grantInput"
                     @focus="
                       $refs.grant.$el.nextElementSibling.classList.add(
@@ -382,7 +426,7 @@
                     label="Cost of a kWh"
                     :dark="darkMode"
                     :loader="loading"
-                    clearable
+                    :disabled="loading"
                     :error="!!msg.powerCostInput"
                     @focus="
                       $refs.powercost.$el.nextElementSibling.classList.add(
@@ -465,31 +509,55 @@
         <div class="container">
           <div class="component-container">
             <div class="inputContainer">
-              <p id="startDate">
-                <VueCtkDateTimePicker
-                  v-model="formInputs.startInput"
-                  only-date
-                  format="YYYY-MM-DD"
-                  label="Start Date"
-                  id="startDatePicker"
-                />
-              </p>
-              <b-tooltip target="startDate" placement="right" triggers="hover">
-                The start date of analysis period.
-              </b-tooltip>
+              <div class="inputAndMessage">
+                <span class="errorMsg" v-if="msg.startInput">{{
+                  msg.startInput
+                }}</span>
+                <p id="startDate">
+                  <VueCtkDateTimePicker
+                    v-model="formInputs.startInput"
+                    only-date
+                    format="YYYY-MM-DD"
+                    label="Start Date"
+                    id="startDatePicker"
+                    auto-close
+                    no-button-now
+                    :disabled="loading"
+                    noHeader
+                    :error="!!msg.startInput"
+                  />
+                </p>
+                <b-tooltip
+                  target="startDate"
+                  placement="right"
+                  triggers="hover"
+                >
+                  The start date of analysis period.
+                </b-tooltip>
+              </div>
 
-              <p id="endDate">
-                <VueCtkDateTimePicker
-                  v-model="formInputs.endInput"
-                  only-date
-                  format="YYYY-MM-DD"
-                  label="End Date"
-                  id="endDatePicker"
-                />
-              </p>
-              <b-tooltip target="endDate" placement="right" triggers="hover">
-                The end date of analysis period.
-              </b-tooltip>
+              <div class="inputAndMessage">
+                <span class="errorMsg" v-if="msg.endInput">{{
+                  msg.endInput
+                }}</span>
+                <p id="endDate">
+                  <VueCtkDateTimePicker
+                    v-model="formInputs.endInput"
+                    only-date
+                    format="YYYY-MM-DD"
+                    label="End Date"
+                    id="endDatePicker"
+                    auto-close
+                    no-button-now
+                    :disabled="loading"
+                    noHeader
+                    :error="!!msg.startInput"
+                  />
+                </p>
+                <b-tooltip target="endDate" placement="right" triggers="hover">
+                  The end date of analysis period.
+                </b-tooltip>
+              </div>
             </div>
           </div>
         </div>
@@ -617,7 +685,13 @@ export default {
       consumption: [],
       addressAutoFill: [],
       address: "",
-      msg: {},
+      msg: {
+        panelNameInput: [],
+        panelEffInput: [],
+        panelAreaInput: [],
+        panelCostInput: [],
+        panelWattageInput: [],
+      },
       panelDirection: "South",
       validated: true,
     };
@@ -675,10 +749,28 @@ export default {
         "grantInput",
         "interestInput",
         "roofInput",
+        "startInput",
+        "endInput",
       ];
       var filledInputs = true;
       for (const input in currentInputs) {
-        if (this.formInputs[currentInputs[input]] === "") {
+        if (
+          this.formInputs[currentInputs[input]] === "" ||
+          this.formInputs[currentInputs[input]] === null
+        ) {
+          filledInputs = false;
+        }
+      }
+      for (const panelIndex in this.panels) {
+        if (
+          !(
+            this.panels[panelIndex].Name &&
+            this.panels[panelIndex].Cost &&
+            this.panels[panelIndex].Wattage &&
+            this.panels[panelIndex].ModuleEfficiency &&
+            this.panels[panelIndex].Area
+          )
+        ) {
           filledInputs = false;
         }
       }
@@ -752,6 +844,27 @@ export default {
       this.formInputs.roofInput = value;
       this.validateRoof(value);
     },
+    "formInputs.startInput": function (value) {
+      this.validateTime(value);
+    },
+    "formInputs.endInput": function (value) {
+      this.validateTime(value);
+    },
+    panels: {
+      handler(value) {
+        for (const panelIndex in this.panels) {
+          this.validatePanelName(value[panelIndex].Name, panelIndex);
+          this.validatePanelEfficiency(
+            value[panelIndex].ModuleEfficiency,
+            panelIndex
+          );
+          this.validatePanelArea(value[panelIndex].Area, panelIndex);
+          this.validatePanelCost(value[panelIndex].Cost, panelIndex);
+          this.validatePanelWattage(value[panelIndex].Wattage, panelIndex);
+        }
+      },
+      deep: true,
+    },
     consumption: function (value) {
       this.consumption = value;
       this.validateConsumption(value);
@@ -774,7 +887,13 @@ export default {
       return e.value + "°";
     },
     resetValues() {
-      this.msg = {};
+      this.msg = {
+        panelNameInput: [],
+        panelEffInput: [],
+        panelAreaInput: [],
+        panelCostInput: [],
+        panelWattageInput: [],
+      };
       this.formInputs = {
         latInput: "",
         longInput: "",
@@ -1023,13 +1142,26 @@ export default {
       e.preventDefault();
 
       for (const input in this.formInputs) {
-        if (this.formInputs[input] == "") {
+        if (this.formInputs[input] == "" || this.formInputs[input] == null) {
           Vue.set(this.msg, input, "Please fill in");
           this.validated = true;
-          if (this.msg["directionInput"] == "Please fill in") {
-            this.validated = false;
-            this.msg["directionInput"] = "";
-          }
+        }
+      }
+      for (const panelIndex in this.panels) {
+        if (this.panels[panelIndex].Name === "") {
+          Vue.set(this.msg.panelNameInput, panelIndex, "Please fill in");
+        }
+        if (this.panels[panelIndex].Cost === "") {
+          Vue.set(this.msg.panelCostInput, panelIndex, "Please fill in");
+        }
+        if (this.panels[panelIndex].Wattage === "") {
+          Vue.set(this.msg.panelWattageInput, panelIndex, "Please fill in");
+        }
+        if (this.panels[panelIndex].Area === "") {
+          Vue.set(this.msg.panelAreaInput, panelIndex, "Please fill in");
+        }
+        if (this.panels[panelIndex].ModuleEfficiency === "") {
+          Vue.set(this.msg.panelEffInput, panelIndex, "Please fill in");
         }
       }
       if (this.consumption.length == 0) {
@@ -1172,6 +1304,71 @@ export default {
         this.msg["consumption"] =
           "Invalid consumption file - please upload a file of the correct type";
         this.validated = true;
+      }
+    },
+    validatePanelName(value, index) {
+      if (value.length > 70) {
+        this.msg.panelNameInput[index] = "Please enter a shorter name.";
+        this.validated = true;
+      } else {
+        this.msg.panelNameInput[index] = "";
+        this.validated = false;
+      }
+    },
+    validatePanelEfficiency(value, index) {
+      if ((value >= 1.0 || value <= 0.0 || isNaN(value)) && value != "") {
+        this.msg.panelEffInput[index] =
+          "Please enter a value between 0.0 and 1.0";
+        this.validated = true;
+      } else {
+        this.msg.panelEffInput[index] = "";
+        this.validated = false;
+      }
+    },
+    validatePanelArea(value, index) {
+      if ((value <= 0.0 || isNaN(value)) && value != "") {
+        this.msg.panelAreaInput[index] =
+          "Please enter a number greater than 0.0";
+        this.validated = true;
+      } else {
+        this.msg.panelAreaInput[index] = "";
+        this.validated = false;
+      }
+    },
+    validatePanelCost(value, index) {
+      if ((value <= 0.0 || isNaN(value)) && value != "") {
+        this.msg.panelCostInput[index] =
+          "Please enter a number greater than 0.0";
+        this.validated = true;
+      } else {
+        this.msg.panelCostInput[index] = "";
+        this.validated = false;
+      }
+    },
+    validatePanelWattage(value, index) {
+      if ((value <= 0.0 || isNaN(value)) && value != "") {
+        this.msg.panelWattageInput[index] =
+          "Please enter a number greater than 0.0";
+        this.validated = true;
+      } else {
+        this.msg.panelWattageInput[index] = "";
+        this.validated = false;
+      }
+    },
+    validateTime(value) {
+      var startTime = new Date(this.formInputs.startInput);
+      var endTime = new Date(this.formInputs.endInput);
+
+      if (
+        startTime > endTime &&
+        this.formInputs.startInput &&
+        this.formInputs.endInput
+      ) {
+        this.msg.startInput = "Start date must be before end date.";
+        this.validated = true;
+      } else {
+        this.msg.startInput = "";
+        this.validated = false;
       }
     },
   },
