@@ -152,6 +152,7 @@
                   >{{ msg.panelNameInput[index] }}</span
                 >
                 <VueInputUi
+                  class="panelName"
                   :id="'panel_name' + index"
                   v-model="panel.Name"
                   :ref="'panel_name' + index"

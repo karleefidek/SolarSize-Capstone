@@ -247,12 +247,12 @@ td {
 /* Deep Selector >>> symbol to override child component css */
 
 .symbol-input>>>input {
-    padding-left: 30px !important;
+    padding-left: 35px !important;
     padding-right: 0;
 }
 
 *>>>.vue-input-ui__label {
-    left: 27px;
+    left: 35px;
 }
 
 .symbol-input>i {
@@ -294,14 +294,6 @@ td {
     }
 }
 
-
-/*   
-  .symbol-input > input {
-    padding-left: 0;
-    padding-right: 25px;
-    text-align: left;
-  } */
-
 #directionSlider {
     grid-column: 1/-1;
     display: flex;
@@ -313,7 +305,7 @@ td {
 
 .slider-text {
     margin-left: -28%;
-    color: #7fb82c;
+    color: #96c951;
     font-size: large;
     font-weight: bold;
 }
@@ -322,7 +314,7 @@ td {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 4fr repeat(4, 1fr) 0.2fr;
+    grid-template-columns: 3fr repeat(4, 1fr) 0.2fr;
     grid-template-rows: 1fr;
     grid-auto-flow: row;
     gap: 30px 30px;

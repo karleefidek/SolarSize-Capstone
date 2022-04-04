@@ -82,6 +82,7 @@ export default {
             name: "Annual Balance Remaining",
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             color: "#96C951",
+            negativeColor: "#B5B5B5",
           },
         ],
       },
