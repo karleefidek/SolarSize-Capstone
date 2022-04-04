@@ -33,7 +33,7 @@ td {
     margin-top: 75px;
 }
 
-.input-address-grid{
+.input-address-grid {
     display: grid;
     grid-template-columns: 8fr 2fr;
     margin-top: 20px;
@@ -41,7 +41,7 @@ td {
 
 .submit-button {
     margin-top: 20px;
-    border: 2px solid #39dd73;
+    border: 2px solid #96c951;
     border-radius: 0.5rem;
     background: none;
     font-weight: bold;
@@ -71,7 +71,7 @@ td {
 
 .map-button {
     margin: auto;
-    border: 2px solid #3986dd;
+    border: 2px solid #00C4FF;
     border-radius: 0.5rem;
     background: none;
     font-weight: bold;
@@ -86,40 +86,40 @@ td {
 }
 
 .reset-button {
-  margin-top: 20px;
-  border: 2px solid #00C4FF;
-  border-radius: 0.5rem;
-  background: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.8s;
-  position: relative;
-  overflow: hidden;
-  color: #838080;
-  padding: 10px 10px;
-  font-size: small;
+    margin-top: 20px;
+    border: 2px solid #00C4FF;
+    border-radius: 0.5rem;
+    background: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+    color: #838080;
+    padding: 10px 10px;
+    font-size: small;
 }
 
 .reset-button:hover {
-  color: #60daff;
+    color: #60daff;
 }
 
 .add-panel-button {
-  margin: auto;
-  border: 2px solid #96c951;
-  border-radius: 0.5rem;
-  background: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.8s;
-  position: relative;
-  overflow: hidden;
-  color: #838080;
-  font-size: small;
+    margin: auto;
+    border: 2px solid #96c951;
+    border-radius: 0.5rem;
+    background: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+    color: #838080;
+    font-size: small;
 }
 
 .submit-button:hover {
-    color: #39dd73;
+    color: #96c951;
 }
 
 .submit-container {
@@ -194,9 +194,8 @@ td {
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
     gap: 30px 3em;
-    grid-template-areas: ". ." ;
+    grid-template-areas: ". .";
 }
-
 
 .inputContainer {
     position: relative;
@@ -207,33 +206,33 @@ td {
     grid-template-rows: 1fr;
     grid-auto-flow: row;
     gap: 30px 3em;
-    grid-template-areas: ". ." ;
+    grid-template-areas: ". .";
 }
 
-#tiltInput{
-  grid-column: 1/-1;
-  display: flex;
-  justify-content: center;
+#tiltInput {
+    grid-column: 1/-1;
+    display: flex;
+    justify-content: center;
 }
 
 .inputAndMessage {
-  position: relative;
-  height: 100%;
-  width: 100%;
+    position: relative;
+    height: 100%;
+    width: 100%;
 }
-.errorMsg{
+
+.errorMsg {
     /* left: 0px;
     bottom: 70px;
     position: absolute; */
-    color:#dc3545;
+    color: #dc3545;
 }
-
 
 .symbol-input {
     position: relative;
-  }
-  
-  .symbol-input > i {
+}
+
+.symbol-input>i {
     position: absolute;
     display: block;
     transform: translate(0, -50%);
@@ -242,57 +241,59 @@ td {
     width: 30px;
     text-align: center;
     font-style: normal;
-  }
-  
+}
 
-  /* Deep Selector >>> symbol to override child component css */
-  .symbol-input >>> input {
-    padding-left: 30px !important;  
+
+/* Deep Selector >>> symbol to override child component css */
+
+.symbol-input>>>input {
+    padding-left: 30px !important;
     padding-right: 0;
-  }
-  
-  * >>> .vue-input-ui__label{
-      left:27px;
-  }
+}
 
-  
-  
-  .symbol-input > i {
-    
+*>>>.vue-input-ui__label {
+    left: 27px;
+}
+
+.symbol-input>i {
     color: rgba(115, 115, 115, 0.75);
     left: 0;
     transition-property: color;
     transition-property: font-size;
-    transition-duration:0.3s;
-  }
+    transition-duration: 0.3s;
+}
 
-  .symbol-input > i.focused {
-    
+.symbol-input>i.focused {
     font-size: large;
     color: rgba(7, 153, 51, 0.75);
     left: 0;
-  }
+}
 
-
-  .shake {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+.shake {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
     transform: translate3d(0, 0, 0);
-  }
-  @keyframes shake {
-    10%, 90% {
-      transform: translate3d(-1px, 0, 0);
+}
+
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
     }
-    20%, 80% {
-      transform: translate3d(2px, 0, 0);
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
     }
-    30%, 50%, 70% {
-      transform: translate3d(-4px, 0, 0);
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
     }
-    40%, 60% {
-      transform: translate3d(4px, 0, 0);
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
     }
-  }
-  
+}
+
 
 /*   
   .symbol-input > input {
@@ -301,32 +302,30 @@ td {
     text-align: left;
   } */
 
-  .slider-text{
-    margin-left: -28%; 
-    color: #7fb82c; 
+.slider-text {
+    margin-left: -28%;
+    color: #7fb82c;
     font-size: large;
     font-weight: bold;
-  }
+}
 
-
-  .panels{
+.panels {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 4fr repeat(4,1fr) 0.2fr;
+    grid-template-columns: 4fr repeat(4, 1fr) 0.2fr;
     grid-template-rows: 1fr;
     grid-auto-flow: row;
     gap: 30px 30px;
-  }
+}
 
-  .delete-btn{
+.delete-btn {
     margin: auto;
     color: #dc3545;
     cursor: pointer;
-  }
+}
 
-  * >>> .rs-handle {
+*>>>.rs-handle {
     box-shadow: none !important;
     background: #669e79;
-    
-  }
+}

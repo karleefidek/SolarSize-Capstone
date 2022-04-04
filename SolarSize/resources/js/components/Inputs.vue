@@ -459,8 +459,9 @@
                   msg.directionInput
                 }}</span>
 
-                <div>
+                <div style="grid-column: 1/-1">
                   <round-slider
+                    style="grid-column: 1/-1"
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
                     id="directionSlider"
