@@ -459,7 +459,7 @@ export default {
 
 .numberGreen {
   text-decoration: bold;
-  color: green;
+  color: #96c951;
 }
 
 .numberRed {
