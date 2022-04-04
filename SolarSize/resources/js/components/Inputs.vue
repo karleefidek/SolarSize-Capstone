@@ -459,9 +459,8 @@
                   msg.directionInput
                 }}</span>
 
-                <div style="grid-column: 1/-1">
+                <div>
                   <round-slider
-                    style="grid-column: 1/-1"
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
                     id="directionSlider"
@@ -985,9 +984,7 @@ export default {
         },
       ];
       this.loading = true;
-      if (this.generationType == "Custom Generation") {
-        this.submitCustom();
-      } else if (this.generationType == "Optimized Generation") {
+      if (this.generationType == "Optimized Generation") {
         this.submitOptimized();
       }
     },
@@ -1060,57 +1057,7 @@ export default {
           }
         });
     },
-    submitCustom(e) {
-      let params = {
-        lat: this.formInputs.latInput,
-        long: this.formInputs.longInput,
-        timezone: this.formInputs.zoneInput,
-        moduleTilt: this.formInputs.tiltInput,
-        startDate: this.formInputs.startInput,
-        endDate: this.formInputs.endInput,
-        moduleArea: this.formInputs.areaInput,
-        moduleEfficiency: this.formInputs.efficiencyInput,
-        lossCoefficient: this.formInputs.lossInput,
-      };
-
-      axios
-        .get(
-          "/api/estimate",
-          { params: params },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          this.loading = false;
-          var dateData = response.data[1];
-          var powerData = response.data[0];
-          var formattedDataGeneration = dateData.map((e, i) => [
-            new Date(e).getTime(),
-            isNaN(Number(powerData[i])) ? 0 : Number(powerData[i]) / 1000, // Converts NaN to 0, WH to KWH
-          ]);
-          var startDate = new Date(this.formInputs.startInput);
-          var endDate = new Date(this.formInputs.endInput);
-          endDate.setDate(endDate.getDate() + 2);
-          bus.$emit(
-            "generationSuccess",
-            formattedDataGeneration,
-            this.consumption,
-            startDate.getTime(),
-            endDate.getTime(),
-            this.zoneInput
-          );
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log(error.response);
-            this.loading = false;
-          }
-        });
-    },
-
+    
     getCoordsFromAddress(e) {
       let params = { address: this.address };
 
@@ -1377,9 +1324,4 @@ export default {
 </script>
 
 <style scoped src="../../css/app.css">
-.slider {
-  display: table;
-  margin-right: 20px;
-  margin-left: 200px;
-}
 </style>
