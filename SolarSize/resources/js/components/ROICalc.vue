@@ -266,7 +266,7 @@ export default {
       this.ROIPercent = (this.priceOfPowerSaved[0] / (this.capitalCost + this.maintenanceCost[0] + this.interestCost[0])) * 100;
     },
     calcROIYears: function () {
-      this.ROIYears = 1 / (this.ROIPercent / 100);
+      this.ROIYears = Math.ceiling(1 / (this.ROIPercent / 100));
     },
     totalAmountSaved: function () {
       return this.amountSaved.reduce((a, b) => a + b, 0);
