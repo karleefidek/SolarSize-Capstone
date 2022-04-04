@@ -446,7 +446,7 @@
                     id="interest"
                     ref="interest"
                     v-model="formInputs.interestInput"
-                    label="Interest Rate"
+                    label="Loan Rate"
                     :dark="darkMode"
                     :loader="loading"
                     clearable
@@ -516,7 +516,9 @@
                     clearable
                     :error="!!msg.powerCostInput"
                     @focus="
-                      this.$el.nextElementSibling.classList.add('focused')
+                      $refs.powercost.$el.nextElementSibling.classList.add(
+                        'focused'
+                      )
                     "
                     @blur="
                       $refs.powercost.$el.nextElementSibling.classList.remove(
@@ -593,43 +595,31 @@
         <div class="container">
           <div class="component-container">
             <div class="inputContainer">
-              <b-tooltip target="billing" placement="right" triggers="hover">
-                The type of SaskPower billing.
+              <p id="startDate">
+                <VueCtkDateTimePicker
+                  v-model="formInputs.startInput"
+                  only-date
+                  format="YYYY-MM-DD"
+                  label="Start Date"
+                  id="startDatePicker"
+                />
+              </p>
+              <b-tooltip target="startDate" placement="right" triggers="hover">
+                The start date of analysis period.
               </b-tooltip>
 
-              <div style="grid-row: 1/-1">
-                <p id="startDate">
-                  <VueCtkDateTimePicker
-                    v-model="formInputs.startInput"
-                    only-date
-                    format="YYYY-MM-DD"
-                    label="Start Date"
-                    id="startDatePicker"
-                  />
-                </p>
-                <b-tooltip
-                  target="startDate"
-                  placement="right"
-                  triggers="hover"
-                >
-                  The start date of analysis period.
-                </b-tooltip>
-
-                <br />
-
-                <p id="endDate">
-                  <VueCtkDateTimePicker
-                    v-model="formInputs.endInput"
-                    only-date
-                    format="YYYY-MM-DD"
-                    label="End Date"
-                    id="endDatePicker"
-                  />
-                </p>
-                <b-tooltip target="endDate" placement="right" triggers="hover">
-                  The end date of analysis period.
-                </b-tooltip>
-              </div>
+              <p id="endDate">
+                <VueCtkDateTimePicker
+                  v-model="formInputs.endInput"
+                  only-date
+                  format="YYYY-MM-DD"
+                  label="End Date"
+                  id="endDatePicker"
+                />
+              </p>
+              <b-tooltip target="endDate" placement="right" triggers="hover">
+                The end date of analysis period.
+              </b-tooltip>
             </div>
           </div>
         </div>
