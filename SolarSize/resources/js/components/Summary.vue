@@ -17,6 +17,7 @@
               :fullCreditConsumptionTotal="fullCreditConsumptionTotal"
               :costOfKWH="costOfKWH"
               :valueOfOverCredit="valueOfOverCredit"
+              class="component-container"
             >
             </OvergenerationPieChart>
           </template>
@@ -31,10 +32,7 @@
 
           <h3>Annual KWH Generated:
           <h3 v-bind:class="numberGreen">
-              <AnimatedNumber
-                :number="estimateTotal"
-                id="roiValue"
-              ></AnimatedNumber> KWH
+              <h3>{{estimateTotal}} KWH </h3>
           </h3>
           </h3>
           <template>
