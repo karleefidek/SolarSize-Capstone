@@ -15,15 +15,6 @@
                   label="Location"
                 >
                 </v-select>
-                <!-- <v-select
-                  id="generation-type"
-                  v-model="generationType"
-                  :options="['Custom Generation', 'Optimized Generation']"
-                  placeholder="Select a type of generation"
-                  label="Generation Type"
-                  @input="resetValues"
-                >
-                </v-select> -->
               </p>
               <b-tooltip target="location" placement="right" triggers="hover">
                 Either a previously saved location or new location (existing
@@ -97,6 +88,7 @@
                   uploadUrl="/api/uploadCSV"
                   :uploadHeaders="{}"
                   @select="getData($event)"
+                  @delete="consumption = []"
                 ></VueFileAgent>
                 <b-tooltip
                   target="fileUpload"
@@ -813,7 +805,7 @@ export default {
         }
       }
       if (this.consumption.length == 0) {
-        filledInputs == false;
+        filledInputs = false;
       }
       return filledInputs;
     },
