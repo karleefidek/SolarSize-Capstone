@@ -229,7 +229,8 @@ export default {
         "bestSolarPanelFound",
         this.bestPanelSetup.index,
         this.bestPanelSetup.panelCount,
-        this.bestPanelSetup.mostAmountSaved
+        this.bestPanelSetup.mostAmountSaved,
+        this.bestPanelSetup.roiYears
       );
       bus.$emit(
         "balanceRemainingCalculated",
