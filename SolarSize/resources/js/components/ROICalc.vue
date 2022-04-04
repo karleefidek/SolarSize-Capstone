@@ -155,8 +155,8 @@ export default {
             name: "Remaining Balance",
             data: this.bestPanelSetup.annualCashFlow.map((num) => -num),
             stack: "Principle",
-            color: "#EE4036",
-            negativeColor: "#29B463",
+            color: "#29B463",
+            negativeColor: "#EE4036",
           },
         ];
       },
