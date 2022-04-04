@@ -194,6 +194,7 @@ export default {
       bestPanel: {
         name: "",
         count: 0,
+        roiYears: 0,
       },
       consumptionData: [],
       solarPanelData: [],
@@ -394,11 +395,12 @@ export default {
 
     bus.$on(
       "bestSolarPanelFound",
-      (bestPanelIndex, numOfPanels, valueAtEnd) => {
+      (bestPanelIndex, numOfPanels, valueAtEnd, years) => {
         this.valueAtEnd = valueAtEnd;
         var generationArray = [];
         this.bestPanel.name = this.formattedGenerationArr[bestPanelIndex].Name;
         this.bestPanel.count = numOfPanels;
+        this.bestPanel.roiYears = years;
 
         for (const index in this.formattedGenerationArr[bestPanelIndex].Data) {
           generationArray[index] = [];
