@@ -201,6 +201,7 @@ export default {
               panelCount: Number,
               mostAmountSaved: Number,
               capitalCost: Number,
+              roiYears: Number,
               annualCashFlow: [],
               interestCostFlow: [],
               valueOfPowerSavedFlow: [],
@@ -216,6 +217,10 @@ export default {
             this.bestPanelSetup.interestCostFlow = this.interestCost;
             this.bestPanelSetup.valueOfPowerSavedFlow = this.priceOfPowerSaved;
             this.bestPanelSetup.maintenanceCostFlow = this.maintenanceCost;
+
+            this.calcROIPercent()
+            this.calcROIYears()
+            this.bestPanelSetup.roiYears = this.ROIYears;
           }
         }
       }

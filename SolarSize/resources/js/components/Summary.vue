@@ -108,6 +108,8 @@
           class="component-container"
         ></BalanceRemainingChart>
 
+        <h3 v-bind:class="numberGreen">Years Until Return on Investment: {{bestPanel.roiYears}}</h3>
+
         <template v-slot:footer> </template>
       </ROIText>
     </div>
