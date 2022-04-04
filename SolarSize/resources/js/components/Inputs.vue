@@ -797,30 +797,18 @@ export default {
       return noMessages;
     },
     filledInputs: function () {
-      if (this.generationType == "Custom Generation") {
-        var currentInputs = [
-          "latInput",
-          "longInput",
-          "directionInput",
-          "tiltInput",
-          "areaInput",
-          "efficiencyInput",
-          "lossInput",
-        ];
-      } else if (this.generationType == "Optimized Generation") {
-        var currentInputs = [
-          "latInput",
-          "longInput",
-          "directionInput",
-          "powerCostInput",
-          "grantInput",
-          "interestInput",
-          "roofInput",
-        ];
-      }
+      var currentInputs = [
+        "latInput",
+        "longInput",
+        "directionInput",
+        "powerCostInput",
+        "grantInput",
+        "interestInput",
+        "roofInput",
+      ];
       var filledInputs = true;
       for (const input in currentInputs) {
-        if (!this.formInputs[currentInputs[input]]) {
+        if (this.formInputs[currentInputs[input]] === "") {
           filledInputs = false;
         }
       }
