@@ -845,7 +845,7 @@ export default {
         this.formInputs.lossInput = "0.8";
         this.formInputs.grantInput = "500";
         this.formInputs.interestInput = "15";
-        this.formInputs.powerCostInput = "20";
+        this.formInputs.powerCostInput = "0.15";
         this.formInputs.roofInput = "400";
         this.location = "";
       }
