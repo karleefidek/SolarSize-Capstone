@@ -108,8 +108,6 @@
           class="component-container"
         ></BalanceRemainingChart>
 
-        <h3 v-bind:class="numberGreen">Years Until Return on Investment: {{bestPanel.roiYears}}</h3>
-
         <template v-slot:footer> </template>
       </ROIText>
     </div>
@@ -194,7 +192,6 @@ export default {
       bestPanel: {
         name: "",
         count: 0,
-        roiYears: 0,
       },
       consumptionData: [],
       solarPanelData: [],
@@ -395,12 +392,11 @@ export default {
 
     bus.$on(
       "bestSolarPanelFound",
-      (bestPanelIndex, numOfPanels, valueAtEnd, years) => {
+      (bestPanelIndex, numOfPanels, valueAtEnd) => {
         this.valueAtEnd = valueAtEnd;
         var generationArray = [];
         this.bestPanel.name = this.formattedGenerationArr[bestPanelIndex].Name;
         this.bestPanel.count = numOfPanels;
-        this.bestPanel.roiYears = years;
 
         for (const index in this.formattedGenerationArr[bestPanelIndex].Data) {
           generationArray[index] = [];
