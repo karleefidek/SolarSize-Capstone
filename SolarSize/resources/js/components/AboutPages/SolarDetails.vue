@@ -13,15 +13,6 @@
         <template v-slot:footer> </template>
       </ROIText>
     </div>
-    <div class="component-container">
-      <ROIText>
-        <template v-slot:header>
-          <h3>Our Why</h3>
-        </template>
-        <p>Fossil fuels are the primary source of energy in Canada and pose serious threats to the environment. Therefore, they need to be replaced by more renewable and sustainable alternatives. Solar energy is a renewable and sustainable source of green energy that can be used in place of fossil fuels. So, a tool that can analyze and calculate the returns on solar power installations may prove very helpful in persuading more people and business to install their own solar generation solutions. Increasing the use of solar power over fossil fuels can help slow the detrimental environmental effects our world is experiencing today.</p>
-        <template v-slot:footer> </template>
-      </ROIText>
-    </div>
     </div>
   </div>  
 </template>

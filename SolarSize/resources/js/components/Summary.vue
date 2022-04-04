@@ -31,8 +31,8 @@
           </template>
 
           <h3>Annual KWH Generated:
-          <h3 v-bind:class="numberGreen">
-              <h3>{{estimateTotal}} KWH </h3>
+          <h3 class="numberGreen">
+              <h3>{{Number(estimateTotal).toFixed(2)}} KWH </h3>
           </h3>
           </h3>
           <template>
