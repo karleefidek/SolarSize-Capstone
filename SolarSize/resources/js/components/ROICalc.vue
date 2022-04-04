@@ -263,7 +263,7 @@ export default {
       return this.balanceRemaining[19];
     },
     calcROIPercent: function () {
-      this.ROIPercent = (this.priceOfPowerSaved[0] / this.capitalCost) * 100;
+      this.ROIPercent = (this.priceOfPowerSaved[0] / (this.capitalCost + this.maintenanceCost[0] + this.interestCost[0])) * 100;
     },
     calcROIYears: function () {
       this.ROIYears = 1 / (this.ROIPercent / 100);
