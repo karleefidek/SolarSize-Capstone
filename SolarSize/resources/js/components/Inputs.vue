@@ -275,130 +275,7 @@
       <div class="main-container flex">
         <div class="container">
           <div class="component-container">
-            <div
-              v-if="generationType == 'Custom Generation'"
-              class="inputContainer"
-            >
-              <div class="inputAndMessage">
-                <span class="errorMsg" v-if="msg.tiltInput">{{
-                  msg.tiltInput
-                }}</span>
-                <VueInputUi
-                  id="tilt"
-                  v-model="formInputs.tiltInput"
-                  label="Module Tilt"
-                  :dark="darkMode"
-                  :loader="loading"
-                  :error="!!msg.tiltInput"
-                />
-                <b-tooltip target="tilt" placement="right" triggers="hover">
-                  The angle at which the solar panel is installed.
-                </b-tooltip>
-              </div>
-
-              <div class="inputAndMessage">
-                <span class="errorMsg" v-if="msg.areaInput">{{
-                  msg.areaInput
-                }}</span>
-                <VueInputUi
-                  id="area"
-                  v-model="formInputs.areaInput"
-                  label="Module Area"
-                  :dark="darkMode"
-                  :loader="loading"
-                  clearable
-                  :error="!!msg.areaInput"
-                />
-                <b-tooltip target="area" placement="right" triggers="hover">
-                  The area of a single panel. (Size of the panel LxH)
-                </b-tooltip>
-              </div>
-
-              <div class="inputAndMessage">
-                <span class="errorMsg" v-if="msg.efficiencyInput">{{
-                  msg.efficiencyInput
-                }}</span>
-                <VueInputUi
-                  id="efficiency"
-                  v-model="formInputs.efficiencyInput"
-                  label="Module Efficiency"
-                  :dark="darkMode"
-                  :loader="loading"
-                  clearable
-                  :error="!!msg.efficiencyInput"
-                />
-                <b-tooltip
-                  target="efficiency"
-                  placement="right"
-                  triggers="hover"
-                >
-                  The percentage of sunlight that hits the panel and is
-                  converted into electricity. (Entered as a decimal)
-                </b-tooltip>
-              </div>
-
-              <div class="inputAndMessage">
-                <span class="errorMsg" v-if="msg.lossInput">{{
-                  msg.lossInput
-                }}</span>
-                <VueInputUi
-                  id="loss"
-                  v-model="formInputs.lossInput"
-                  label="Loss Coefficient"
-                  :dark="darkMode"
-                  :loader="loading"
-                  clearable
-                  :error="!!msg.lossInput"
-                />
-                <b-tooltip target="loss" placement="right" triggers="hover">
-                  The coefficient of losses from environmental factors and
-                  efficiency losses in inverters, cables, and panels. (Entered
-                  as a decimal)
-                </b-tooltip>
-              </div>
-              <div class="inputAndMessage">
-                <span class="errorMsg" v-if="msg.directionInput">{{
-                  msg.directionInput
-                }}</span>
-
-                <div class="inputAndMessage">
-                  <round-slider
-                    v-model="formInputs.directionInput"
-                    label="Roof Direction"
-                    :dark="darkMode"
-                    :loader="loading"
-                    clearable
-                    :error="!!msg.directionInput"
-                    :min="360"
-                    :max="0"
-                    :step="-1"
-                    :pathColor="'#42644e'"
-                    :rangeColor="'#7FB82C'"
-                    :disabled="loading"
-                    :radius="60"
-                    :startValue="188"
-                    :tooltipFormat="sliderTooltip"
-                    @touchmove="$refs.input.blur()"
-                  ></round-slider>
-                  <span class="slider-text" id="direction"
-                    >Roof Orientation: {{ panelDirection }}</span
-                  >
-                  <b-tooltip
-                    target="direction"
-                    placement="right"
-                    triggers="hover"
-                  >
-                    The direction the roof is facing. Ex. 0 or 360 = North, 90 =
-                    East, 180 = South, 270 = West. In the Northern Hemisphere,
-                    south orientation will get the best results.
-                  </b-tooltip>
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="generationType == 'Optimized Generation'"
-              class="inputContainer"
-            >
+            <div class="inputContainer">
               <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.roofInput">{{
                   msg.roofInput
@@ -533,15 +410,16 @@
                 </b-tooltip>
               </div>
 
-              <div class="inputAndMessage">
+              <div class="inputAndMessage" style="grid-column: 1/-1">
                 <span class="errorMsg" v-if="msg.directionInput">{{
                   msg.directionInput
                 }}</span>
 
-                <div style="margin-left: 33%; margin-right: 33%">
+                <div>
                   <round-slider
                     v-model="formInputs.directionInput"
                     label="Roof Direction"
+                    id="directionSlider"
                     dark="darkMode"
                     startValue="180"
                     :loader="loading"
