@@ -19,3 +19,6 @@ Design
 - Adobe XD Hifi
 - Hifi Pages
 - Front-End Decision Matrix
+
+Reports
+- Code Quality Review
