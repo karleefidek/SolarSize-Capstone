@@ -645,8 +645,8 @@ export default {
         areaInput: "",
         efficiencyInput: "",
         lossInput: "",
-        startInput: "",
-        endInput: "",
+        startInput: "2021-01-01",
+        endInput: "2021-09-01",
         billing: "",
         powerCostInput: "",
         grantInput: "",
@@ -792,7 +792,7 @@ export default {
         this.formInputs.areaInput = "1.5";
         this.formInputs.efficiencyInput = "0.127";
         this.formInputs.startInput = "2021-01-01";
-        this.formInputs.endInput = "2021-05-01";
+        this.formInputs.endInput = "2021-09-01";
         this.formInputs.lossInput = "0.8";
         this.formInputs.grantInput = "500";
         this.formInputs.interestInput = "15";
