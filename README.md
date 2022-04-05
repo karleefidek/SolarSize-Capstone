@@ -12,6 +12,7 @@
 - [Vlog #3](https://www.youtube.com/watch?v=OXaExlkIzw8)
 - [Vlog #4](https://www.youtube.com/watch?v=oXmdjmmznls)
 - [Vlog #5](https://www.youtube.com/watch?v=IY3JKgQl3h0)
+- [Commercial](https://www.youtube.com/watch?v=9FCGwikCOzw)
 
 ## Demo
 - Our live server can be found at http://34.217.14.16/
