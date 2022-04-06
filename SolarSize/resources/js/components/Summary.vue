@@ -152,10 +152,8 @@ exporting(Highcharts);
 offlineExporting(Highcharts);
 Highcharts.setOptions({
   exporting: {
-    filename: "test",
+    filename: "GraphExport",
     enabled: true,
-    sourceWidth: 1400.64,
-    sourceHeight: 278.4,
     scale: 1,
     fallbackToExportServer: false,
   },
