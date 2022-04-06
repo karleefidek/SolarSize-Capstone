@@ -5,21 +5,35 @@
         <div class="container">
           <div class="component-container">
             <div class="inputContainerMap">
-              <p>
-                <v-select
-                  id="location"
-                  name="location"
-                  v-model="location"
-                  :options="['Test Fill Entry']"
+              <div class="input-address-grid">
+                <VueInputUi
+                  id="address"
+                  v-model="address"
+                  :options="addressAutoFill"
                   placeholder="Select a Location"
-                  label="Location"
+                  label="Enter your Address"
+                  :dark="darkMode"
+                  :loader="loading"
+                  :disabled="loading"
+                  @keyup.enter.prevent="getCoordsFromAddress"
+                />
+                <button
+                  v-if="!loading"
+                  type="button"
+                  @click="getCoordsFromAddress"
+                  class="map-button"
+                  key="addressButton"
                 >
-                </v-select>
-              </p>
-              <b-tooltip target="location" placement="right" triggers="hover">
-                Either a previously saved location or new location (existing
-                locations will auto-populate fields).
-              </b-tooltip>
+                  Get
+                </button>
+                <b-tooltip
+                  target="address"
+                  placement="right"
+                  triggers="hover"
+                >
+                  Enter an address to find on the map.
+                </b-tooltip>
+              </div>
 
               <div class="inputAndMessage">
                 <span class="errorMsg" v-if="msg.latInput">{{
@@ -105,35 +119,6 @@
 
               <div style="grid-row: 1/-2">
                 <Map ref="map" :center="mapCenter" id="mapSelect" />
-                <div class="input-address-grid">
-                  <VueInputUi
-                    id="address"
-                    v-model="address"
-                    :options="addressAutoFill"
-                    placeholder="Select a Location"
-                    label="Enter your Address"
-                    :dark="darkMode"
-                    :loader="loading"
-                    :disabled="loading"
-                    @keyup.enter.prevent="getCoordsFromAddress"
-                  />
-                  <button
-                    v-if="!loading"
-                    type="button"
-                    @click="getCoordsFromAddress"
-                    class="map-button"
-                    key="addressButton"
-                  >
-                    Get
-                  </button>
-                  <b-tooltip
-                    target="address"
-                    placement="right"
-                    triggers="hover"
-                  >
-                    Enter an address to find on the map.
-                  </b-tooltip>
-                </div>
               </div>
             </div>
           </div>
