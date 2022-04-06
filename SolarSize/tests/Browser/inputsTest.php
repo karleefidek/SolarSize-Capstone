@@ -9,97 +9,88 @@ use Tests\DuskTestCase;
 class inputsTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * Testing the panel calculations
      *
-     * @return void
+     * 
      */
-    public function testExampleROI()
+	  /**
+     * @group testing1
+     */
+    public function testLongi360Panel()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')			               
+            $browser->visit('/')
 					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
-                    ->click('#mapSelect')
+					->keys('#grant','00')
+					->keys('#interest','{backspace}','{backspace}','5')
 	 				->assertValueIsNot('#latitude','0')
 					->assertValueIsNot('#longitude','0')
-					->attach('#mainForm > div:nth-child(1) > div > div > div > div:nth-child(4) > div > div > input', '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
-					->screenshot('summaryTest1')
-					->click('#mainForm > div.submit-container > button')
-					->screenshot('summaryTest1')
-					->waitFor('#roiValue', 30)
-					->assertSee('219');
-			$browser->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
-					->screenshot('summaryTest2');
+					->attach("#fileUpload > div > input", '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
+					->screenshot('panelTest1') 
+					->click('#mainForm > div.submit-container > button.submit-button')
+					->screenshot('panelTest1.1')
+					->waitForText('Return Statistics',30)
+					->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
+					->screenshot('panelTest1.2')
+					->assertSee('317796'); 
 			$browser->driver->manage()->deleteAllCookies();
         });
     }
-	public function testExamplePanelType1()
+	/**
+    * @group testing1
+    */
+	public function testLongi450Panel()
     {
         $this->browse(function (Browser $browser1) {
             $browser1->visit('/')			               
 					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
+					->keys('#grant','00')
+					->keys('#interest','{backspace}','{backspace}','5')
+					->keys('#panel_eff2','{backspace}','{backspace}','{backspace}','4')
 	 				->assertValueIsNot('#latitude','0')
 					->assertValueIsNot('#longitude','0')
-					->attach('#mainForm > div:nth-child(1) > div > div > div > div:nth-child(4) > div > div > input', '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
-					->keys('#grant','{backspace}','{backspace}','{backspace}','50000')
-					->keys('#interest','{backspace}','{backspace}','6')
-					->keys('#powercost','{backspace}','{backspace}','0.15')
-					->keys('#endDatePicker-input','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_left}','{arrow_left}','{arrow_left}','{enter}','{escape}')
-					->screenshot('panelTypeTest2')
-					->click('#mainForm > div.submit-container > button')
-					->screenshot('panelTypeTest2.1')
-					->waitFor('#roiValue', 30)
-					->assertSee('219');
-			$browser1->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
-					->screenshot('summaryTestPT2');
+					->attach("#fileUpload > div > input", '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
+					->screenshot('panelTest2') 
+					->click('#mainForm > div.submit-container > button.submit-button')
+					->screenshot('panelTest2.1')
+					->waitForText('Return Statistics',30)
+					->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
+					->screenshot('panelTest2.2')
+					->assertSee('793072'); 
 			$browser1->driver->manage()->deleteAllCookies();
         });
     }
-	public function testExamplePanelType2()
+	/**
+    * @group testing2
+    */
+	public function test310BlackFrame()
     {
         $this->browse(function (Browser $browser1) {
-            $browser1->visit('/')			               
+            $browser1->visit('/')			                 
 					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
-	 				->assertValueIsNot('#latitude','0')
+					->keys('#grant','0')
+					->keys('#panel_eff0','{backspace}','{backspace}','{backspace}','4')
+					->keys('#interest','{backspace}','{backspace}','2')
+	 				->assertValueIsNot('#latitude','0')	
 					->assertValueIsNot('#longitude','0')
-					->attach('#mainForm > div:nth-child(1) > div > div > div > div:nth-child(4) > div > div > input', '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
-					->keys('#grant','{backspace}','{backspace}','{backspace}','50000')
-					->keys('#interest','{backspace}','{backspace}','6')
-					->keys('#powercost','{backspace}','{backspace}','0.15')
-					->keys('#endDatePicker-input','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_left}','{arrow_left}','{arrow_left}','{enter}','{escape}')
-					->screenshot('panelTypeTest2')
-					->click('#mainForm > div.submit-container > button')
-					->screenshot('panelTypeTest2.1')
-					->waitFor('#roiValue', 30)
-					->assertSee('219');
-			$browser1->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
-					->screenshot('summaryTestPT2');
+					->attach("#fileUpload > div > input", '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
+					->screenshot('panelTest1') 
+					->click('#mainForm > div.submit-container > button.submit-button')
+					->screenshot('panelTest1.1')
+					->waitForText('Return Statistics',30)
+					->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
+					->screenshot('panelTest1.2')
+					->assertSee('768046'); 
 			$browser1->driver->manage()->deleteAllCookies();
-        });
-    }
-	public function testExamplePanelType3()
-    {
-        $this->browse(function (Browser $browser1) {
-            $browser1->visit('/')			               
-					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
-	 				->assertValueIsNot('#latitude','0')
-					->assertValueIsNot('#longitude','0')
-					->attach('#mainForm > div:nth-child(1) > div > div > div > div:nth-child(4) > div > div > input', '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
-					->keys('#grant','{backspace}','{backspace}','{backspace}','50000')
-					->keys('#interest','{backspace}','{backspace}','6')
-					->keys('#powercost','{backspace}','{backspace}','0.15')
-					->keys('#endDatePicker-input','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_down}','{arrow_left}','{arrow_left}','{arrow_left}','{enter}','{escape}')
-					->screenshot('panelTypeTest2')
-					->click('#mainForm > div.submit-container > button')
-					->screenshot('panelTypeTest2.1')
-					->waitFor('#roiValue', 30)
-					->assertSee('219');
-			$browser1->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
-					->screenshot('summaryTestPT2');
-			$browser1->driver->manage()->deleteAllCookies();
-        });
-    }
+        }); 
+	}
+
 	
-	
+	/**
+     * Testing inputs with good values, error values, and edge cases
+     *
+     * 
+     */
 	public function testErrorLatitude()
 	{
 		$this->browse(function (Browser $browser) {
