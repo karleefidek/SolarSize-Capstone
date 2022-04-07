@@ -18,7 +18,7 @@
           <template v-slot:header>
             <h3>What is GHI?</h3>
           </template>
-          <p>GHI is global horizontal irradiance and is equivalent to the global solar irradiance on a horizontal surface.</p>
+          <p>GHI is global horizontal irradiance and is equivalent to the global solar irradiance on a horizontal surface. This is what the NASA POWER data provides.</p>
           <div v-katex="'\\small Global\\ Horizontal\\ Irradiance\\ (GHI) = DHI + DNI \\times \\cos (Panel\\ Angle)'"></div>   
     
           <template v-slot:footer> </template>
@@ -48,6 +48,45 @@
           </p>
           <div v-katex="'\\small Panel\\ Direct\\ Normal\\ Irradiance = DNI \\times (\\sin (δ) \\sin (φ) \\cos (β) - \\sin (δ) \\cos (φ) \\sin (β) \\cos (ψ) + \\cos (δ) \\cos (φ) \\cos (β) \\cos (HRA)\\ \\newline \\qquad \\qquad \\qquad \\qquad \\qquad \\qquad \\qquad\\qquad + \\cos (δ) \\sin (φ) \\sin (β) \\cos (ψ) \\cos (HRA) + \\cos (δ) \\sin (ψ) \\sin (HRA) \\sin (β)) \\newline \\space \\newline  where\\ \\newline \\space \\newline δ\\ is\\ the\\ Declination\\ Angle\\ \\newline  φ\\ is\\ the\\ Latitude\\ \\newline  β\\ is\\ the\\ panel\\ tilt\\ \\newline  ψ\\ is\\ the\\ panel\\ azimuth\\ angle\\ (panel\\ direction/orientation\\ angle)\\ \\newline HRA\\ is\\ solar\\ hour\\ angle'"></div>
           
+          <template v-slot:footer> </template>
+        </ROIText>
+      </div>
+      <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Local Solar Time</h3>
+        </template>
+        <p>Local Solar Time is the time according to the position of the sun in the sky relative to your ground position. It is the angle/direction of the Sun instead of an abiTrary time value.
+It can be found with the help of a couple other equations including LT(Local Time), TC (Time Correction Factor), LSTM (Local Standard Time Meridian), EoT(Equation of Time), and HRA (Solar Hour Angle).
+        </p>
+        <div
+            v-katex="'\\small Local\\ Solar\\ Time\\  = \\large LT \\small + \\frac{TC}{60} \\newline \\small Local\\ Time\\ = \\small Longitude\\ \\newline \\small Time\\ Correction = \\large 4 \\small * (Longitude\\ -\\ LSTM)\\ +\\ EoT\\ \\newline \\small Local\\ Standard\\ Time\\ Meridian\\ = \\large ΔTUTC\\ *\\ 15°\\ \\small (Delta\\ is\\ the\\ difference\\ between\\ local\\ time\\ zone\\ and\\ UTC,\\ +\\ =\\ west,\\ -\\ =\\ east)\\ \\newline \\small Hour\\ Angle = \\large 15°\\ \\small *\\ (LST\\ -\\ 12)'"></div>
+        <template v-slot:footer> </template>
+      </ROIText>
+      </div>
+      <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Solar Declination Angle</h3>
+        </template>
+        <p>The Solar Declination Angle is the angle of the sun between the equator and the center of the sun and earth. This varies by season due to the Earth's rotational axis and tilt around the sun. This is used to calculate DNI.</p>
+        <div
+            v-katex="'\\small Solar\\ Declination\\ Angle\\  = \\large 23.45 \\small *[ \\frac{360}{365} *\\ (284\\ + day of year )]'"></div> 
+        <template v-slot:footer> </template>
+      </ROIText>
+      </div>
+      <div class="component-container">
+        <ROIText>
+          <template v-slot:header>
+            <h3>Sources</h3>
+          </template>
+          <p>
+            <a href="https://pvpmc.sandia.gov/modeling-steps/" target="_blank" rel="noopener noreferrer">PV Performance Modeling Steps</a>
+          </p><p>
+            <a href="https://www.researchgate.net/publication/279868352_Dynamic_global-to-direct_irradiance_conversion_models" target="_blank" rel="noopener noreferrer">Global-to-Direct Irradiance</a>
+          </p><p>
+            <a href="https://www.pveducation.org/pvcdrom/introduction/introduction" target="_blank" rel="noopener noreferrer">Photovoltaics Education</a>
+          </p>
           <template v-slot:footer> </template>
         </ROIText>
       </div>
