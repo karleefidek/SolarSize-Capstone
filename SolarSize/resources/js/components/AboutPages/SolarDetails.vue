@@ -56,7 +56,7 @@
         <template v-slot:header>
           <h3>Local Solar Time</h3>
         </template>
-        <p>Local Solar Time is the time according to the position of the sun in the sky relative to your ground position. It is the angle/direction of the Sun instead of an abiTrary time value.
+        <p>Local Solar Time is the time according to the position of the Sun in the sky relative to your ground position. It is the angle/direction of the Sun instead of an arbitrary time value.
 It can be found with the help of a couple other equations including LT(Local Time), TC (Time Correction Factor), LSTM (Local Standard Time Meridian), EoT(Equation of Time), and HRA (Solar Hour Angle).
         </p>
         <div
@@ -69,7 +69,7 @@ It can be found with the help of a couple other equations including LT(Local Tim
         <template v-slot:header>
           <h3>Solar Declination Angle</h3>
         </template>
-        <p>The Solar Declination Angle is the angle of the sun between the equator and the center of the sun and earth. This varies by season due to the Earth's rotational axis and tilt around the sun. This is used to calculate DNI.</p>
+        <p>The Solar Declination Angle is the angle of the sun between the equator and the center of the Sun and Earth. This varies by season due to the Earth's rotational axis and tilt around the Sun. This is used to calculate DNI.</p>
         <div
             v-katex="'\\small Solar\\ Declination\\ Angle\\  = \\large 23.45 \\small *[ \\frac{360}{365} *\\ (284\\ + day of year )]'"></div> 
         <template v-slot:footer> </template>
