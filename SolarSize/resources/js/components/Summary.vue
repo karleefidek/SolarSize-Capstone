@@ -6,14 +6,9 @@
           <template v-slot:header>
             <h3>Return Statistics</h3>
           </template>
-          <h3>
-            Total Return on Investment:
-            <h3
-              v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'"
-            >
-              <h3>
-                $ {{ Number(-1 * Math.ceil(returnTotalValue)).toFixed(2) }}
-              </h3>
+          <h3>Total Return on Investment:
+            <h3 v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'">
+              <h3>$ {{ Number(-1 * Math.ceil(returnTotalValue)).toFixed(2) }}</h3>
             </h3>
           </h3>
           <template>
@@ -35,10 +30,9 @@
             <h3>Generation Statistics</h3>
           </template>
 
-          <h3>
-            Annual KWH Generated:
+          <h3>Annual KWH Generated:
             <h3 class="numberGreen">
-              <h3>{{ Number(estimateTotal).toFixed(2) }} KWH</h3>
+                <h3>{{Number(estimateTotal).toFixed(2)}} KWH </h3>
             </h3>
           </h3>
           <template>
@@ -85,7 +79,7 @@
               <span>
                 Angled at
                 <span style="color: #ee4036"
-                  >{{ optimalLat.toFixed(1) }}°</span
+                  >{{ Number(optimalLat).toFixed(1) }}°</span
                 ></span
               >
             </h3>
