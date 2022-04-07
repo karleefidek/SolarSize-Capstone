@@ -1,97 +1,92 @@
 <template>
   <div class="summary-wrapper">
-    <div class="calculation-items">
-      <div class="component-container">
-        <ROIText>
-          <template v-slot:header>
-            <h3>Balance Remaining</h3>
-          </template>
-          <p>End of 1st year:</p>
-          <div
-            v-katex="
-              '\\small Balance = Capital\\ Cost + Loan\\ Interest - Amount\\ Saved'
-            "
-          ></div>
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Balance Remaining</h3>
+        </template>
+        <p>End of 1st year:</p>
+        <div
+          v-katex="
+            '\\small Balance = Capital\\ Cost + Loan\\ Interest - Amount\\ Saved'
+          "
+        ></div>
 
-          <p>2nd year and on:</p>
-          <div
-            v-katex="
-              '\\small Balance = Previous\\ Balance + Loan\\ Interest - Amount\\ Saved'
-            "
-          ></div>
-          <template v-slot:footer> </template>
-        </ROIText>
-      </div>
-      <div class="component-container">
-        <ROIText>
-          <template v-slot:header>
-            <h3>Capital Cost</h3>
-          </template>
-          <div
-            v-katex="
-              '\\small Capital\\ Cost = (System\\ KW \\times Cost/KW\\ Installed) + Interconnection\\ Study\\ Fee + Bidirectional\\ Meter - Grants/Rebates'
-            "
-          ></div>
-          <p>Per Canadian solar providers Powertec Solar Inc. and HES PV:</p>
-          <div v-katex="'\\small Cost/KW\\ Installed = \\$3000'"></div>
+        <p>2nd year and on:</p>
+        <div
+          v-katex="
+            '\\small Balance = Previous\\ Balance + Loan\\ Interest - Amount\\ Saved'
+          "
+        ></div>
+        <template v-slot:footer> </template>
+      </ROIText>
+    </div>
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Capital Cost</h3>
+        </template>
+        <div
+          v-katex="
+            '\\small Capital\\ Cost = (Number\\ of\\ Panels \\times Cost\\ of\\ Panel) + Interconnection\\ Study\\ Fee + Bidirectional\\ Meter - Grants/Rebates'
+          "
+        ></div>
+        <p>Per SaskPower NetMetering Documentation:</p>
+        <div v-katex="'\\small Interconnection\\ Study\\ Fee = \\$315'"></div>
+        <div v-katex="'\\small Bidirectional\\ Meter = \\$498.75'"></div>
+        <template v-slot:footer> </template>
+      </ROIText>
+    </div>
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Amount Saved</h3>
+        </template>
+        <div
+          v-katex="
+            '\\small Amount\\ Saved = (Savings\\ from\\ Power\\ Produced) - Maintenance\\ Costs'
+          "
+        ></div>
+        <div
+          v-katex="
+            '\\small Savings\\ from\\ Power\\ Produced = Full\\ Credit\\ Generation\\ Amount + Overgeneration\\ Amount'
+          "
+        ></div>
+        <div
+          v-katex="
+            '\\small Full\\ Credit\\ Generation\\ Amount = (Amount\\ of\\ Power\\ Produced\\ <=\\ Consumed\\ Power) \\times Price\\ of\\ Power'
+          "
+        ></div>
+        <div
+          v-katex="
+            '\\small Overgeneration\\ Amount = (Total\\ Amount\\ of\\ Power\\ Produced\\ - Amount\\ of\\ Power\\ Consumed) \\times Overgeneration\\ Credit\\ Price'
+          "
+        ></div>
+        <p>Per SaskPower NetMetering Documentation:</p>
+        <div
+          v-katex="'\\small Overgeneration\\ Credit\\ Price = \\$0.075'"
+        ></div>
+        <template v-slot:footer> </template>
+      </ROIText>
+    </div> 
+    <div class="component-container">
+      <ROIText>
+        <template v-slot:header>
+          <h3>Maintenance Costs</h3>
+        </template>
+        <div
+          v-katex="'\\small Maintenance\\ Cost = (System\\ KW \\times \\$10) + Property\\ Insurance + Replacement\\ Cost'"
+        ></div>
+        <p>Estimated based on third party analysis:</p>
+        <div
+          v-katex="'\\small Property\\ Insurance = \\$250\\ per\\ 25kW\\ in\\ System'"
+        ></div>
+        <div
+          v-katex="'\\small Replacement\\ Cost\\ (year\\ 6\\ and\\ on) = \\$400\\ per\\ 25kW\\ in\\ System'"
+        ></div>
 
-          <p>Per SaskPower NetMetering Documentation:</p>
-          <div v-katex="'\\small Interconnection\\ Study\\ Fee = \\$315'"></div>
-          <div v-katex="'\\small Bidirectional\\ Meter = \\$498.75'"></div>
-          <template v-slot:footer> </template>
-        </ROIText>
-      </div>
-      <div class="component-container">
-        <ROIText>
-          <template v-slot:header>
-            <h3>Amount Saved</h3>
-          </template>
-          <div
-            v-katex="
-              '\\small Amount\\ Saved = (Savings\\ from\\ Power\\ Produced) - Maintenance\\ Costs'
-            "
-          ></div>
-          <div
-            v-katex="
-              '\\small Savings\\ from\\ Power\\ Produced = Full\\ Credit\\ Generation\\ Amount + Overgeneration\\ Amount'
-            "
-          ></div>
-          <div
-            v-katex="
-              '\\small Full\\ Credit\\ Generation\\ Amount = (Amount\\ of\\ Power\\ Produced\\ <=\\ Consumed\\ Power) \\times Price\\ of\\ Power'
-            "
-          ></div>
-          <div
-            v-katex="
-              '\\small Overgeneration\\ Amount = (Total\\ Amount\\ of\\ Power\\ Produced\\ - Amount\\ of\\ Power\\ Consumed) \\times Overgeneration\\ Credit\\ Price'
-            "
-          ></div>
-          <p>Per SaskPower NetMetering Documentation:</p>
-          <div
-            v-katex="'\\small Overgeneration\\ Credit\\ Price = \\$0.075'"
-          ></div>
-          <template v-slot:footer> </template>
-        </ROIText>
-      </div>
-      <div class="component-container">
-        <ROIText>
-          <template v-slot:header>
-            <h3>ROI</h3>
-          </template>
-          <div
-            v-katex="
-              '\\small ROI\\ \\% = \\large \\frac{Total\\ Saved}{Total\\ Cost} \\small \\times 100'
-            "
-          ></div>
-          <div
-            v-katex="
-              '\\small Years\\ Until\\ Paid\\ Back = \\large \\large \\frac{1}{\\large \\frac{ROI\\ \\%}{100}}'
-            "
-          ></div>
-
-          <template v-slot:footer> </template>
-        </ROIText>
-      </div>
+        <template v-slot:footer> </template>
+      </ROIText>
     </div>
   </div>
 </template>
