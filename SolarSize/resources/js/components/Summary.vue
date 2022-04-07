@@ -6,27 +6,18 @@
           <template v-slot:header>
             <h3>Return Statistics</h3>
           </template>
+          <h3>Total Return on Investment:
+          <h3 v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'">
+              <h3>$ {{Number(-1 * Math.ceil(returnTotalValue)).toFixed(2)}}</h3>
+          </h3>
+          </h3>
           <template>
-            <div class="roiInputs">
-              <span class="roiOutput">
-                Total Return on Investment:
-                <span
-                  v-bind:class="
-                    -returnTotalValue < 0 ? 'numberRed' : 'numberGreen'
-                  "
-                >
-                  $<AnimatedNumber
-                    :number="-1 * Math.ceil(returnTotalValue)"
-                    id="roiValue"
-                  ></AnimatedNumber>
-                </span>
-              </span>
-            </div>
             <OvergenerationPieChart
               :overgenerationTotal="overGenerationTotal"
               :fullCreditConsumptionTotal="fullCreditConsumptionTotal"
               :costOfKWH="costOfKWH"
               :valueOfOverCredit="valueOfOverCredit"
+              class="component-container"
             >
             </OvergenerationPieChart>
           </template>
@@ -39,17 +30,19 @@
             <h3>Generation Statistics</h3>
           </template>
 
-          <p>
-            Annual KWH Generated:
-            {{ estimateTotal }} KWH
-          </p>
-
-          <AnnualGenerationChart
-            :estimateDataObject="estimateMap"
-            :consumptionDataObject="consumptionMap"
-            ref="chartComponent"
-            class="component-container"
-          ></AnnualGenerationChart>
+          <h3>Annual KWH Generated:
+          <h3 class="numberGreen">
+              <h3>{{Number(estimateTotal).toFixed(2)}} KWH </h3>
+          </h3>
+          </h3>
+          <template>
+            <AnnualGenerationChart
+              :estimateDataObject="estimateMap"
+              :consumptionDataObject="consumptionMap"
+              ref="chartComponent"
+              class="component-container"
+            ></AnnualGenerationChart>
+          </template>
 
           <template v-slot:footer> </template>
         </ROIText>
@@ -462,7 +455,7 @@ export default {
 
 .numberGreen {
   text-decoration: bold;
-  color: green;
+  color: #96c951;
 }
 
 .numberRed {

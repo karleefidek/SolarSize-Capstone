@@ -31,7 +31,7 @@ export default {
         { id: "summary", title: "Summary" },
         { id: "about", title: "About" },
       ],
-      foregroundColor: "#39dd73",
+      foregroundColor: "#96c951",
       badgeColor: "#FBC02D",
     };
   },
