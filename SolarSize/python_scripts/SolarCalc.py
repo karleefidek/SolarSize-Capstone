@@ -170,7 +170,7 @@ class ImportData():
             return 0.0
         return moduleDNI
 
-    #Diffuse Module - Using a simple equation for now will have to adapt as we go.
+    #Diffuse Module - Using a simple equation for now will adapt as we go.
     def calculateModuleDHI(self):
         moduleDHI = self.dhiValue * ((180-self.moduleTilt)/180)
         if (moduleDHI < 0):
