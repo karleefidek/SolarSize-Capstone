@@ -40,7 +40,7 @@ export default {
           zoomType: "x",
         },
         title: {
-          text: "Expected Solar Generation Vs. Actual Generation",
+          text: "Consumption Vs. Estimated Solar Generation",
           align: "center",
         },
         time: {
@@ -103,7 +103,7 @@ export default {
           },
           {
             type: "area",
-            name: "Estimate",
+            name: "Solar Estimate",
             color: "#96C951",
             data: [
               [Date.UTC(2021, 0, 1, 1), 1],

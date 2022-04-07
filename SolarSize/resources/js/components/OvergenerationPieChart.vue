@@ -39,7 +39,7 @@ export default {
           type: "pie",
         },
         title: {
-          text: "Full Credit Generation Value Vs. Over Generation Value",
+          text: "Full Credit Generation Value Vs. Overgeneration Value",
         },
         tooltip: {
           pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
