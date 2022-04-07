@@ -1220,13 +1220,24 @@ export default {
       }
     },
     validateRoof(value) {
-      if (value == "" || (!isNaN(value) && value > 3)) {
+      let maxSolar = Math.max.apply(
+        Math,
+        this.panels.map(function (entry) {
+          return entry.Area;
+        })
+      );
+      if (value == "" || (!isNaN(value) && value > maxSolar && value < 2000)) {
         this.msg["roofInput"] = "";
         this.validated = false;
-      } else if (this.generationType == "Optimized Generation") {
+      } else if (
+        this.generationType == "Optimized Generation" &&
+        value < maxSolar
+      ) {
         this.msg["roofInput"] =
-          "Invalid loss coefficient - must be atleast room for 1 panel";
+          "Invalid roof size - must be atleast room for 1 panel";
         this.validated = true;
+      } else if (value > 2000) {
+        this.msg["roofInput"] = "Invalid roof size - must be less than 2000";
       }
     },
     validateConsumption(value) {
