@@ -26,7 +26,7 @@ export default {
           type: "column",
         },
         title: {
-          text: "Annual KWH Generated",
+          text: "Monthly KWH Generated",
           align: "center",
         },
         credits: {

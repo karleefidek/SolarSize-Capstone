@@ -26,11 +26,7 @@
                 >
                   Get
                 </button>
-                <b-tooltip
-                  target="address"
-                  placement="right"
-                  triggers="hover"
-                >
+                <b-tooltip target="address" placement="right" triggers="hover">
                   Enter an address to find on the map.
                 </b-tooltip>
               </div>
@@ -1035,7 +1031,8 @@ export default {
             this.formInputs.powerCostInput,
             this.formInputs.grantInput,
             this.formInputs.interestInput,
-            this.formInputs.roofInput
+            this.formInputs.roofInput,
+            this.formInputs.latInput
           );
         })
         .catch((error) => {
@@ -1045,7 +1042,7 @@ export default {
           }
         });
     },
-    
+
     getCoordsFromAddress(e) {
       let params = { address: this.address };
 

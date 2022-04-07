@@ -6,10 +6,15 @@
           <template v-slot:header>
             <h3>Return Statistics</h3>
           </template>
-          <h3>Total Return on Investment:
-          <h3 v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'">
-              <h3>$ {{Number(-1 * Math.ceil(returnTotalValue)).toFixed(2)}}</h3>
-          </h3>
+          <h3>
+            Total Return on Investment:
+            <h3
+              v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'"
+            >
+              <h3>
+                $ {{ Number(-1 * Math.ceil(returnTotalValue)).toFixed(2) }}
+              </h3>
+            </h3>
           </h3>
           <template>
             <OvergenerationPieChart
@@ -30,10 +35,11 @@
             <h3>Generation Statistics</h3>
           </template>
 
-          <h3>Annual KWH Generated:
-          <h3 class="numberGreen">
-              <h3>{{Number(estimateTotal).toFixed(2)}} KWH </h3>
-          </h3>
+          <h3>
+            Annual KWH Generated:
+            <h3 class="numberGreen">
+              <h3>{{ Number(estimateTotal).toFixed(2) }} KWH</h3>
+            </h3>
           </h3>
           <template>
             <AnnualGenerationChart
@@ -75,10 +81,20 @@
             <h3>
               <span style="color: #96c951">{{ bestPanel.count }}</span>
               <span style="color: #88e9ff">{{ bestPanel.name }}s</span>
-              Angled at <span style="color: #ee4036">30°</span> degrees
+
+              <span>
+                Angled at
+                <span style="color: #ee4036"
+                  >{{ optimalLat.toFixed(1) }}°</span
+                ></span
+              >
             </h3>
             <div class="panel-repeat-group">
-              <span style="margin: 3px" v-for="i in bestPanel.count" :key="i">
+              <span
+                style="margin: 3px"
+                v-for="i in Math.max(bestPanel.count, 300)"
+                :key="i"
+              >
                 <svg width="10" height="10">
                   <rect
                     width="10"
@@ -191,11 +207,12 @@ export default {
         name: "",
         count: 0,
       },
+      optimalLat: 30,
       consumptionData: [],
       solarPanelData: [],
       costOfKWH: 0.13,
       valueOfOverCredit: 0.075,
-      costOfInvestment: 100,
+      costOfInvestment: 0,
       startTime: 0,
       endTime: 0,
       offset: 0,
@@ -323,13 +340,14 @@ export default {
         powerCost,
         grantTotal,
         interestInput,
-        roofSize
+        roofSize,
+        lat
       ) => {
         this.investmentData.interestRate = interestInput;
         this.investmentData.powerCost = powerCost;
         this.investmentData.grantTotal = grantTotal;
         this.formattedGenerationArr = formattedGenerationArr;
-
+        this.optimalLat = lat;
         this.consumptionData = consumptionData;
         this.startTime = startTime;
         this.endTime = endTime;
