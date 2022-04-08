@@ -19,10 +19,13 @@ class inputsTest extends DuskTestCase
     public function testLongi360Panel()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
-					->keys('#grant','00')
+            $browser->visit('/')				
+					->keys('#latitude','50.4583783')
+					->keys('#longitude','-104.62211')
+					->keys('#grant','500')
+					->keys('#area','400')
 					->keys('#interest','{backspace}','{backspace}','5')
+					->keys('#powercost','0.15')
 	 				->assertValueIsNot('#latitude','0')
 					->assertValueIsNot('#longitude','0')
 					->attach("#fileUpload > div > input", '/home/vagrant/code/tests/Browser/monthdata_cleaned.csv')
@@ -32,7 +35,7 @@ class inputsTest extends DuskTestCase
 					->waitForText('Return Statistics',30)
 					->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
 					->screenshot('panelTest1.2')
-					->assertSee('317796'); 
+					->assertSee('256919'); 
 			$browser->driver->manage()->deleteAllCookies();
         });
     }
@@ -43,9 +46,12 @@ class inputsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser1) {
             $browser1->visit('/')			               
-					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
-					->keys('#grant','00')
+					->keys('#latitude','50.4583783')
+					->keys('#longitude','-104.62211')
+					->keys('#grant','500')
+					->keys('#area','400')
 					->keys('#interest','{backspace}','{backspace}','5')
+					->keys('#powercost','0.15')
 					->keys('#panel_eff2','{backspace}','{backspace}','{backspace}','4')
 	 				->assertValueIsNot('#latitude','0')
 					->assertValueIsNot('#longitude','0')
@@ -56,7 +62,7 @@ class inputsTest extends DuskTestCase
 					->waitForText('Return Statistics',30)
 					->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
 					->screenshot('panelTest2.2')
-					->assertSee('793072'); 
+					->assertSee('739054'); 
 			$browser1->driver->manage()->deleteAllCookies();
         });
     }
@@ -67,8 +73,11 @@ class inputsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser1) {
             $browser1->visit('/')			                 
-					->keys('#vs1__combobox > div.vs__selected-options > input','Test','{ENTER}')
-					->keys('#grant','0')
+					->keys('#latitude','50.4583783')
+					->keys('#longitude','-104.62211')
+					->keys('#grant','500')
+					->keys('#area','400')
+					->keys('#powercost','0.15')
 					->keys('#panel_eff0','{backspace}','{backspace}','{backspace}','4')
 					->keys('#interest','{backspace}','{backspace}','2')
 	 				->assertValueIsNot('#latitude','0')	
@@ -80,7 +89,7 @@ class inputsTest extends DuskTestCase
 					->waitForText('Return Statistics',30)
 					->scrollIntoView('#app > div.extra > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > header > h3')
 					->screenshot('panelTest1.2')
-					->assertSee('768046'); 
+					->assertSee('763355'); 
 			$browser1->driver->manage()->deleteAllCookies();
         }); 
 	}
@@ -149,10 +158,10 @@ class inputsTest extends DuskTestCase
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
 					->keys('#area','ew')
-					->assertSee('Invalid loss coefficient - must be atleast room for 1 panel')
+					->assertSee('Invalid character')
 					->keys('#area','{backspace}','{backspace}')
 					->keys('#area','-2')
-					->assertSee('Invalid loss coefficient - must be atleast room for 1 panel');
+					->assertSee('Invalid roof size - must be atleast room for 1 panel');
 	});
 	}
 	
@@ -170,10 +179,10 @@ class inputsTest extends DuskTestCase
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
 					->keys('#grant','-5')
-					->assertSee('Invalid grant cost - must be greater than positive')
+					->assertSee('Invalid grant cost - must be 0 or a positive value')
 					->keys('#grant','{backspace}','{backspace}')
 					->keys('#grant','er')
-					->assertSee('Invalid grant cost - must be greater than positive');
+					->assertSee('Invalid grant cost - must be 0 or a positive value');
 	});
 	}
 	
@@ -182,7 +191,7 @@ class inputsTest extends DuskTestCase
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
 					->keys('#grant','50000')
-					->assertDontSee('Invalid grant cost - must be greater than positive');
+					->assertDontSee('Invalid grant cost - must be 0 or a positive value');
 	});
 	}
 	
@@ -212,6 +221,10 @@ class inputsTest extends DuskTestCase
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
 					->keys('#powercost','-5')
+					->assertSee('Invalid power cost - must be greater than 0')
+					->keys('#powercost','{backspace}','{backspace}','0')
+					->assertSee('Invalid power cost - must be greater than 0')
+					->keys('#powercost','{backspace}','er')
 					->assertSee('Invalid power cost - must be greater than 0');
 	});
 	}
@@ -229,13 +242,13 @@ class inputsTest extends DuskTestCase
 	{
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
-					->keys('#latitude','235')
+					->keys('#latitude','91')
 					->assertSee('Invalid latitude - must be between -90 and 90')
 					->keys('#latitude','{backspace}','{backspace}','{backspace}')
-					->keys('#latitude','-95')
+					->keys('#latitude','-91')
 					->assertSee('Invalid latitude - must be between -90 and 90')
 					->keys('#latitude','{backspace}','{backspace}','{backspace}')
-					->keys('#latitude','er')
+					->keys('#latitude','.')
 					->assertSee('Invalid latitude - must be between -90 and 90');
 	});
 	}
@@ -255,7 +268,7 @@ class inputsTest extends DuskTestCase
 	});
 	}
 	
-	public function testErrorLongitudeEdge()
+	public function testGoodLongitudeEdge()
 	{
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
@@ -275,7 +288,7 @@ class inputsTest extends DuskTestCase
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
 					->keys('#grant','0')
-					->assertDontSee('Invalid grant cost - must be greater than positive');
+					->assertDontSee('Invalid grant cost - must be 0 or a positive value');
 	});
 	}
 	
@@ -307,7 +320,7 @@ class inputsTest extends DuskTestCase
 	{
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
-					->keys('#powercost','-5')
+					->keys('#powercost','-0.1')
 					->assertSee('Invalid power cost - must be greater than 0');
 	});
 	}
@@ -316,7 +329,7 @@ class inputsTest extends DuskTestCase
 	{
 		$this->browse(function (Browser $browser) {
             $browser->visit('/')
-					->keys('#powercost','0.15')
+					->keys('#powercost','3.2')
 					->assertDontSee('Invalid power cost - must be greater than 0');
 	});
 	}

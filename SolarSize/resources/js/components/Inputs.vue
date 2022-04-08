@@ -1205,7 +1205,7 @@ export default {
         this.validated = false;
       } else if (this.generationType == "Optimized Generation") {
         this.msg["grantInput"] =
-          "Invalid grant cost - must be greater than positive";
+          "Invalid grant cost - must be 0 or a positive value";
         this.validated = true;
       }
     },
@@ -1239,7 +1239,7 @@ export default {
       } else if (value > 2000) {
         this.msg["roofInput"] = "Invalid roof size - must be less than 2000";
       } else if (isNaN(value)) {
-        this.msg["roofInput"] = "Non-valid characters";
+        this.msg["roofInput"] = "Invalid characters";
       }
     },
     validateConsumption(value) {
