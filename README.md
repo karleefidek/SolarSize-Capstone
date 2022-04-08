@@ -20,3 +20,21 @@
 
 ## App Code
 - The code for our app can be found in the SolarSize folder on the 'server' branch of our repository.
+
+## Project Documentation
+
+### Project Initialization and Planning
+- [Business Case](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Business%20Case.pdf)
+- [Project Charter](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Charter.pdf)
+- Problem & Requirements Prerequisites
+  [Project Requirements](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Requirements.pdf)
+  [Project Scope Statement](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Scope%20Statement.pdf)
+  [Project Introduction](https://github.com/karleefidek/SolarSize-Capstone/wiki/Project-Introduction)
+- System/Architectural Design Pictures
+  [Class Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Class%20Diagram.pdf)
+  [Data Flow](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Data%20Flow.pdf)
+- Prototypes/Wireframes
+
+## Thank You and Acknowledgements
+
+The SolarSize team would like to thank the people who made this project possible! Thank you to our mentors, Dr. Timothy Maciag and Dr. Kin-Choong Yow, for their guidance and advice as well as Greenwave Innovations for the project idea!
