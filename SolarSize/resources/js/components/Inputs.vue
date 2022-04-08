@@ -1238,6 +1238,8 @@ export default {
         this.validated = true;
       } else if (value > 2000) {
         this.msg["roofInput"] = "Invalid roof size - must be less than 2000";
+      } else if (isNaN(value)) {
+        this.msg["roofInput"] = "Non-valid characters";
       }
     },
     validateConsumption(value) {
