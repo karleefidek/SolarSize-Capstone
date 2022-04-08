@@ -9,6 +9,7 @@ Planning
 - Project Scope Statement
 - RACI Chart
 - Stakeholder Analysis
+- Industry Empathy Map
 
 Design
 - Class Diagram
