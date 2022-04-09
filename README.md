@@ -74,7 +74,6 @@
 - [Project Poster](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Poster.pdf)
 - [Project Commerical](https://www.youtube.com/watch?v=9FCGwikCOzw)
 - Knowledgebase/Customer Help
-  - 
 - [Final Presentation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Presentation.pdf)
 - [Project Experience Report](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Reports/SolarSize%20-%20Project%20Experience%20Report.pdf)
 
