@@ -1,10 +1,6 @@
 # SolarSize-Capstone
 
-## Members
-- Tristan Brown-Hannibal
-- Karlee Fidek
-- Kaden Goski
-
+![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/SolarSize%20-%20Project%20Day%20Presentation%20(1).svg)
 
 ## Project Wiki Information
 - [Vlog #1](https://youtu.be/vIezxYcWhYg)
@@ -21,6 +17,7 @@
 
 ## App Code
 - The code for our app can be found in the [SolarSize folder](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize).
+- The installation process for our application can be found [here](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Installation.pdf)
 
 ## Project Documentation
 
@@ -41,7 +38,7 @@
   - [Hifi - AdobeXD](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Adobe%20XD%20Hifi.xd)
   - [Lofi- Summary Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Summary%20Details%20Lofi.PNG)
   - [Lofi - Generation Overlay](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Generation%20Overlay%20Lofi.PNG)
-- [RBAC](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Solar%20Size%20-%20Role%20Based%20Access%20Control.pdf)
+- [RBAC](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Role%20Based%20Access%20Control.pdf)
 - Project Roadmaps
   - Gantt
     - [October](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/October.PNG)
@@ -65,16 +62,26 @@
 ### Project execution and closing
 - [Project Source Code](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize)
 - Code Test Plan/Results
-  - [Code Testing Plan](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/Code%20Testing%20Plan.pdf)
+  - [Code Testing Plan & Results](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Code%20Testing%20Plan%20and%20Results.pdf)
   - [Solar Model Testing](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Solar%20Model%20Testing.pdf)
-  - [Solar Estimation Model Research & implementation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/Solar%20Estimation%20Model%20-%20Research%20and%20Implementation.pdf)
-  - [Laravel Dusk Testing](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/Laravel%20Dusk%20Testing.pdf)
+  - [Solar Estimation Model Research & Testing Final](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Solar%20Model%20Research%20and%20Testing.pdf)
+  - [Laravel Dusk Testing](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Laravel%20Dusk%20Testing.pdf)
 - [User Test Plan/Results](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20User%20Testing%20Plan%20and%20Results.pdf)
 - [Code Quality Report](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Reports/SolarSize%20-%20Code%20Quality%20Report.pdf)
 - [Project Poster](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Poster.pdf)
 - [Project Commerical](https://www.youtube.com/watch?v=9FCGwikCOzw)
 - Knowledgebase/Customer Help
-  - [Project Installation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Solar%20Size%20-%20Installation.pdf)
+  - [Project Installation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Installation.pdf)
+  - [ROI Research](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/Design%20and%20Return%20on%20Investment%20Analysis%20of%20Residential%20Solar%20Photovoltaic%20Systems.pdf)
+  - [Global-to-Direct Irradiance](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/Dynamic%20global-to-direct%20irradiance%20conversion%20models.pdf)
+  - [SaskPower Net Metering Guide](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SaskPower%20Guidelines%20-%20NetMetering.pdf)
+  - [SaskPower Net Metering After 2019](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SaskPower%20Net%20Metering%20After%20November%202019.pdf)
+  - [General About Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20General%20About%20Page.pdf)
+  - [Inputs About Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Inputs%20About%20Page.pdf)
+  - [ROI About Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20ROI%20About%20Page.pdf)
+  - [Solar Model About Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Solar%20Model%20About%20Page.pdf)
+  - [ROI Calculation Breakdown](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20ROI%20Calculation%20Breakdown.pdf)
+  - [Solar Model and Input Information](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Solar%20Model%20and%20Input%20Information.pdf)
 - [Final Presentation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Presentation.pdf)
 - [Project Experience Report](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Reports/SolarSize%20-%20Project%20Experience%20Report.pdf)
 
@@ -82,6 +89,9 @@
 - [Bazaar Day Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Bazaar%20Documents)
 - [Scrum Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Scrum%20Documents)
 - [Vlog Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Vlog%20Presentations)
+
+## Project Day Poster
+![SolarSize Poster](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/Project%20Day%20Poster.svg)
 
 ## Thank You and Acknowledgements
 
