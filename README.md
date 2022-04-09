@@ -5,6 +5,7 @@
 - Karlee Fidek
 - Kaden Goski
 
+
 ## Project Wiki Information
 - [Vlog #1](https://youtu.be/vIezxYcWhYg)
     - [Project Introduction Wiki page](https://github.com/karleefidek/char-ENSE-Capstone/wiki/Project-Introduction)
@@ -19,7 +20,7 @@
 - As the server is live, it may not always be in a working state if we have changes in-progress.
 
 ## App Code
-- The code for our app can be found in the SolarSize folder on the 'server' branch of our repository.
+- The code for our app can be found in the [SolarSize folder](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize).
 
 ## Project Documentation
 
@@ -27,13 +28,21 @@
 - [Business Case](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Business%20Case.pdf)
 - [Project Charter](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Charter.pdf)
 - Problem & Requirements Prerequisites
-  [Project Requirements](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Requirements.pdf)
-  [Project Scope Statement](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Scope%20Statement.pdf)
-  [Project Introduction](https://github.com/karleefidek/SolarSize-Capstone/wiki/Project-Introduction)
+    - [Project Requirements](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Requirements.pdf)
+    - [Project Scope Statement](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Project%20Scope%20Statement.pdf)
+    - [Project Introduction](https://github.com/karleefidek/SolarSize-Capstone/wiki/Project-Introduction)
+    - 
 - System/Architectural Design Pictures
   [Class Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Class%20Diagram.pdf)
   [Data Flow](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Data%20Flow.pdf)
+  [Decision Matrix]
 - Prototypes/Wireframes
+  - [Hifi - PDF](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Hifi%20Pages.pdf)
+  - [Hifi - AdobeXD](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Adobe%20XD%20Hifi.xd)
+  - [Lofi- Summary Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Summary%20Details%20Lofi.PNG)
+  - 
+  -
+ 
 
 ## Thank You and Acknowledgements
 
