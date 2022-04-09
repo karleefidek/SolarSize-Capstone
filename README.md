@@ -10,10 +10,12 @@
 - [Vlog #4](https://www.youtube.com/watch?v=oXmdjmmznls)
 - [Vlog #5](https://www.youtube.com/watch?v=IY3JKgQl3h0)
 - [Commercial](https://www.youtube.com/watch?v=9FCGwikCOzw)
+- [Final Demo](https://www.youtube.com/watch?v=kpTkcMHIimM)
 
 ## Demo
 - Our live server can be found at http://34.217.14.16/
 - As the server is live, it may not always be in a working state if we have changes in-progress.
+- You can watch the final demo of our application [here](https://www.youtube.com/watch?v=kpTkcMHIimM)!
 
 ## App Code
 - The code for our app can be found in the [SolarSize folder](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize).
@@ -86,6 +88,7 @@
   - [ROI Calculation Breakdown](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20ROI%20Calculation%20Breakdown.pdf)
   - [Solar Model and Input Information](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Solar%20Model%20and%20Input%20Information.pdf)
 - [Final Presentation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Presentation.pdf)
+- [Final Demo](https://www.youtube.com/watch?v=kpTkcMHIimM)
 - [Project Experience Report](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Reports/SolarSize%20-%20Project%20Experience%20Report.pdf)
 
 ### Presentations, Video Blogs, and Demos
