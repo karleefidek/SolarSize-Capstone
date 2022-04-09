@@ -3,12 +3,11 @@ from pandas.core.base import DataError
 import pvlib
 #from pvlib.forecast import GFS
 import pandas
-import urllib.request, json
+import json
 from datetime import datetime, timedelta
 from pytz import timezone, utc
 import statistics
 import sys
-import socket
 import requests
 import time
 from timezonefinder import TimezoneFinder
@@ -61,9 +60,6 @@ class ImportData():
                     time.sleep(3)
                 
                 
-
-            
-
     #Used to parse date from getResponseFromAPI and format it into arrays for use with DNIfromGHI.
     def parseAndCalculateJSON(self):
         #All Sky conditions GHI horizontal plane on Earth Surface. W/m^2
@@ -72,32 +68,17 @@ class ImportData():
         dateListConverted = (datetime.strptime(i, "%Y%m%d%H") - timedelta(hours=(self.timeZone - 1)) for i in dateList)
         self.times = pandas.DatetimeIndex(dateListConverted, freq='H')
         self.ghiValues = pandas.Series(list(self.APIResponse["properties"]["parameter"]["ALLSKY_SFC_SW_DWN"].values()),index=self.times)
-        #print(self.ghiValues)
-        #Coordinates, Lat/Long, Elevation
-        #print(self.APIResponse["geometry"]["coordinates"]) 
         #Solar Zenith Angle
-        #print(self.APIResponse["properties"]["parameter"]["SZA"])
         self.szaValues = pandas.Series(list(self.APIResponse["properties"]["parameter"]["SZA"].values()),index=self.times)
-        #Temperature at 2 Meters C
-        #print(self.APIResponse["properties"]["parameter"]["T2M"])
-        #Dew Point C
-        #print(self.APIResponse["properties"]["parameter"]["T2MDEW"])
+        #Dew Point C at 2 Meters
         self.dewPointValues = pandas.Series(list(self.APIResponse["properties"]["parameter"]["T2MDEW"].values()),index=self.times)
         #Pressure at surface, kPa
-        #change to pa = kpa * 1000
-        
+        #change to pa = kpa * 1000 
         paList = [float(i) * 1000 for i in list(self.APIResponse["properties"]["parameter"]["PS"].values())]
         self.pressureValues = pandas.Series(paList,index=self.times)
         self.pressureMean = statistics.mean(paList)
-        #print(self.pressureMean)
-        #print(self.APIResponse["properties"]["parameter"]["PS"])
-        #Wind speed at 10 meters
-        #print(self.APIResponse["properties"]["parameter"]["WS10M"])
-         #Wind direction at 10 meters
-        #print(self.APIResponse["properties"]["parameter"]["WD10M"])
-         #Total photosynthesis light at horizontal. Likely need to convert like GHI to the angle of solar panels.
-        #print(self.APIResponse["properties"]["parameter"]["ALLSKY_SFC_PAR_TOT"])
         
+     
         #Calculate DNI from DIRINT model using values gotten fromthe API. Use GHI and DNI to get DHI.
     def calcDNIandDHI(self):
         self.dniValues = pvlib.irradiance.dirint(self.ghiValues,self.szaValues,self.times,self.pressureValues,True,self.dewPointValues)   
@@ -128,6 +109,7 @@ class ImportData():
             self.declinationAngle = 23.45 * math.sin(math.radians(abs((360/365)*(284 + self.dayOfYear))))
             self.dhiValue = self.dhiValues.at[times]
             self.dniValue = self.dniValues.at[times]
+            
             #Angle of the sun compared to latitude.
             self.elevationAngle = 90 - self.latitude + self.declinationAngle
             moduleDNIValue = self.calculateModuleDNI()
@@ -159,7 +141,7 @@ class ImportData():
         HRA = 15 * (LST - 12)
         return HRA
 
-    #Direct Normal Irradiance (DNI) 
+    #Direct Normal Module Irradiance (DNI) 
     def calculateModuleDNI(self):
         #This azimuth (panel direction angle) is based on South to West, 0 = South, 90 = East, 180 = North, 270 = West, 360 = South
         #Solar Panel Direction Azimuth. 180 = North, 270 = West, 90 = East, 0 or 360 = South
@@ -170,33 +152,25 @@ class ImportData():
             return 0.0
         return moduleDNI
 
-    #Diffuse Module - Using a simple equation for now will adapt as we go.
+    #Diffuse Module Irradiance (DHI)
     def calculateModuleDHI(self):
+        #Eq from pveducation.
         moduleDHI = self.dhiValue * ((180-self.moduleTilt)/180)
         if (moduleDHI < 0):
             return 0.0
         return moduleDHI
-    #def getModuleAngleSolar(self):
-        #Solar Radiation amount of tilted module.
-        #solarTiltedModule = self.solarRadiation * math.sin(math.radians(self.moduleTilt + self.elevationAngle))
 
-        #calculate the tilt that will produce optimal solar production, uses the inputted roof tilt to give a overall +,- to angle the panel at.
-        #https://www.solarreviews.com/blog/best-solar-panel-angle
-        #Output as % of optimum	71.1%	(Summer,Winter Adjust) 75.2%	(All Season adjust)75.7%* -> 100% would be from an optimal tilt/tracker.. $$$$
-        #Will look for an academic ref later.
+
+    #https://www.solarreviews.com/blog/best-solar-panel-angle
+    #Output as % of optimum	71.1%	(Summer,Winter Adjust) 75.2%	(All Season adjust)75.7%* -> 100% would be from an optimal tilt/tracker.. $$$$
+    #module tilt is just latitude to keep it as a generalized use case. Adjusting panels is expensive and therefore prohibitive to do when considering ROI and smaller installations.
     def calcModuleTilt(self):
         self.moduleTilt = self.latitude
-        #if(self.roofTilt > self.latitude):
-        #   self.moduleTilt = self.roofTilt - self.latitude
-        # Negative amount to be relative to the roof tilt,i.e; raise botoom of panel to decrease angle
-        #else:
-        # self.moduleTilt = self.latitude - self.roofTilt
-        #self.moduleTilt = self.roofTilt
         #Optimized for general use.
         #Only ~4% gains when adjusting and adjusting is $$$$.
         
 
-    #Using a generalized approach for now. Future will have to include specifics such as inverter, current, etc.
+    #Calculates the estimated power using module GHI values, calculated via module dni and module dhi.
     def getEstimatedPowerProduction(self):
         # E = A * r * H * PR
         #r is solar panel efficiency REC 345 is at 17.20%.
@@ -207,7 +181,6 @@ class ImportData():
         for ghiValue in self.moduleGHIValues:
             #E = Area * Efficiency * lossCoefficient * ghiValue
             E = (self.numPanels*self.moduleArea) * self.moduleEfficiency * self.lossCoefficient * ghiValue
-            #E = 522.6 * 0.1720 * 0.90 * ghiValue
             estimatedPower.append(E)
         self.estimatedModulePower = estimatedPower        
 
@@ -219,7 +192,7 @@ class ImportData():
 
 
 #Modelling using POWER API data and DIRINT model then converting to module irradiance 
-#Good until few-months close to real time.  Historicaal usage at the moment.
+#Good until few-months close to real time.  Historical usage.
 #solarCalc = SolarInsolation()
 def outputSolarData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels):
     dataImport = ImportData(latitude,longitude,timeZone,moduleTilt,startDate,endDate,moduleArea,moduleEfficiency,lossCoefficient,numPanels)
@@ -261,6 +234,7 @@ def main():
             moduleEfficiency = entry["ModuleEfficiency"]
             lossCoefficient = 0.8
             numPanels = 1
+            #Output back to server.
             print('['+entry["Name"]+"]")
             print('['+timeZone+"]")
             print('['+str(entry["Area"])+"]")
@@ -278,7 +252,7 @@ if __name__ == "__main__":
 
 
 
-
+#Mothballed section. Could be useful to implement forecasting/ real-time 
 
 #Modelling using PVLib forecasting.
 #Good for close to real-time.
