@@ -43,7 +43,7 @@
   - [Lofi - Generation Overlay](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Generation%20Overlay%20Lofi.PNG)
 - [RBAC]()
 - Project Roadmaps
-  -Gantt
+  - Gantt
     - [October](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/October.PNG)
     - [November](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/November.PNG)
     - [December](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/December.PNG)
@@ -51,6 +51,17 @@
     - [January - February](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/Jan-Feb.PNG)
     - [March - April #1](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/Mar-Apr.PNG)
     - [March - April #2](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Gantt%20Chart/Updated%20Mar-Apr.png)
+  - Trello
+    - [February 8 - February 15](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Trello%20Board/Scrum%206%20-%20Feb%208%20to%20Feb%2015.png)
+    - [February 18 - February 21](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Trello%20Board/Project%20Bazaar%20Day%20%232%20-%20Feb%2018%20to%20Feb%2021.png)
+    - [February 21 - February 24]
+    - [February 24 - March 1]
+    - [March 1 - March 8]
+    - [March 8 - March 15]
+    - [March 15 - March 25]
+    - [March 25 - March 31]
+    - [March 31 - April 5]
+    - [April 5 - April 7]
  
 
 ## Thank You and Acknowledgements
