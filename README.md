@@ -1,6 +1,6 @@
 # SolarSize-Capstone
 
-![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/SolarSize%20-%20Project%20Day%20Presentation%20(1).svg)
+![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/Team%20Image.svg)
 
 ## Project Wiki Information
 - [Vlog #1](https://youtu.be/vIezxYcWhYg)
@@ -38,6 +38,7 @@
   - [Hifi - AdobeXD](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Adobe%20XD%20Hifi.xd)
   - [Lofi- Summary Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Summary%20Details%20Lofi.PNG)
   - [Lofi - Generation Overlay](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Generation%20Overlay%20Lofi.PNG)
+  - [Lofi - About Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20About%20Page%20Lofi.PNG)
 - [RBAC](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Role%20Based%20Access%20Control.pdf)
 - Project Roadmaps
   - Gantt
