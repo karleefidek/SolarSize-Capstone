@@ -78,6 +78,11 @@
 - [Final Presentation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Presentation.pdf)
 - [Project Experience Report](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Reports/SolarSize%20-%20Project%20Experience%20Report.pdf)
 
+### Presentations, Video Blogs, and Demos
+- [Bazaar Day Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Bazaar%20Documents)
+- [Scrum Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Scrum%20Documents)
+- [Vlog Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Vlog%20Presentations)
+
 ## Thank You and Acknowledgements
 
 The SolarSize team would like to thank the people who made this project possible! Thank you to our mentors, Dr. Timothy Maciag and Dr. Kin-Choong Yow, for their guidance and advice as well as Greenwave Innovations for the project idea!
