@@ -6,9 +6,14 @@
           <template v-slot:header>
             <h3>Return Statistics</h3>
           </template>
-          <h3>Total Return on Investment:
-            <h3 v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'">
-              <h3>$ {{ Number(-1 * Math.ceil(returnTotalValue)).toFixed(2) }}</h3>
+          <h3>
+            Total Return on Investment:
+            <h3
+              v-bind:class="-returnTotalValue < 0 ? 'numberRed' : 'numberGreen'"
+            >
+              <h3>
+                $ {{ Number(-1 * Math.ceil(returnTotalValue)).toFixed(2) }}
+              </h3>
             </h3>
           </h3>
           <template>
@@ -30,9 +35,10 @@
             <h3>Generation Statistics</h3>
           </template>
 
-          <h3>Annual KWH Generated:
+          <h3>
+            Annual KWH Generated:
             <h3 class="numberGreen">
-                <h3>{{Number(estimateTotal).toFixed(2)}} KWH </h3>
+              <h3>{{ Number(estimateTotal).toFixed(2) }} KWH</h3>
             </h3>
           </h3>
           <template>
@@ -86,7 +92,7 @@
             <div class="panel-repeat-group">
               <span
                 style="margin: 3px"
-                v-for="i in Math.max(bestPanel.count, 300)"
+                v-for="i in Math.min(bestPanel.count, 300)"
                 :key="i"
               >
                 <svg width="10" height="10">
