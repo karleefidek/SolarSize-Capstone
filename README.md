@@ -96,9 +96,7 @@ The SolarSize team would like to thank the people who made this project possible
 Contact our team by email for further information: 
 
 Karlee Fidek — kdf131@uregina.ca
-
 Tristan Brown-Hannibal — trb770@uregina.ca
-
 Kaden Goski — ktg349@uregina.ca
 
 ## Copyright
