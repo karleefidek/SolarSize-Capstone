@@ -42,7 +42,7 @@
   - [Trello](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Trello%20Board)
   - [Initial USM](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Initial%20USM.pdf) 
 
-### Project execution and closing
+### Project Execution and Closing
 - [Project Source Code](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize)
 - Code Testing Plan/Results
   - [Code Testing Plan & Results](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Code%20Testing%20Plan%20and%20Results.pdf)
