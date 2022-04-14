@@ -1,5 +1,10 @@
 # SolarSize-Capstone
+![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/SolarSize%20Header.png)
 
+## Project Description
+Fossil fuels pose serious threats to the environment and need to be replaced as Canada’s primary source of energy. Solar energy is one of the renewable and sustainable green energy alternatives for fossil fuels. SolarSize is a web application that aims to provide Greenwave Innovations’ clients with accurate return on investment estimations and solar installation suggestions. The tool utilizes a client’s building energy consumption metrics and location-based solar intensity data to determine the optimal solar energy installation for the client’s needs and the associated return on investment. The optimal solar installation and return on investment calculations consider installation costs, full-credit power generation savings, half-credit power generation savings, and maintenance costs. The SolarSize application can be used to persuade more people and businesses to install solar generation solutions by clearly depicting the possible return on their solar installation investment.
+
+## Members
 ![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/Team%20Image.svg)
 
 ## Vlogs and Demos
