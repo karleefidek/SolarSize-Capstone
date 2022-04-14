@@ -36,7 +36,7 @@
 - Prototypes/Wireframes
   - [Hi-Fi Prototypes](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Design/Hi-Fi%20Prototypes)
   - [Lo-Fi Prototypes](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Design/Lo-Fi%20Prototypes)
-- [RBAC](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Role%20Based%20Access%20Control.pdf)
+- [Role/Attribute-based Access Control (R/ABAC) Vision](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Role%20Based%20Access%20Control.pdf)
 - Project Roadmaps
   - [Gantt](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Gantt%20Chart)
   - [Trello](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Trello%20Board)
