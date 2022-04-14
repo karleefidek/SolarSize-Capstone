@@ -1,6 +1,6 @@
 # SolarSize-Capstone
 
-![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/SolarSize%20-%20Project%20Day%20Presentation%20(1).svg)
+![Team SolarSize](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/Team%20Image.svg)
 
 ## Project Wiki Information
 - [Vlog #1](https://youtu.be/vIezxYcWhYg)
@@ -10,14 +10,16 @@
 - [Vlog #4](https://www.youtube.com/watch?v=oXmdjmmznls)
 - [Vlog #5](https://www.youtube.com/watch?v=IY3JKgQl3h0)
 - [Commercial](https://www.youtube.com/watch?v=9FCGwikCOzw)
+- [Final Demo](https://www.youtube.com/watch?v=kpTkcMHIimM)
 
 ## Demo
 - Our live server can be found at http://34.217.14.16/
 - As the server is live, it may not always be in a working state if we have changes in-progress.
+- You can watch the final demo of our application [here](https://www.youtube.com/watch?v=kpTkcMHIimM)!
 
 ## App Code
 - The code for our app can be found in the [SolarSize folder](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize).
-- The installation process for our application can be found [here](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Installation.pdf)
+- The installation process for our application can be found [here](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Installation.pdf).
 
 ## Project Documentation
 
@@ -37,7 +39,8 @@
   - [Hifi - PDF](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Hifi%20Pages.pdf)
   - [Hifi - AdobeXD](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Adobe%20XD%20Hifi.xd)
   - [Lofi- Summary Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Summary%20Details%20Lofi.PNG)
-  - [Lofi - Generation Overlay](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Generation%20Overlay%20Lofi.PNG)
+  - [Lofi - Generation Overlay](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Generation%20Overlay%20(Inputs)%20Lofi.PNG)
+  - [Lofi - About Page](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20About%20Page%20Lofi.PNG)
 - [RBAC](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Role%20Based%20Access%20Control.pdf)
 - Project Roadmaps
   - Gantt
@@ -59,6 +62,8 @@
     - [March 25 - March 31](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Trello%20Board/Mar%2025%20to%20Mar%2031.png)
     - [March 31 - April 5](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Trello%20Board/Mar%2031%20to%20Apr%205.png)
     - [April 5 - April 7](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Trello%20Board/Apr%205%20to%20Apr%207.png)
+  - [Initial USM](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Initial%20USM.pdf) 
+
 ### Project execution and closing
 - [Project Source Code](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize)
 - Code Test Plan/Results
@@ -83,12 +88,17 @@
   - [ROI Calculation Breakdown](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20ROI%20Calculation%20Breakdown.pdf)
   - [Solar Model and Input Information](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Solar%20Model%20and%20Input%20Information.pdf)
 - [Final Presentation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Day/SolarSize%20-%20Project%20Day%20Presentation.pdf)
+- [Final Demo](https://www.youtube.com/watch?v=kpTkcMHIimM)
 - [Project Experience Report](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Reports/SolarSize%20-%20Project%20Experience%20Report.pdf)
 
 ### Presentations, Video Blogs, and Demos
 - [Bazaar Day Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Bazaar%20Documents)
 - [Scrum Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Scrum%20Documents)
 - [Vlog Presentations and Documents](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Vlog%20Presentations)
+
+### Miscellaneous
+- [Meeting Minutes](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Meeting%20Minutes)
+- Additional planning files (empathy map, stakeholder analysis, RACI chart, roles outline) can be found [here](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Planning)
 
 ## Project Day Poster
 ![SolarSize Poster](https://github.com/karleefidek/SolarSize-Capstone/blob/main/README%20Images/Project%20Day%20Poster.svg)
