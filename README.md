@@ -55,6 +55,7 @@
 - [Project Commerical](https://www.youtube.com/watch?v=9FCGwikCOzw)
 - [Knowledgebase/Customer Help](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Knowledgebase)
   - [Project Installation](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Installation.pdf)
+  - [SolarSize User Guide](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20User%20Guide.pdf)
   - [ROI Research](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/Design%20and%20Return%20on%20Investment%20Analysis%20of%20Residential%20Solar%20Photovoltaic%20Systems.pdf)
   - [Global-to-Direct Irradiance](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/Dynamic%20global-to-direct%20irradiance%20conversion%20models.pdf)
   - [SaskPower Net Metering Guide](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SaskPower%20Guidelines%20-%20NetMetering.pdf)
