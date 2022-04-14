@@ -33,6 +33,12 @@
     - [Graphing Decision Matrix](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Graphing%20Decision%20Matrix.pdf)
     - [Front-End Decision Matrix](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/SolarSize%20-%20Front-End%20Decision%20Matrix.pdf)
 - [System/Architectural Design Pictures](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Design/Architecture)
+  - [Class Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Architecture/SolarSize%20-%20Class%20Diagram.pdf)
+  - [Data Flow](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Architecture/SolarSize%20-%20Data%20Flow.pdf)
+  - [MVC Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Architecture/SolarSize%20-%20MVC%20Diagram.png)
+  - [Sequence Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Architecture/SolarSize%20-%20Sequence%20Diagram.png)
+  - [System Architecture Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Architecture/SolarSize%20-%20System%20Architecture%20Diagram.png)
+  - [Use Case Diagram](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Design/Architecture/SolarSize%20-%20Use%20Case%20Diagram.png)
 - Prototypes/Wireframes
   - [Hi-Fi Prototypes](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Design/Hi-Fi%20Prototypes)
   - [Lo-Fi Prototypes](https://github.com/karleefidek/SolarSize-Capstone/tree/main/Project%20Documentation/Design/Lo-Fi%20Prototypes)
