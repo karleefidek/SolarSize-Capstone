@@ -93,7 +93,10 @@
 The SolarSize team would like to thank the people who made this project possible! Thank you to our mentors, Dr. Timothy Maciag and Dr. Kin-Choong Yow, for their guidance and advice as well as Greenwave Innovations for the project idea!
 
 ## Contact Us
-Contact our team by email for further information: Karlee Fidek — kdf131@uregina.ca, Tristan Brown-Hannibal — trb770@uregina.ca, Kaden Goski — ktg349@uregina.ca
+Contact our team by email for further information: 
+Karlee Fidek — kdf131@uregina.ca
+Tristan Brown-Hannibal — trb770@uregina.ca
+Kaden Goski — ktg349@uregina.ca
 
 ## Copyright
 SolarSize Copyright (C) 2022
