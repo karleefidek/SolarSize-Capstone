@@ -22,10 +22,6 @@ Fossil fuels pose serious threats to the environment and need to be replaced as 
 - As the server is live, it may not always be in a working state if we have changes in-progress.
 - You can watch the final demo of our application [here](https://www.youtube.com/watch?v=kpTkcMHIimM)!
 
-## App Code
-- The code for our app can be found in the [SolarSize folder](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize).
-- The installation process for our application can be found [here](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Knowledgebase/SolarSize%20-%20Installation.pdf).
-
 ## Project Documentation
 
 ### Project Initialization and Planning
@@ -54,7 +50,6 @@ Fossil fuels pose serious threats to the environment and need to be replaced as 
   - [Initial USM](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Planning/SolarSize%20-%20Initial%20USM.pdf) 
 
 ### Project Execution and Closing
-- [Project Source Code](https://github.com/karleefidek/SolarSize-Capstone/tree/main/SolarSize)
 - Code Testing Plan/Results
   - [Code Testing Plan & Results](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Code%20Testing%20Plan%20and%20Results.pdf)
   - [Initial Solar Model Testing](https://github.com/karleefidek/SolarSize-Capstone/blob/main/Project%20Documentation/Testing/SolarSize%20-%20Initial%20Solar%20Model%20Testing.pdf)
